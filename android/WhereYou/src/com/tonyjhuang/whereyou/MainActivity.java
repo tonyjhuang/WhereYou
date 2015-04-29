@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,9 +90,18 @@ public class MainActivity extends Activity {
 		ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
 		pushQuery.whereEqualTo("name", name);
 
+		JSONObject data = new JSONObject();
+		try {
+			data.put("name", myName);
+			data.put("alert", myName + " wants to know where you at! Tap here to share your location.");
+			data.put("action", "com.tonyjhuang.whereyou.ASK");
+		} catch (JSONException e) {
+			Log.e("Main", e.getMessage());
+		}
+
 		ParsePush push = new ParsePush();
 		push.setQuery(pushQuery);
-		push.setMessage(myName + " wants to know where you at! Tap here to share your location.");
+		push.setData(data);
 		push.sendInBackground();
 	}
 
