@@ -16,6 +16,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.drivemode:IntentLogger:1.0.0@aar'
 }
 
 android {

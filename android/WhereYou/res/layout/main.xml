@@ -23,20 +23,6 @@
         android:text="Save"/>
 
     <EditText
-        android:id="@+id/target_input"
-        android:hint="Recipient name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/target_push"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Push"/>
-
-
-
-    <EditText
         android:id="@+id/friend_input"
         android:hint="New friend"
         android:layout_width="match_parent"

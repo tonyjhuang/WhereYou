@@ -12,10 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -28,21 +26,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class WhereYouStarterActivity extends Activity {
+public class MainActivity extends Activity {
 
 	@InjectView(R.id.hello)
 	TextView helloText;
 	@InjectView(R.id.username_input)
 	EditText usernameInput;
-	@InjectView(R.id.target_input)
-	EditText targetInput;
 	@InjectView(R.id.friend_input)
 	EditText friendInput;
 	@InjectView(R.id.friends)
@@ -54,6 +49,8 @@ public class WhereYouStarterActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		Log.d("Main", "HELLO WORLD! **************************************************");
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
 		ButterKnife.inject(this);
@@ -85,18 +82,16 @@ public class WhereYouStarterActivity extends Activity {
 		helloText.setText("Hello " + name + "!");
 	}
 
-	@OnClick(R.id.target_push)
-	public void onTargetPushClick(View view) {
-		poke(targetInput.getText().toString());
-	}
-
 	private void poke(String name) {
+		ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+		String myName = currentInstallation.getString("name");
+
 		ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
 		pushQuery.whereEqualTo("name", name);
 
 		ParsePush push = new ParsePush();
 		push.setQuery(pushQuery);
-		push.setMessage("Giants scored against the A's! It's now 2-2.");
+		push.setMessage(myName + " wants to know where you at! Tap here to share your location.");
 		push.sendInBackground();
 	}
 
@@ -192,7 +187,7 @@ public class WhereYouStarterActivity extends Activity {
 		@Override
 		public View getView(int i, View view, ViewGroup viewGroup) {
 			if(view == null) {
-				view = new TextView(WhereYouStarterActivity.this);
+				view = new TextView(MainActivity.this);
 			}
 
 			final String friend = getItem(i);
