@@ -2,6 +2,7 @@ package com.tonyjhuang.whereyou;
 
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,8 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 
 public class MainActivity extends Activity {
 
@@ -41,6 +44,8 @@ public class MainActivity extends Activity {
 	EditText usernameInput;
 	@InjectView(R.id.friend_input)
 	EditText friendInput;
+	@InjectView(R.id.location)
+	TextView locationText;
 	@InjectView(R.id.friends)
 	ListView friendsListView;
 
@@ -159,6 +164,22 @@ public class MainActivity extends Activity {
 		if(currentToast != null) currentToast.cancel();
 		currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
 		currentToast.show();
+	}
+
+	@OnClick(R.id.location_get)
+	public void onLocationGetClick(View view) {
+		showToast("Getting location...");
+		SmartLocation.with(this).location()
+				.oneFix()
+				.start(new OnLocationUpdatedListener() {
+					@Override
+					public void onLocationUpdated(Location location) {
+						String loc = "latitude: " + location.getLatitude() + "\n" +
+								"longitude: " + location.getLongitude();
+						locationText.setText(loc);
+						currentToast.cancel();
+					}
+				});
 	}
 
 	class FriendsListAdapter extends BaseAdapter {

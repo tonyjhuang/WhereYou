@@ -2,6 +2,7 @@ package com.tonyjhuang.whereyou;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +26,10 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     protected void onPushOpen(Context context, Intent intent) {
         Log.d(TAG, "onPushOpen");
         IntentLogger.dump(TAG, intent);
+        Intent startWakeful = new Intent();
+        startWakeful.putExtras(intent);
+        startWakeful.setAction("com.tonyjhuang.whereyou.GET_LOCATION");
+        context.sendBroadcast(startWakeful);
     }
 
     @Override
@@ -47,8 +52,8 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     break;
                 case "com.tonyjhuang.whereyou.ASK":
                     String name = json.getString("name");
-                    respond(name);
-                    break;
+                    /*respond(name);
+                    break;*/
                 default:
                     super.onPushReceive(context, intent);
             }
@@ -58,25 +63,4 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     }
 
 
-    private void respond(String name) {
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
-        String myName = currentInstallation.getString("name");
-
-        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
-        pushQuery.whereEqualTo("name", name);
-
-        JSONObject data = new JSONObject();
-        try {
-            data.put("name", myName);
-            data.put("alert", myName + " wants to know where you at! Tap here to share your location.");
-            data.put("action", "com.tonyjhuang.whereyou.RESPOND");
-        } catch (JSONException e) {
-            Log.e("Main", e.getMessage());
-        }
-
-        ParsePush push = new ParsePush();
-        push.setQuery(pushQuery);
-        push.setData(data);
-        push.sendInBackground();
-    }
 }

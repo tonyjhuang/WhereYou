@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- LittleFluffyLocationLibrary -->
+
+    <!-- Parse permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -36,6 +39,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".WakefulWhereYouBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.tonyjhuang.whereyou.GET_LOCATION" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".WakefulLocationService" android:enabled="true" />
 
         <!-- Parse -->
         <service android:name="com.parse.PushService" />
