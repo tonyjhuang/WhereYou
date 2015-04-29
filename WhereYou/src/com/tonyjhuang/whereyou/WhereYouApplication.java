@@ -5,6 +5,7 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseCrashReporting;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 public class WhereYouApplication extends Application {
@@ -20,7 +21,8 @@ public class WhereYouApplication extends Application {
     Parse.enableLocalDatastore(this);
 
     // Add your initialization code here
-    Parse.initialize(this);
+    Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+    ParseInstallation.getCurrentInstallation().saveInBackground();
 
 
     ParseUser.enableAutomaticUser();

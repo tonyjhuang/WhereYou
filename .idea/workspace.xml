@@ -5,6 +5,9 @@
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a340ce69-3945-4da6-a20e-5447a59af6dd" name="Default" comment="" />
     <ignored path="WhereYou.iws" />
@@ -30,7 +33,7 @@
         <entry file="file://$PROJECT_DIR$/WhereYou/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+              <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -39,9 +42,12 @@
       <file leaf-file-name="WhereYouApplication.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="32" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
-              <folding />
+            <state vertical-scroll-proportion="0.75">
+              <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+              <folding>
+                <element signature="e#551#583#0" expanded="true" />
+                <element signature="e#585#621#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouStarterActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -821,10 +827,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/ParseApplication.java" />
-        <option value="$PROJECT_DIR$/WhereYou/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouApplication.java" />
         <option value="$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/ParseStarterProjectActivity.java" />
         <option value="$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouStarterActivity.java" />
+        <option value="$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouApplication.java" />
+        <option value="$PROJECT_DIR$/WhereYou/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/WhereYou/res/values/strings.xml" />
       </list>
     </option>
   </component>
@@ -966,7 +973,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="062c8c44f0ea33db" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_21" />
   </component>
   <component name="RunManager" selected="Android Application.WhereYou-WhereYou">
@@ -1173,7 +1180,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1198,18 +1205,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/WhereYou/AndroidManifest.xml">
+    <entry file="jar://$PROJECT_DIR$/WhereYou/libs/Parse-1.9.1.jar!/com/parse/Parse.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouStarterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.35164836">
+          <caret line="120" column="23" selection-start-line="120" selection-start-column="23" selection-end-line="120" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1225,11 +1224,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouApplication.java">
+    <entry file="file://$PROJECT_DIR$/WhereYou/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="32" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+          <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WhereYou/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16483517">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouStarterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WhereYou/src/com/tonyjhuang/whereyou/WhereYouApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75">
+          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+          <folding>
+            <element signature="e#551#583#0" expanded="true" />
+            <element signature="e#585#621#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
