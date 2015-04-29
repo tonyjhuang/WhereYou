@@ -1,4 +1,0 @@
-/Users/tony/AndroidStudio/WhereYou/WhereYou/build/intermediates/classes/debug
-/Users/tony/AndroidStudio/WhereYou/WhereYou/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-10bc6df27f52f1b24a4c5d6003a1d9b19ab24da9.jar
-/Users/tony/AndroidStudio/WhereYou/WhereYou/build/intermediates/pre-dexed/debug/ParseCrashReporting-1.9.1-0a38c3ff389bbff93ac6f572fdd5e3995a24e2fa.jar
-/Users/tony/AndroidStudio/WhereYou/WhereYou/build/intermediates/pre-dexed/debug/Parse-1.9.1-a307fa5f129ed87c71be9423c0a37cdeed0ff392.jar
