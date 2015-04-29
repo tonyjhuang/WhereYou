@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.4.2"
+  },
+  "applications": {
+    "Where You?": {
+      "applicationId": "6P3x2PUkXXXgxh1PCYOd1TeC1qjyrwigadahvJeI",
+      "masterKey": "vGdURfO5ozpApApXfG8lj9jkIDe7P5FeJ3sO8QaE"
+    },
+    "_default": {
+      "link": "Where You?"
+    }
+  }
+}
