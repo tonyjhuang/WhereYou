@@ -92,7 +92,7 @@ public class WakefulLocationService extends IntentService {
             JSONObject data = new JSONObject();
             try {
                 data.put("name", myName);
-                data.put("alert", myName + " is at " + lat + ", " + lng + ".");
+                data.put("alert", myName + " is at " + lat + ", " + lng + "build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/6.5.87/res");
                 data.put("action", WhereYouAction.RESPOND);
             } catch (JSONException e) {
                 Log.e("Main", e.getMessage());

@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
 
 
 	private void redirectToSignup() {
-		Intent intent = new Intent(this, SignupActivity.class);
+		Intent intent = new Intent(this, com.tonyjhuang.whereyou.SignupActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		finish();
@@ -74,6 +74,10 @@ public class MainActivity extends Activity {
 			ButterKnife.inject(this);
 
 			setNameView(name);
+
+
+
+
 			friendsAdapter = new FriendsListAdapter(currentInstallation.getJSONArray("friends"));
 			friendsListView.setAdapter(friendsAdapter);
 		}

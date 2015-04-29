@@ -2,16 +2,11 @@ package com.tonyjhuang.whereyou;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.drivemode.intentlog.IntentLogger;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
 import com.parse.ParsePushBroadcastReceiver;
-import com.parse.ParseQuery;
 
 import org.json.JSONException;
 import org.json.JSONObject;
