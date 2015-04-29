@@ -2,6 +2,7 @@ package com.tonyjhuang.whereyou;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,20 +53,30 @@ public class MainActivity extends Activity {
 	private FriendsListAdapter friendsAdapter;
 
 
+	private void redirectToSignup() {
+		Intent intent = new Intent(this, SignupActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		finish();
+	}
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-
 		Log.d("Main", "HELLO WORLD! **************************************************");
-
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
-		ButterKnife.inject(this);
 
 		ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
-		setNameView(currentInstallation.getString("name"));
-		friendsAdapter = new FriendsListAdapter(currentInstallation.getJSONArray("friends"));
-		friendsListView.setAdapter(friendsAdapter);
+		String name = currentInstallation.getString("name");
+		if(name == null) {
+			redirectToSignup();
+		} else {
+			setContentView(R.layout.activity_main);
+			ButterKnife.inject(this);
 
+			setNameView(name);
+			friendsAdapter = new FriendsListAdapter(currentInstallation.getJSONArray("friends"));
+			friendsListView.setAdapter(friendsAdapter);
+		}
 	}
 
 	@OnClick(R.id.username_save)

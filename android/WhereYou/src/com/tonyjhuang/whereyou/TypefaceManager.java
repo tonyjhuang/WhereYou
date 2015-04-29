@@ -24,8 +24,7 @@ public class TypefaceManager {
         synchronized (cache) {
             if (!cache.containsKey(assetPath)) {
                 try {
-                    Typeface t = Typeface.createFromAsset(c.getAssets(),
-                            assetPath);
+                    Typeface t = Typeface.createFromAsset(c.getAssets(), assetPath);
                     cache.put(assetPath, t);
                 } catch (Exception e) {
                     Log.e("TypefaceManager", "Could not get typeface '" + assetPath
