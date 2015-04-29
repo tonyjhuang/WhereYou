@@ -5,4 +5,17 @@
 
     <string name="hello">Hello World, fgt!</string>
     <string name="app_name">Where You?</string>
+
+
+    <string name="fonttype">OpenSans-Regular</string>
+    <string name="fonttype_light">OpenSans-Light</string>
+    <string name="fonttype_medium">OpenSans-Semibold</string>
+    <string name="fonttype_heavy">OpenSans-Bold</string>
+    <string name="fonttype_xheavy">OpenSans-ExtraBold</string>
+
+    <string name="fonttype_italic">OpenSans-Italic</string>
+    <string name="fonttype_light_italic">OpenSans-LightItalic</string>
+    <string name="fonttype_medium_italic">OpenSans-SemiboldItalic</string>
+    <string name="fonttype_heavy_italic">OpenSans-BoldItalic</string>
+    <string name="fonttype_xheavy_italic">OpenSans-ExtraBoldItalic</string>
 </resources>

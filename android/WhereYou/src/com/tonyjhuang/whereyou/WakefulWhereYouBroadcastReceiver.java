@@ -7,6 +7,7 @@ import android.util.Log;
 
 /**
  * Created by tony on 4/29/15.
+ * Calls a wakeful service to handle getting location.
  */
 public class WakefulWhereYouBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override

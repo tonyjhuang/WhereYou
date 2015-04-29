@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 /**
  * Created by tony on 4/29/15.
+ * Handles top level push notification processes and routing.
  */
 public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     private static final String TAG = "BroadcastReceiver";
@@ -26,10 +27,26 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     protected void onPushOpen(Context context, Intent intent) {
         Log.d(TAG, "onPushOpen");
         IntentLogger.dump(TAG, intent);
-        Intent startWakeful = new Intent();
-        startWakeful.putExtras(intent);
-        startWakeful.setAction("com.tonyjhuang.whereyou.GET_LOCATION");
-        context.sendBroadcast(startWakeful);
+
+        try {
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+            String action = json.getString("action");
+            switch(action) {
+                case WhereYouAction.ASK:
+                    /*
+                    User has clicked on our ASK notification.
+                    Start our wakeful broadcast receiver and send out our location.
+                     */
+                    Intent startWakeful = new Intent();
+                    startWakeful.putExtras(intent);
+                    startWakeful.setAction(WhereYouAction.GET_LOCATION);
+                    context.sendBroadcast(startWakeful);
+                    break;
+            }
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     @Override
@@ -45,15 +62,18 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String action = json.getString("action");
+            String message = json.getString("alert");
             switch(action) {
-                case "com.tonyjhuang.whereyou.RESPOND":
-                    Log.d(TAG, "hey!!!");
-                    Toast.makeText(context, "GOT A RESPONSE!", Toast.LENGTH_SHORT).show();
+                case WhereYouAction.RESPOND:
+                    /*
+                    We got a response from our target. Hooray!
+                     */
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     break;
-                case "com.tonyjhuang.whereyou.ASK":
-                    String name = json.getString("name");
-                    /*respond(name);
-                    break;*/
+                case WhereYouAction.ASK:
+                    /*
+                    Don't do anything here, let the user click the notification before acting.
+                     */
                 default:
                     super.onPushReceive(context, intent);
             }

@@ -22,19 +22,25 @@ import io.nlopez.smartlocation.SmartLocation;
  * Created by tony on 4/29/15.
  */
 public class WakefulLocationService extends IntentService {
+    private static final int LOCATION_TIMEOUT = 15000; // 15 seconds
+
+    private Looper wakefulLooper;
+    private Intent intent;
 
     public WakefulLocationService() {
         super("WakefulLocationService");
     }
 
     @Override
-    protected void onHandleIntent(final Intent intent) {
+    protected void onHandleIntent(Intent intent) {
         Log.d("LocationService", "onHandleIntent");
         IntentLogger.dump("LocationService", intent);
 
+        this.intent = intent;
+
         // Keep this service alive while we get the location.
         if(Looper.myLooper() == null) Looper.prepare();
-        final Looper wakefulLooper = Looper.myLooper();
+        wakefulLooper = Looper.myLooper();
 
         // Set a timeout for getting location.
         final Handler timeoutHandler = new Handler();
@@ -42,10 +48,9 @@ public class WakefulLocationService extends IntentService {
             @Override
             public void run() {
                 Log.e("WakefulService", "Time out!");
-                WakefulWhereYouBroadcastReceiver.completeWakefulIntent(intent);
-                wakefulLooper.quit();
+                finish();
             }
-        }, 5000);
+        }, LOCATION_TIMEOUT);
 
         // Get location
         SmartLocation.with(this).location()
@@ -54,37 +59,53 @@ public class WakefulLocationService extends IntentService {
                     @Override
                     public void onLocationUpdated(Location location) {
                         timeoutHandler.removeCallbacksAndMessages(null);
-                        String loc = "latitude: " + location.getLatitude() + "\n" +
-                                "longitude: " + location.getLongitude();
+
+                        double lat = location.getLatitude();
+                        double lng = location.getLongitude();
+
+                        String loc = "latitude: " + lat + "\n" +
+                                "longitude: " + lng;
                         Log.d("LocationService", loc);
-                        WakefulWhereYouBroadcastReceiver.completeWakefulIntent(intent);
-                        wakefulLooper.quit();
+                        respond(lat, lng);
                     }
                 });
 
         Looper.loop();
     }
 
+    private void finish() {
+        WakefulWhereYouBroadcastReceiver.completeWakefulIntent(intent);
+        wakefulLooper.quit();
+    }
 
-    private void respond(String name) {
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
-        String myName = currentInstallation.getString("name");
-
-        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
-        pushQuery.whereEqualTo("name", name);
-
-        JSONObject data = new JSONObject();
+    private void respond(double lat, double lng) {
         try {
-            data.put("name", myName);
-            data.put("alert", myName + " wants to know where you at! Tap here to share your location.");
-            data.put("action", "com.tonyjhuang.whereyou.RESPOND");
-        } catch (JSONException e) {
-            Log.e("Main", e.getMessage());
-        }
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+            String name = json.getString("name");
 
-        ParsePush push = new ParsePush();
-        push.setQuery(pushQuery);
-        push.setData(data);
-        push.sendInBackground();
+            ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+            String myName = currentInstallation.getString("name");
+
+            ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("name", name);
+
+            JSONObject data = new JSONObject();
+            try {
+                data.put("name", myName);
+                data.put("alert", myName + " is at " + lat + ", " + lng + ".");
+                data.put("action", WhereYouAction.RESPOND);
+            } catch (JSONException e) {
+                Log.e("Main", e.getMessage());
+            }
+
+            ParsePush push = new ParsePush();
+            push.setQuery(pushQuery);
+            push.setData(data);
+            push.sendInBackground();
+        } catch (JSONException e) {
+            Log.e("WakefulService", e.getMessage());
+        } finally {
+            finish();
+        }
     }
 }
