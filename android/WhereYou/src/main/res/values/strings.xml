@@ -18,4 +18,12 @@
     <string name="fonttype_medium_italic">OpenSans-SemiboldItalic</string>
     <string name="fonttype_heavy_italic">OpenSans-BoldItalic</string>
     <string name="fonttype_xheavy_italic">OpenSans-ExtraBoldItalic</string>
+
+
+    <string name="signup_error_spaces">NO SPACES!!!</string>
+    <string name="signup_error_length">TOO SHORT!!!</string>
+    <string name="signup_error_taken">PICK A NEW NAME!!</string>
+    <string name="signup_status_error">:(</string>
+    <string name="signup_status_taken">Taken</string>
+    <string name="signup_status_available">&lt;3</string>
 </resources>

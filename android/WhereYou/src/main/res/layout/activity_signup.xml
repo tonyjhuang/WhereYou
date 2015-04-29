@@ -21,14 +21,36 @@
         android:text="Where You?"
         android:textSize="34sp" />
 
-    <com.tonyjhuang.whereyou.customview.TypefaceTextView
-        android:id="@+id/username_hint"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:visibility="gone"
-        android:text="Username" />
+        android:orientation="horizontal">
+
+        <com.tonyjhuang.whereyou.customview.TypefaceTextView
+            android:id="@+id/username_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:visibility="gone"
+            android:text="Username" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+        <com.tonyjhuang.whereyou.customview.TypefaceTextView
+            android:id="@+id/username_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:visibility="invisible"
+            android:text="Taken" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/username"
