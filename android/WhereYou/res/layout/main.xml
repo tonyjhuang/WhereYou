@@ -5,8 +5,20 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/hello"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
+    
+    <EditText
+        android:id="@+id/username_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/username_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
 
 </LinearLayout>
