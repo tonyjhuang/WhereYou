@@ -151,7 +151,7 @@ public class WhereYouStarterActivity extends Activity {
 
 	private Toast currentToast;
 	private void showToast(String msg) {
-		if(currentToast == null) currentToast.cancel();
+		if(currentToast != null) currentToast.cancel();
 		currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
 		currentToast.show();
 	}
