@@ -12,6 +12,7 @@
     
     <EditText
         android:id="@+id/username_input"
+        android:hint="Change username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -20,5 +21,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"/>
+
+    <EditText
+        android:id="@+id/target_input"
+        android:hint="Recipient name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/target_push"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Push"/>
 
 </LinearLayout>
