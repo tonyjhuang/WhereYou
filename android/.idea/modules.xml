@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WhereYou.iml" filepath="$PROJECT_DIR$/WhereYou.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WhereYou/WhereYou-WhereYou.iml" filepath="$PROJECT_DIR$/WhereYou/WhereYou-WhereYou.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WhereYou/WhereYou.iml" filepath="$PROJECT_DIR$/WhereYou/WhereYou.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
     </modules>
   </component>
 </project>
