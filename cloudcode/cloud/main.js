@@ -8,7 +8,8 @@ Parse.Cloud.define("hello", function(request, response) {
 Parse.Cloud.define("checkName", function(request, response) {
   Parse.Cloud.useMasterKey(); 
   var query = new Parse.Query(Parse.Installation);
-  query.equalTo("name", request.params.name);
+  var name = request.params.name + "hey";
+  query.equalTo("nameLowercase", name.toLowerCase());
   query.count({
         success: function(count){
             if(count > 0) {

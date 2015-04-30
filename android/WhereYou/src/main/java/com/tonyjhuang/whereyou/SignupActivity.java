@@ -1,6 +1,5 @@
 package com.tonyjhuang.whereyou;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -12,14 +11,8 @@ import android.widget.TextView;
 
 import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
-
-import org.json.JSONArray;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -40,9 +33,10 @@ public class SignupActivity extends WhereYouActivity {
     private int green, red;
 
     private Debouncer debouncer = new Debouncer(150);
+    private ParseHelper parseHelper = new ParseHelper();
 
     // Have we vetted the user's current username against the server?
-    private boolean usernameIsDirty = false;
+    private boolean usernameDirty = false;
     private boolean usernameAvailable = false;
 
     @Override
@@ -63,7 +57,7 @@ public class SignupActivity extends WhereYouActivity {
                     setUsernameStatus(UsernameStatus.TOO_SHORT);
                 } else {
                     usernameHint.setVisibility(View.VISIBLE);
-                    usernameIsDirty = true;
+                    usernameDirty = true;
                     String error = getError(charSequence.toString());
 
                     if (error != null) {
@@ -75,7 +69,7 @@ public class SignupActivity extends WhereYouActivity {
                         }
                     } else {
                         setUsernameStatus(UsernameStatus.CHECKING);
-                        checkServerIfAvailable(charSequence.toString());
+                        checkServerIfNameAvailable(charSequence.toString());
                     }
                 }
             }
@@ -115,21 +109,30 @@ public class SignupActivity extends WhereYouActivity {
         usernameStatus.setTextColor(color);
     }
 
-    private void checkServerIfAvailable(final String name) {
+    private void checkServerIfNameAvailable(String name) {
+        checkServerIfNameAvailable(name, null);
+    }
+
+    /**
+     * Checks our server if any user already exists with this name. Will notify the callback
+     * if we complete. Note: callback may not be called if runnable gets debounced.
+     */
+    private void checkServerIfNameAvailable(final String name, final Callback callback) {
         if(name.length() < 3) {
             debouncer.cancel();
+            if(callback != null) callback.onFinish();
         } else {
             debouncer.debounce(new Runnable() {
                 @Override
                 public void run() {
-                    checkName(name, new FunctionCallback<Boolean>() {
+                    parseHelper.checkName(name, new FunctionCallback<Boolean>() {
                         @Override
                         public void done(Boolean nameExists, ParseException e) {
                             if (e == null) {
-                                if(usernameInput.getText().length() < 3) {
-                                    setUsernameStatus(UsernameStatus.TOO_SHORT);
+                                if (!usernameInput.getText().toString().equals(name)) {
+                                    // dont do anything here, user has changed their name
                                 } else {
-                                    usernameIsDirty = false;
+                                    usernameDirty = false;
                                     if (nameExists) {
                                         usernameAvailable = false;
                                         setUsernameStatus(UsernameStatus.TAKEN);
@@ -141,17 +144,12 @@ public class SignupActivity extends WhereYouActivity {
                             } else {
                                 Log.e("Main", e.getMessage());
                             }
+                            if(callback != null) callback.onFinish();
                         }
                     });
                 }
             });
         }
-    }
-
-    private void checkName(String name, FunctionCallback<Boolean> callback) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("name", name);
-        ParseCloud.callFunctionInBackground("checkName", params, callback);
     }
 
     @OnClick(R.id.signup_submit)
@@ -166,7 +164,7 @@ public class SignupActivity extends WhereYouActivity {
             errorMessage = getString(R.string.signup_error_spaces);
         } else if(name.length() < 3) {
             errorMessage = getString(R.string.signup_error_length);
-        } else if(!usernameIsDirty && !usernameAvailable) {
+        } else if(!usernameDirty && !usernameAvailable) {
             errorMessage = getString(R.string.signup_error_taken);
         }
 
@@ -181,23 +179,18 @@ public class SignupActivity extends WhereYouActivity {
         if(errorMessage != null) {
             showToast(errorMessage);
         } else {
-            if(usernameIsDirty) {
-                checkServerIfAvailable(username);
+            if(usernameDirty) {
+                checkServerIfNameAvailable(username, new Callback() {
+                    @Override
+                    public void onFinish() {
+                        saveUsername();
+                    }
+                });
             } else {
-                ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
-                currentInstallation.put("name", username);
-                currentInstallation.put("nameLowercase", username.toLowerCase());
-                currentInstallation.saveInBackground();
-                redirectToMain();
+                parseHelper.updateName(username);
+                AppRouter.redirectTo(this, MainActivity.class);
             }
         }
-    }
-
-    private void redirectToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 
     enum UsernameStatus {
@@ -218,6 +211,10 @@ public class SignupActivity extends WhereYouActivity {
         }
     }
 
+    /**
+     * Takes any number of runnables in #debounce, will run the last one given if and only if
+     * a period of length, timeout, passes without any new runnables being passed to #debounce.
+     */
     private class Debouncer {
         private long timeout;
         private Handler handler = new Handler();
@@ -236,5 +233,9 @@ public class SignupActivity extends WhereYouActivity {
         public void cancel() {
             if(currentRunnable != null) handler.removeCallbacks(currentRunnable);
         }
+    }
+
+    private interface Callback {
+        void onFinish();
     }
 }

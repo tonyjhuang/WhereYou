@@ -3,6 +3,7 @@
     xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_grey"
     android:orientation="vertical">
 
     <Space
@@ -19,7 +20,7 @@
         android:textColor="@color/white"
         android:padding="48dp"
         android:text="Where You?"
-        android:textSize="34sp" />
+        android:textSize="38sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

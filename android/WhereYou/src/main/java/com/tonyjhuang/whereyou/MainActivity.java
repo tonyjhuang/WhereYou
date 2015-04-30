@@ -49,14 +49,7 @@ public class MainActivity extends WhereYouActivity {
     ListView friendsListView;
 
     private FriendsListAdapter friendsAdapter;
-
-
-    private void redirectToSignup() {
-        Intent intent = new Intent(this, SignupActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
+    private ParseHelper parseHelper = new ParseHelper();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +59,7 @@ public class MainActivity extends WhereYouActivity {
         ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         String name = currentInstallation.getString("name");
         if (name == null) {
-            redirectToSignup();
+            AppRouter.redirectTo(this, SignupActivity.class);
         } else {
             setContentView(R.layout.activity_main);
 
@@ -80,10 +73,7 @@ public class MainActivity extends WhereYouActivity {
     public void onUsernameSaveClick(View view) {
         final String newName = usernameInput.getText().toString();
         setNameView(newName);
-
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
-        currentInstallation.put("name", newName);
-        currentInstallation.saveInBackground();
+        parseHelper.updateName(newName);
     }
 
     private void getInstallation(String name, GetCallback<ParseObject> callback) {
@@ -137,7 +127,7 @@ public class MainActivity extends WhereYouActivity {
             }
         }
 
-        checkName(newFriend, new FunctionCallback<Boolean>() {
+        parseHelper.checkName(newFriend, new FunctionCallback<Boolean>() {
             @Override
             public void done(Boolean nameExists, ParseException e) {
                 if (e == null) {
@@ -159,12 +149,6 @@ public class MainActivity extends WhereYouActivity {
                 }
             }
         });
-    }
-
-    private void checkName(String name, FunctionCallback<Boolean> callback) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("name", name);
-        ParseCloud.callFunctionInBackground("checkName", params, callback);
     }
 
     @OnClick(R.id.location_get)
