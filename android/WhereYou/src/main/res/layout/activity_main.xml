@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="Get location"/>
     
-    <ListView
+    <com.tonyjhuang.whereyou.FriendsListView
         android:id="@+id/friends"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
