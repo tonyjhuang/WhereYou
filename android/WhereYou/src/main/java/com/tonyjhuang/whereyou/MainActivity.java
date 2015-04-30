@@ -58,7 +58,11 @@ public class MainActivity extends WhereYouActivity {
         username.setText("Hello, " + name + ".");
     }
 
+    private boolean addFriendLock = false;
     public void addFriend(String name) {
+        if(addFriendLock) return;
+        addFriendLock = true;
+
         JSONArray friendsList = ParseInstallation.getCurrentInstallation().getJSONArray("friends");
 
         // Does the user already have this guy on his friends list?
@@ -67,6 +71,7 @@ public class MainActivity extends WhereYouActivity {
                 try {
                     if (name.equals(friendsList.getString(i))) {
                         showToast(name + " is already on your friends list");
+                        addFriendLock = false;
                         return;
                     }
                 } catch (JSONException e) {
@@ -78,11 +83,13 @@ public class MainActivity extends WhereYouActivity {
         parseHelper.addFriend(name, new ParseHelper.Callback<JSONArray>() {
             @Override
             public void onFinish(JSONArray friendsList) {
+                addFriendLock = false;
                 friendsListView.setFriends(friendsList);
             }
 
             @Override
             public void onError(Throwable e) {
+                addFriendLock = false;
                 if (e.getMessage().equals("No such user")) {
                     showToast("Yo, no one exists with that name!");
                 } else {
