@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.tonyjhuang.whereyou.customview.TypefaceTextView
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.tonyjhuang.whereyou.customview.TypefaceTextView
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/username_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_weight="1"/>
 
 
-        <com.tonyjhuang.whereyou.customview.TypefaceTextView
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/username_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:layout_height="0dp"
         android:layout_weight="2" />
 
-    <com.tonyjhuang.whereyou.customview.TypefaceTextView
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/signup_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

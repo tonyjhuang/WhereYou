@@ -1,9 +1,11 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.receivers;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
+
+import com.tonyjhuang.whereyou.services.WakefulLocationService;
 
 /**
  * Created by tony on 4/29/15.

@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou.customview;
+package com.tonyjhuang.whereyou.helpers;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.tonyjhuang.whereyou.R;
-import com.tonyjhuang.whereyou.TypefaceManager;
 
 /**
  * Created by Tony on 3/23/14.

@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.helpers;
 
 import android.app.Application;
 
@@ -7,6 +7,7 @@ import com.parse.ParseACL;
 import com.parse.ParseCrashReporting;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.tonyjhuang.whereyou.R;
 
 public class WhereYouApplication extends Application {
 

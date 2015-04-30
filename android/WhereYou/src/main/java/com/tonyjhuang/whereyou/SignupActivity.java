@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
+import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.helpers.AppRouter;
+import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import butterknife.InjectView;
 import butterknife.OnClick;

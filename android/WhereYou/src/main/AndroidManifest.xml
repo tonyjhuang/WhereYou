@@ -21,7 +21,7 @@
     <uses-permission android:name="com.tonyjhuang.whereyou.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".WhereYouApplication"
+        android:name=".helpers.WhereYouApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name">
@@ -50,7 +50,7 @@
             android:theme="@style/WhereYouTheme" />
 
         <receiver
-            android:name=".WakefulWhereYouBroadcastReceiver"
+            android:name=".receivers.WakefulWhereYouBroadcastReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -58,7 +58,7 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".WakefulLocationService"
+            android:name=".services.WakefulLocationService"
             android:enabled="true" />
 
         <!-- Parse -->
@@ -81,7 +81,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.tonyjhuang.whereyou.WhereYouBroadcastReceiver"
+            android:name=".receivers.WhereYouBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

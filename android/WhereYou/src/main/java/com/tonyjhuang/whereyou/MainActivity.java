@@ -1,7 +1,6 @@
 package com.tonyjhuang.whereyou;
 
 
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,21 +14,19 @@ import android.widget.TextView;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.helpers.AppRouter;
+import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;

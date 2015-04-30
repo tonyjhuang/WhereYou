@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.receivers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParsePushBroadcastReceiver;
+import com.tonyjhuang.whereyou.services.WhereYouAction;
 
 import org.json.JSONException;
 import org.json.JSONObject;

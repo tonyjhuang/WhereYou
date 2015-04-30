@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.api;
 
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;

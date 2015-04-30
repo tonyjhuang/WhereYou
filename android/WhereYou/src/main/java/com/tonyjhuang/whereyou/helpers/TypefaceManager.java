@@ -1,8 +1,10 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.helpers;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
+
+import com.tonyjhuang.whereyou.R;
 
 import java.util.Hashtable;
 

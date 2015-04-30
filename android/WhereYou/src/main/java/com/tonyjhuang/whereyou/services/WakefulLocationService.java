@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.tonyjhuang.whereyou.receivers.WakefulWhereYouBroadcastReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.helpers;
 
 import android.app.Activity;
 import android.widget.Toast;

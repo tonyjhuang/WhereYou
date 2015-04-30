@@ -1,4 +1,4 @@
-package com.tonyjhuang.whereyou;
+package com.tonyjhuang.whereyou.services;
 
 /**
  * Created by tony on 4/29/15.
