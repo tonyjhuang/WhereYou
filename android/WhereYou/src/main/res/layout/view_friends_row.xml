@@ -11,6 +11,7 @@
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/friend_row_height"
+        android:imeOptions="actionDone"
         android:background="@color/pink"
         android:gravity="center"
         android:textSize="@dimen/friend_row_text_size"

@@ -170,9 +170,9 @@ public class FriendsListView extends ListView {
             friendInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (event != null && event.getAction() == KeyEvent.ACTION_DOWN &&
-                            ((event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                                    || (actionId == EditorInfo.IME_ACTION_DONE))) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE ||
+                            (event != null && event.getAction() == KeyEvent.ACTION_DOWN &&
+                                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                         String friend = friendInput.getText().toString();
 
                         if (mainActivityWeakReference.get() != null) {

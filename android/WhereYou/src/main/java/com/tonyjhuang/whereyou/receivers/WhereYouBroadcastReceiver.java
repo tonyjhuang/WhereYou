@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParsePushBroadcastReceiver;
+import com.tonyjhuang.whereyou.MapActivity;
 import com.tonyjhuang.whereyou.services.WhereYouAction;
 
 import org.json.JSONException;
@@ -64,9 +65,8 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     /*
                     We got a response from our target. Hooray!
                      */
-                    Intent openMap = new Intent();
+                    Intent openMap = new Intent(context, MapActivity.class);
                     openMap.putExtras(intent);
-                    openMap.setClassName("com.tonyjhuang.where", "com.tonyjhuang.where.MapActivity");
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(openMap);
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
