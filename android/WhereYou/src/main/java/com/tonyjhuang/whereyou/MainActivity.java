@@ -1,7 +1,6 @@
 package com.tonyjhuang.whereyou;
 
 
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +18,6 @@ import org.json.JSONException;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import io.nlopez.smartlocation.OnLocationUpdatedListener;
-import io.nlopez.smartlocation.SmartLocation;
 
 public class MainActivity extends WhereYouActivity {
 
@@ -99,5 +96,11 @@ public class MainActivity extends WhereYouActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!friendsListView.onBackPressed())
+            super.onBackPressed();
     }
 }

@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
+    android:background="@color/deep_orange"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+    <LinearLayout
+        android:id="@+id/add_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/friend_row_height"
-        android:background="@color/grey"
-        android:gravity="center"
-        android:text="+"
-        android:textSize="55sp"
-        wy:typeface="@string/fonttype_heavy" />
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/friend_row_height"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="55sp"
+            wy:typeface="@string/fonttype_heavy" />
+    </LinearLayout>
+
+    <com.tonyjhuang.whereyou.helpers.TypefaceEditText
+        android:id="@+id/username_input"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:layout_height="@dimen/friend_row_height"
+        android:gravity="center"
+        android:inputType="textNoSuggestions"
+        android:singleLine="true"
+        wy:typeface="@string/fonttype_medium"
+        android:textColor="@color/white"
+        android:textSize="@dimen/friend_row_text_size" />
+
+
+</FrameLayout>

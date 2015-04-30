@@ -3,9 +3,14 @@ package com.tonyjhuang.whereyou;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +32,7 @@ public class FriendsListView extends ListView {
 
     private FriendsListAdapter adapter = new FriendsListAdapter();
     private ParseHelper parseHelper = new ParseHelper();
+    private AddFriendFooterView footer;
 
     public FriendsListView(Context context) {
         this(context, null);
@@ -38,7 +44,7 @@ public class FriendsListView extends ListView {
 
     public FriendsListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View footer = View.inflate(context, R.layout.view_friends_add_footer, null);
+        footer = new AddFriendFooterView(context);
         addFooterView(footer);
         setAdapter(adapter);
     }
@@ -55,6 +61,14 @@ public class FriendsListView extends ListView {
             }
         }
         adapter.update(friends);
+    }
+
+    public boolean onBackPressed() {
+        if (footer.isShowingEditor()) {
+            footer.showEditor(false);
+            return true;
+        }
+        return false;
     }
 
     public class FriendsListAdapter extends BaseAdapter {
@@ -114,6 +128,74 @@ public class FriendsListView extends ListView {
             public RowViewHolder(View view) {
                 ButterKnife.inject(this, view);
             }
+        }
+    }
+
+    public static class AddFriendFooterView extends FrameLayout {
+        @InjectView(R.id.username_input)
+        EditText friendInput;
+        @InjectView(R.id.add_container)
+        LinearLayout addContainer;
+
+        private boolean isShowingEditor = false;
+
+        public AddFriendFooterView(Context context) {
+            this(context, null);
+        }
+
+        public AddFriendFooterView(Context context, AttributeSet attrs) {
+            this(context, attrs, 0);
+        }
+
+        public AddFriendFooterView(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            inflate(context, R.layout.view_friends_add_footer, this);
+            ButterKnife.inject(this, this);
+            addContainer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showEditor(true);
+                }
+            });
+
+            friendInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+                            || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                        showEditor(false);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
+
+        public void showEditor(boolean show) {
+            isShowingEditor = show;
+            if (show) {
+                addContainer.setVisibility(INVISIBLE);
+                friendInput.setVisibility(VISIBLE);
+                friendInput.requestFocus();
+            } else {
+                addContainer.setVisibility(VISIBLE);
+                friendInput.setVisibility(INVISIBLE);
+                friendInput.setText("");
+            }
+            showKeyboard(show);
+        }
+
+        private void showKeyboard(boolean show) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(show) {
+                imm.showSoftInput(friendInput, InputMethodManager.SHOW_IMPLICIT);
+            } else {
+                imm.hideSoftInputFromWindow(friendInput.getWindowToken(), 0);
+            }
+        }
+
+        public boolean isShowingEditor() {
+            return isShowingEditor;
         }
     }
 }
