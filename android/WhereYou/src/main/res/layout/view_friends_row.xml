@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/friend_row_height"
+        android:background="@color/pink"
+        android:gravity="center"
+        android:textSize="@dimen/friend_row_text_size"
+        wy:typeface="@string/fonttype_medium" />
+
+</LinearLayout>

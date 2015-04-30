@@ -30,8 +30,6 @@ public class MainActivity extends WhereYouActivity {
     EditText usernameInput;
     @InjectView(R.id.friend_input)
     EditText friendInput;
-    @InjectView(R.id.location)
-    TextView locationText;
     @InjectView(R.id.friends)
     FriendsListView friendsListView;
 
@@ -101,20 +99,5 @@ public class MainActivity extends WhereYouActivity {
                 }
             }
         });
-    }
-
-    @OnClick(R.id.location_get)
-    public void onLocationGetClick(View view) {
-        showToast("Getting location...");
-        SmartLocation.with(this).location()
-                .oneFix()
-                .start(new OnLocationUpdatedListener() {
-                    @Override
-                    public void onLocationUpdated(Location location) {
-                        String loc = "latitude: " + location.getLatitude() + "\n" +
-                                "longitude: " + location.getLongitude();
-                        locationText.setText(loc);
-                    }
-                });
     }
 }

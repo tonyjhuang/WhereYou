@@ -2,50 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@color/cyan"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/hello"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
-    
+        android:text="@string/hello"
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/username_input"
-        android:hint="Change username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Change username"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/username_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="Save"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/friend_input"
-        android:hint="New friend"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="New friend"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/friend_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add friend"/>
+        android:text="Add friend"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/location"
-        android:text="Little bitch."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/location_get"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get location"/>
-    
     <com.tonyjhuang.whereyou.FriendsListView
         android:id="@+id/friends"
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by tony on 4/29/15.
@@ -34,6 +38,8 @@ public class FriendsListView extends ListView {
 
     public FriendsListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        View footer = View.inflate(context, R.layout.view_friends_add_footer, null);
+        addFooterView(footer);
         setAdapter(adapter);
     }
 
@@ -51,7 +57,7 @@ public class FriendsListView extends ListView {
         adapter.update(friends);
     }
 
-    private class FriendsListAdapter extends BaseAdapter {
+    public class FriendsListAdapter extends BaseAdapter {
 
         private ArrayList<String> friends;
 
@@ -77,13 +83,18 @@ public class FriendsListView extends ListView {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            RowViewHolder holder;
             if (view == null) {
-                view = new TextView(getContext());
+                view = View.inflate(viewGroup.getContext(), R.layout.view_friends_row, null);
+                holder = new RowViewHolder(view);
+                view.setTag(holder);
+            } else {
+                holder = (RowViewHolder) view.getTag();
             }
 
             final String friend = getItem(i);
-            ((TextView) view).setText(friend);
-            view.setOnClickListener(new View.OnClickListener() {
+            holder.name.setText(friend);
+            holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     parseHelper.poke(friend);
@@ -92,7 +103,17 @@ public class FriendsListView extends ListView {
 
             return view;
         }
+
+        public class RowViewHolder {
+
+            @InjectView(R.id.container)
+            LinearLayout container;
+            @InjectView(R.id.name)
+            TextView name;
+
+            public RowViewHolder(View view) {
+                ButterKnife.inject(this, view);
+            }
+        }
     }
-
-
 }
