@@ -1,14 +1,25 @@
 package com.tonyjhuang.whereyou;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -28,7 +39,7 @@ public class SignupActivity extends WhereYouActivity {
     // Colors for username status text.
     private int green, red;
 
-    private Debouncer debouncer = new Debouncer(500);
+    private Debouncer debouncer = new Debouncer(150);
 
     // Have we vetted the user's current username against the server?
     private boolean usernameIsDirty = false;
@@ -47,7 +58,7 @@ public class SignupActivity extends WhereYouActivity {
         usernameInput.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() == 0 ) {
+                if (charSequence.length() == 0) {
                     usernameHint.setVisibility(View.INVISIBLE);
                     setUsernameStatus(UsernameStatus.TOO_SHORT);
                 } else {
@@ -55,8 +66,9 @@ public class SignupActivity extends WhereYouActivity {
                     usernameIsDirty = true;
                     String error = getError(charSequence.toString());
 
-                    if(error != null) {
-                        if(error.equals(getString(R.string.signup_error_length))) {
+                    if (error != null) {
+                        debouncer.cancel();
+                        if (error.equals(getString(R.string.signup_error_length))) {
                             setUsernameStatus(UsernameStatus.TOO_SHORT);
                         } else if (error.equals(getString(R.string.signup_error_spaces))) {
                             setUsernameStatus(UsernameStatus.ERROR);
@@ -110,17 +122,32 @@ public class SignupActivity extends WhereYouActivity {
             debouncer.debounce(new Runnable() {
                 @Override
                 public void run() {
-                    if(name.equals("Ben")) {
-                        usernameAvailable = false;
-                        setUsernameStatus(UsernameStatus.TAKEN);
-                    } else {
-                        usernameAvailable = true;
-                        setUsernameStatus(UsernameStatus.AVAILABLE);
-                    }
-                    usernameIsDirty = false;
+                    checkName(name, new FunctionCallback<Boolean>() {
+                        @Override
+                        public void done(Boolean nameExists, ParseException e) {
+                            if (e == null) {
+                                usernameIsDirty = false;
+                                if (nameExists) {
+                                    usernameAvailable = false;
+                                    setUsernameStatus(UsernameStatus.TAKEN);
+                                } else {
+                                    usernameAvailable = true;
+                                    setUsernameStatus(UsernameStatus.AVAILABLE);
+                                }
+                            } else {
+                                Log.e("Main", e.getMessage());
+                            }
+                        }
+                    });
                 }
             });
         }
+    }
+
+    private void checkName(String name, FunctionCallback<Boolean> callback) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+        ParseCloud.callFunctionInBackground("checkName", params, callback);
     }
 
     @OnClick(R.id.signup_submit)
@@ -153,9 +180,20 @@ public class SignupActivity extends WhereYouActivity {
             if(usernameIsDirty) {
                 checkServerIfAvailable(username);
             } else {
-                showToast("saving to server...");
+                ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+                currentInstallation.put("name", username);
+                currentInstallation.put("nameLowercase", username.toLowerCase());
+                currentInstallation.saveInBackground();
+                redirectToMain();
             }
         }
+    }
+
+    private void redirectToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     enum UsernameStatus {

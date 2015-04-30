@@ -52,7 +52,7 @@ public class MainActivity extends WhereYouActivity {
 
 
     private void redirectToSignup() {
-        Intent intent = new Intent(this, com.tonyjhuang.whereyou.SignupActivity.class);
+        Intent intent = new Intent(this, SignupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
