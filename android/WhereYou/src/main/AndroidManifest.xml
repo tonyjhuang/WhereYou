@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.tonyjhuang.whereyou"
-    android:versionCode="1"
-    android:versionName="1.0">
+    package="com.tonyjhuang.whereyou">
 
-    <!-- LittleFluffyLocationLibrary -->
+    <!-- Google Maps -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- The following two permissions are not required to use
+         Google Maps Android API v2, but are recommended. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <!-- Parse permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,6 +42,9 @@
             android:name="com.google.android.gms.version"
             tools:replace="android:value"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/maps_api_key"/>
 
         <activity
             android:name=".MainActivity"
@@ -53,6 +62,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/WhereYouTheme" />
+
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
+            android:excludeFromRecents="true"/>
 
         <receiver
             android:name=".receivers.WakefulWhereYouBroadcastReceiver"

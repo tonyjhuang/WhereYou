@@ -6,18 +6,17 @@
     android:background="@color/cyan"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/friend_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add friend"
-        android:visibility="gone" />
-
     <com.tonyjhuang.whereyou.FriendsListView
         android:id="@+id/friends"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/show_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show map"/>
 
     <EditText
         android:id="@+id/username_input"
