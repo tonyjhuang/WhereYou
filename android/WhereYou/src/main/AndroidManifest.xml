@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tonyjhuang.whereyou"
     android:versionCode="1"
     android:versionName="1.0">
@@ -31,6 +32,10 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/parse_client_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            tools:replace="android:value"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".MainActivity"

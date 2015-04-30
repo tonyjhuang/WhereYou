@@ -63,11 +63,12 @@ public class WakefulLocationService extends IntentService {
 
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
+                        float  acc = location.getAccuracy();
 
                         String loc = "latitude: " + lat + "\n" +
                                 "longitude: " + lng;
                         Log.d("LocationService", loc);
-                        respond(lat, lng);
+                        respond(lat, lng, acc);
                     }
                 });
 
@@ -79,7 +80,7 @@ public class WakefulLocationService extends IntentService {
         wakefulLooper.quit();
     }
 
-    private void respond(double lat, double lng) {
+    private void respond(double lat, double lng, float acc) {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String name = json.getString("name");
@@ -95,7 +96,10 @@ public class WakefulLocationService extends IntentService {
             JSONObject data = new JSONObject();
             try {
                 data.put("name", myName);
-                data.put("alert", myName + " is at " + lat + ", " + lng);
+                data.put("lat", lat);
+                data.put("lng", lng);
+                data.put("acc", acc);
+                data.put("alert", myName + " is at " + lat + ", " + lng + ": " + acc);
                 data.put("action", WhereYouAction.RESPOND);
             } catch (JSONException e) {
                 Log.e("Main", e.getMessage());
