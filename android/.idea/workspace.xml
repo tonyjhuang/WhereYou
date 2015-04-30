@@ -39,8 +39,8 @@
       <file leaf-file-name="SignupActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WhereYou/src/main/java/com/tonyjhuang/whereyou/SignupActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.67058825">
-              <caret line="41" column="50" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.8329412">
+              <caret line="139" column="33" selection-start-line="139" selection-start-column="33" selection-end-line="139" selection-end-column="33" />
               <folding>
                 <element signature="e#1558#2740#0" expanded="true" />
                 <element signature="e#2203#2242#0" expanded="true" />
@@ -49,17 +49,17 @@
                 <element signature="e#2947#2986#0" expanded="true" />
                 <element signature="e#3147#3186#0" expanded="true" />
                 <element signature="e#3447#3490#0" expanded="true" />
-                <element signature="e#4035#5020#0" expanded="true" />
-                <element signature="e#4150#4986#0" expanded="true" />
-                <element signature="e#4985#4986#0" expanded="true" />
-                <element signature="e#5019#5020#0" expanded="true" />
-                <element signature="e#5369#5370#0" expanded="true" />
-                <element signature="e#5399#5400#0" expanded="true" />
-                <element signature="e#5542#5581#0" expanded="true" />
-                <element signature="e#5649#5688#0" expanded="true" />
-                <element signature="e#5777#5815#0" expanded="true" />
-                <element signature="e#7463#7464#0" expanded="true" />
-                <element signature="e#7509#7510#0" expanded="true" />
+                <element signature="e#4035#5283#0" expanded="true" />
+                <element signature="e#4150#5249#0" expanded="true" />
+                <element signature="e#5248#5249#0" expanded="true" />
+                <element signature="e#5282#5283#0" expanded="true" />
+                <element signature="e#5632#5633#0" expanded="true" />
+                <element signature="e#5662#5663#0" expanded="true" />
+                <element signature="e#5805#5844#0" expanded="true" />
+                <element signature="e#5912#5951#0" expanded="true" />
+                <element signature="e#6040#6078#0" expanded="true" />
+                <element signature="e#7726#7727#0" expanded="true" />
+                <element signature="e#7772#7773#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1876,8 +1876,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WhereYou/src/main/java/com/tonyjhuang/whereyou/SignupActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67058825">
-          <caret line="41" column="50" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.8329412">
+          <caret line="139" column="33" selection-start-line="139" selection-start-column="33" selection-end-line="139" selection-end-column="33" />
           <folding>
             <element signature="e#1558#2740#0" expanded="true" />
             <element signature="e#2203#2242#0" expanded="true" />
@@ -1886,17 +1886,17 @@
             <element signature="e#2947#2986#0" expanded="true" />
             <element signature="e#3147#3186#0" expanded="true" />
             <element signature="e#3447#3490#0" expanded="true" />
-            <element signature="e#4035#5020#0" expanded="true" />
-            <element signature="e#4150#4986#0" expanded="true" />
-            <element signature="e#4985#4986#0" expanded="true" />
-            <element signature="e#5019#5020#0" expanded="true" />
-            <element signature="e#5369#5370#0" expanded="true" />
-            <element signature="e#5399#5400#0" expanded="true" />
-            <element signature="e#5542#5581#0" expanded="true" />
-            <element signature="e#5649#5688#0" expanded="true" />
-            <element signature="e#5777#5815#0" expanded="true" />
-            <element signature="e#7463#7464#0" expanded="true" />
-            <element signature="e#7509#7510#0" expanded="true" />
+            <element signature="e#4035#5283#0" expanded="true" />
+            <element signature="e#4150#5249#0" expanded="true" />
+            <element signature="e#5248#5249#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#5632#5633#0" expanded="true" />
+            <element signature="e#5662#5663#0" expanded="true" />
+            <element signature="e#5805#5844#0" expanded="true" />
+            <element signature="e#5912#5951#0" expanded="true" />
+            <element signature="e#6040#6078#0" expanded="true" />
+            <element signature="e#7726#7727#0" expanded="true" />
+            <element signature="e#7772#7773#0" expanded="true" />
           </folding>
         </state>
       </provider>

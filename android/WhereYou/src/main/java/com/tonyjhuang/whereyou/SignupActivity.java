@@ -126,13 +126,17 @@ public class SignupActivity extends WhereYouActivity {
                         @Override
                         public void done(Boolean nameExists, ParseException e) {
                             if (e == null) {
-                                usernameIsDirty = false;
-                                if (nameExists) {
-                                    usernameAvailable = false;
-                                    setUsernameStatus(UsernameStatus.TAKEN);
+                                if(usernameInput.getText().length() < 3) {
+                                    setUsernameStatus(UsernameStatus.TOO_SHORT);
                                 } else {
-                                    usernameAvailable = true;
-                                    setUsernameStatus(UsernameStatus.AVAILABLE);
+                                    usernameIsDirty = false;
+                                    if (nameExists) {
+                                        usernameAvailable = false;
+                                        setUsernameStatus(UsernameStatus.TAKEN);
+                                    } else {
+                                        usernameAvailable = true;
+                                        setUsernameStatus(UsernameStatus.AVAILABLE);
+                                    }
                                 }
                             } else {
                                 Log.e("Main", e.getMessage());
