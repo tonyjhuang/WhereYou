@@ -20,6 +20,7 @@ import com.tonyjhuang.whereyou.api.ParseHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -30,6 +31,7 @@ import butterknife.InjectView;
  */
 public class FriendsListView extends ListView {
 
+    private WeakReference<MainActivity> mainActivityWeakReference;
     private FriendsListAdapter adapter = new FriendsListAdapter();
     private ParseHelper parseHelper = new ParseHelper();
     private AddFriendFooterView footer;
@@ -44,6 +46,13 @@ public class FriendsListView extends ListView {
 
     public FriendsListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        try {
+            mainActivityWeakReference = new WeakReference<>((MainActivity) context);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Containing activity MUST be MainActivity!");
+        }
+
         footer = new AddFriendFooterView(context);
         addFooterView(footer);
         setAdapter(adapter);
@@ -78,6 +87,7 @@ public class FriendsListView extends ListView {
         public void update(ArrayList<String> friends) {
             this.friends = friends;
             notifyDataSetChanged();
+            footer.showEditor(false);
         }
 
         @Override
@@ -119,7 +129,6 @@ public class FriendsListView extends ListView {
         }
 
         public class RowViewHolder {
-
             @InjectView(R.id.container)
             LinearLayout container;
             @InjectView(R.id.name)
@@ -131,8 +140,8 @@ public class FriendsListView extends ListView {
         }
     }
 
-    public static class AddFriendFooterView extends FrameLayout {
-        @InjectView(R.id.username_input)
+    public class AddFriendFooterView extends FrameLayout {
+        @InjectView(R.id.friend_input)
         EditText friendInput;
         @InjectView(R.id.add_container)
         LinearLayout addContainer;
@@ -161,9 +170,15 @@ public class FriendsListView extends ListView {
             friendInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-                            || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                        showEditor(false);
+                    if (event != null && event.getAction() == KeyEvent.ACTION_DOWN &&
+                            ((event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                                    || (actionId == EditorInfo.IME_ACTION_DONE))) {
+                        String friend = friendInput.getText().toString();
+
+                        if (mainActivityWeakReference.get() != null) {
+                            mainActivityWeakReference.get().addFriend(friend);
+                        }
+
                         return true;
                     }
                     return false;
@@ -187,7 +202,7 @@ public class FriendsListView extends ListView {
 
         private void showKeyboard(boolean show) {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(show) {
+            if (show) {
                 imm.showSoftInput(friendInput, InputMethodManager.SHOW_IMPLICIT);
             } else {
                 imm.hideSoftInputFromWindow(friendInput.getWindowToken(), 0);

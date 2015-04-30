@@ -6,34 +6,6 @@
     android:background="@color/cyan"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/hello"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/username_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Change username"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/username_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/friend_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="New friend"
-        android:visibility="gone" />
-
     <Button
         android:id="@+id/friend_add"
         android:layout_width="match_parent"
@@ -46,6 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <EditText
+        android:id="@+id/username_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Change username" />
+
+    <Button
+        android:id="@+id/username_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,8 +44,8 @@
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:gravity="center"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
             wy:typeface="@string/fonttype_heavy" />
     </LinearLayout>
 

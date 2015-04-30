@@ -87,13 +87,15 @@ public class WakefulLocationService extends IntentService {
             ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
             String myName = currentInstallation.getString("name");
 
+            Log.d("WakefulService", "Creating a push to " + name);
+
             ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
             pushQuery.whereEqualTo("name", name);
 
             JSONObject data = new JSONObject();
             try {
                 data.put("name", myName);
-                data.put("alert", myName + " is at " + lat + ", " + lng + "build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/6.5.87/res");
+                data.put("alert", myName + " is at " + lat + ", " + lng);
                 data.put("action", WhereYouAction.RESPOND);
             } catch (JSONException e) {
                 Log.e("Main", e.getMessage());
