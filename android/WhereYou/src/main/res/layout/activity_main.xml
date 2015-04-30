@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cyan"
@@ -43,6 +44,25 @@
     <com.tonyjhuang.whereyou.FriendsListView
         android:id="@+id/friends"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/amber"
+        android:orientation="horizontal">
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            wy:typeface="@string/fonttype_heavy" />
+    </LinearLayout>
 
 </LinearLayout>

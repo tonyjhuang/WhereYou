@@ -29,6 +29,8 @@ public class MainActivity extends WhereYouActivity {
     EditText friendInput;
     @InjectView(R.id.friends)
     FriendsListView friendsListView;
+    @InjectView(R.id.username)
+    TextView username;
 
     private ParseHelper parseHelper = new ParseHelper();
 
@@ -58,6 +60,7 @@ public class MainActivity extends WhereYouActivity {
 
     private void setNameView(String name) {
         helloText.setText("Hello " + name + "!");
+        username.setText("Hello, " + name + ".");
     }
 
 
