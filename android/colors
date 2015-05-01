@@ -1,0 +1,88 @@
+;; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+
+400
+
+<color name="red_accent">#ef5350</color>
+<color name="pink_accent">#ec407a</color>
+<color name="purple_accent">#ab47bc</color>
+<color name="deep_purple_accent">#7e57c2</color>
+<color name="indigo_accent">#5c6bc0</color>
+<color name="blue_accent">#42a5f5</color>
+<color name="light_blue_accent">#29b6f6</color>
+<color name="cyan_accent">#26c6da</color>
+<color name="teal_accent">#26a69a</color>
+<color name="green_accent">#66bb6a</color>
+<color name="light_green_accent">#9ccc65</color>
+<color name="lime_accent">#d4e157</color>
+<color name="yellow_accent">#ffee58</color>
+<color name="amber_accent">#ffca28</color>
+<color name="orange_accent">#ffa726</color>
+<color name="deep_orange_accent">#ff7043</color>
+<color name="brown_accent">#8D6E63</color>
+<color name="grey_accent">#bdbdbd</color>
+<color name="blue_grey_accent">#78909c</color>
+
+
+<item>@color/brown_accent</item>
+<item>@color/grey_accent</item>
+<item>@color/blue_grey_accent</item>
+ 
+
+A700
+
+<color name="red_accent">#ff1744</color>
+<color name="pink_accent">#f50057</color>
+<color name="purple_accent">#d500f9</color>
+<color name="deep_accent_purple">#651fff</color>
+<color name="indigo_accent">#3d5afe</color>
+<color name="blue_accent">#2979ff</color>
+<color name="light_accent">Blue #00b0ff</color>
+<color name="cyan_accent">#00e5ff</color>
+<color name="teal_accent">#1de9b6</color>
+<color name="green_accent">#00e676</color>
+<color name="light_accent">Green #76ff03</color>
+<color name="lime_accent">#c6ff00</color>
+<color name="yellow_accent">#ffea00</color>
+<color name="amber_accent">#ffc400</color>
+<color name="orange_accent">#ff9100</color>
+<color name="deep_accent_orange">#ff3d00</color>
+
+
+A200
+
+    <color name="red_accent">#ff5252</color>
+    <color name="pink_accent">#ff4081</color>
+    <color name="purple_accent">#e040fb</color>
+    <color name="deep_purple_accent">#7c4dff</color>
+    <color name="indigo_accent">#536dfe</color>
+    <color name="blue_accent">#448aff</color>
+    <color name="light_blue_accent">#40c4ff</color>
+    <color name="cyan_accent">#18ffff</color>
+    <color name="teal_accent">#64ffda</color>
+    <color name="green_accent">#69f0ae</color>
+    <color name="light_green_accent">#b2ff59</color>
+    <color name="lime_accent">#eeff41</color>
+    <color name="yellow_accent">#ffff00</color>
+    <color name="amber_accent">#ffd740</color>
+    <color name="orange_accent">#ffab40</color>
+    <color name="deep_orange_accent">#ff6e40</color>
+
+<item>@color/red_accent</item>
+<item>@color/pink_accent</item>
+<item>@color/purple_accent</item>
+<item>@color/deep_purple_accent</item>
+<item>@color/indigo_accent</item>
+<item>@color/blue_accent</item>
+<item>@color/light_blue_accent</item>
+<item>@color/cyan_accent</item>
+<item>@color/teal_accent</item>
+<item>@color/green_accent</item>
+<item>@color/light_green_accent</item>
+<item>@color/lime_accent</item>
+<item>@color/yellow_accent</item>
+<item>@color/amber_accent</item>
+<item>@color/orange_accent</item>
+<item>@color/deep_orange_accent</item>
