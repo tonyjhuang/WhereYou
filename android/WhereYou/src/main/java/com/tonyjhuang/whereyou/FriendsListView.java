@@ -31,9 +31,11 @@ import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.InjectViews;
 
 /**
  * Created by tony on 4/29/15.
@@ -90,8 +92,19 @@ public class FriendsListView extends ListView {
         if (footer.isShowingEditor()) {
             footer.showEditor(false);
             return true;
+        } else if (editMode) {
+            showEditMode(false);
+            return true;
+        } else {
+            return false;
         }
-        return false;
+    }
+
+    public void showEditMode(boolean editMode) {
+        if (this.editMode == editMode) return;
+
+        this.editMode = editMode;
+        adapter.notifyDataSetChanged();
     }
 
     public void shakeAddFooter() {
@@ -125,13 +138,13 @@ public class FriendsListView extends ListView {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            final RowViewHolder holder;
+            final FriendRowView holder;
             if (view == null) {
                 view = View.inflate(viewGroup.getContext(), R.layout.view_friends_row, null);
-                holder = new RowViewHolder(view);
+                holder = new FriendRowView(view);
                 view.setTag(holder);
             } else {
-                holder = (RowViewHolder) view.getTag();
+                holder = (FriendRowView) view.getTag();
             }
 
             final String friend = getItem(i);
@@ -140,13 +153,21 @@ public class FriendsListView extends ListView {
             return view;
         }
 
-        public class RowViewHolder {
+        public class FriendRowView {
             @InjectView(R.id.container)
             RelativeLayout container;
             @InjectView(R.id.name)
             TextView name;
             @InjectView(R.id.sent)
             TextView sent;
+            @InjectViews({R.id.delete})
+            List<View> editViews;
+
+            final ButterKnife.Setter<View, Boolean> VISIBLE = new ButterKnife.Setter<View, Boolean>() {
+                @Override public void set(View view, Boolean visible, int index) {
+                    view.setVisibility(visible ? View.VISIBLE : GONE);
+                }
+            };
 
             // Number of times the user has spammed this guy.
             int counter = 0;
@@ -154,7 +175,7 @@ public class FriendsListView extends ListView {
             Handler resetHandler = new Handler();
             Handler refreshHandler = new Handler();
 
-            public RowViewHolder(View view) {
+            public FriendRowView(View view) {
                 ButterKnife.inject(this, view);
             }
 
@@ -163,49 +184,67 @@ public class FriendsListView extends ListView {
 
                 name.setText(friend);
                 container.setBackgroundColor(bg);
-                container.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        parseHelper.poke(friend);
-                        footer.showEditor(false);
-                        vibrator.vibrate(25);
 
-                        if (counter >= 3) {
-                            name.setText(":(");
+                if(editMode) {
+                    ButterKnife.apply(editViews, VISIBLE, true);
+                } else {
+                    ButterKnife.apply(editViews, VISIBLE, false);
+                    container.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            parseHelper.poke(friend);
+                            footer.showEditor(false);
+                            vibrator.vibrate(25);
 
-                            // reset after 3 seconds
-                            refreshHandler.removeCallbacksAndMessages(null);
-                            resetHandler.removeCallbacksAndMessages(null);
-                            resetHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    name.setText(friend);
-                                    counter = 0;
-                                }
-                            }, 3000);
-                        } else {
-                            counter += 1;
+                            if (counter >= 3) {
+                                name.setText(":(");
 
-                            // removes the counter
-                            refreshHandler.removeCallbacksAndMessages(null);
-                            refreshHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    counter = 0;
-                                }
-                            }, 3000);
+                                // reset after 3 seconds
+                                refreshHandler.removeCallbacksAndMessages(null);
+                                resetHandler.removeCallbacksAndMessages(null);
+                                resetHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        name.setText(friend);
+                                        counter = 0;
+                                    }
+                                }, 3000);
+                            } else {
+                                counter += 1;
+
+                                // removes the counter
+                                refreshHandler.removeCallbacksAndMessages(null);
+                                refreshHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        counter = 0;
+                                    }
+                                }, 3000);
+                            }
+
+                            // Shake their name. Do it after it changes tho.
+                            YoYo.with(Techniques.Swing)
+                                    .duration(150)
+                                    .playOn(name);
+
+                            YoYo.with(new FadeInOutAnimator())
+                                    .duration(250)
+                                    .playOn(sent);
                         }
+                    });
 
-                        // Shake their name. Do it after it changes tho.
-                        YoYo.with(Techniques.Swing)
-                                .duration(150)
-                                .playOn(name);
-
-                        YoYo.with(new FadeInOutAnimator())
-                                .duration(250)
-                                .playOn(sent);
-                    }
-                });
+                    container.setOnLongClickListener(new OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            if (editMode) {
+                                return false;
+                            } else {
+                                showEditMode(true);
+                                return true;
+                            }
+                        }
+                    });
+                }
             }
         }
     }

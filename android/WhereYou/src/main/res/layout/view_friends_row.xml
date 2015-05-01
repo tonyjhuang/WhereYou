@@ -15,8 +15,8 @@
         android:layout_centerInParent="true"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:gravity="center_vertical|end"
         android:alpha="0"
+        android:gravity="center_vertical|end"
         android:text="sent"
         android:textColor="@color/white_transparent"
         android:textSize="14sp"
@@ -31,4 +31,18 @@
         android:textColor="@color/white"
         android:textSize="@dimen/friend_row_text_size"
         wy:typeface="@string/fonttype_medium" />
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete" />
 </RelativeLayout>
