@@ -1,6 +1,8 @@
 package com.tonyjhuang.whereyou;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,8 +15,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 
 import org.json.JSONArray;
@@ -35,6 +40,7 @@ public class FriendsListView extends ListView {
     private FriendsListAdapter adapter = new FriendsListAdapter();
     private ParseHelper parseHelper = new ParseHelper();
     private AddFriendFooterView footer;
+    private Vibrator vibrator;
 
     public FriendsListView(Context context) {
         this(context, null);
@@ -52,6 +58,8 @@ public class FriendsListView extends ListView {
         } catch (ClassCastException e) {
             throw new ClassCastException("Containing activity MUST be MainActivity!");
         }
+
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
         footer = new AddFriendFooterView(context);
         addFooterView(footer);
@@ -107,7 +115,7 @@ public class FriendsListView extends ListView {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            RowViewHolder holder;
+            final RowViewHolder holder;
             if (view == null) {
                 view = View.inflate(viewGroup.getContext(), R.layout.view_friends_row, null);
                 holder = new RowViewHolder(view);
@@ -117,12 +125,46 @@ public class FriendsListView extends ListView {
             }
 
             final String friend = getItem(i);
+
             holder.name.setText(friend);
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     parseHelper.poke(friend);
                     footer.showEditor(false);
+                    vibrator.vibrate(25);
+
+                    int questionLength = holder.question.getText().length();
+                    if (questionLength >= 3) {
+                        holder.name.setText(":(");
+
+                        // reset after 3 seconds
+                        holder.refreshHandler.removeCallbacksAndMessages(null);
+                        holder.resetHandler.removeCallbacksAndMessages(null);
+                        holder.resetHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.name.setText(friend);
+                                holder.question.setText("");
+                            }
+                        }, 3000);
+                    } else {
+                        holder.question.setText(holder.question.getText() + "?");
+
+                        // removes the counter
+                        holder.refreshHandler.removeCallbacksAndMessages(null);
+                        holder.refreshHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.question.setText("");
+                            }
+                        }, 3000);
+                    }
+
+                    // Shake their name. Do it after it changes tho.
+                    YoYo.with(Techniques.Swing)
+                            .duration(150)
+                            .playOn(holder.name);
                 }
             });
 
@@ -131,9 +173,14 @@ public class FriendsListView extends ListView {
 
         public class RowViewHolder {
             @InjectView(R.id.container)
-            LinearLayout container;
+            RelativeLayout container;
             @InjectView(R.id.name)
             TextView name;
+            @InjectView(R.id.question)
+            TextView question;
+
+            Handler resetHandler = new Handler();
+            Handler refreshHandler = new Handler();
 
             public RowViewHolder(View view) {
                 ButterKnife.inject(this, view);

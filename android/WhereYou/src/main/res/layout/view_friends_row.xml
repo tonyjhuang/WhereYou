@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:background="@color/pink"
+    android:layout_height="@dimen/friend_row_height"
+    android:minHeight="@dimen/friend_row_height"
     android:orientation="vertical">
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/name"
-        android:textColor="@color/white"
+        android:id="@+id/question"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/friend_row_height"
-        android:imeOptions="actionDone"
-        android:background="@color/pink"
-        android:gravity="center"
-        android:textSize="@dimen/friend_row_text_size"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end"
+        android:visibility="invisible"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         wy:typeface="@string/fonttype_medium" />
 
-</LinearLayout>
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/friend_row_text_size"
+        wy:typeface="@string/fonttype_medium" />
+</RelativeLayout>

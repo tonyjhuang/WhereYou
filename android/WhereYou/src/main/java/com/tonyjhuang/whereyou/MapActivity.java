@@ -72,6 +72,7 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
                     .position(currentLocation)
                     .anchor(0.5f, 0.5f)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location)));
+            currentLocationMarker.showInfoWindow();
 
             // accuracy circle
             CircleOptions circleOptions = new CircleOptions()
