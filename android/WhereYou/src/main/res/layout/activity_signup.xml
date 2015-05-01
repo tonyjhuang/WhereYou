@@ -11,16 +11,35 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/title"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:padding="48dp"
-        android:text="Where You?"
-        android:textSize="38sp" />
+        android:orientation="horizontal"
+        android:padding="48dp">
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="where"
+            wy:typeface="@string/fonttype_heavy"
+            android:textColor="@color/white"
+            android:textSize="38sp" />
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="YOU?"
+            android:textColor="@color/white"
+            android:textSize="38sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,35 +52,34 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
-            android:visibility="gone"
-            android:text="Username" />
+            android:text="Username"
+            android:visibility="gone" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/username_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
             android:layout_marginEnd="24dp"
-            android:visibility="invisible"
-            android:text="Taken" />
+            android:layout_marginRight="24dp"
+            android:text="Taken"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
     <com.tonyjhuang.whereyou.helpers.TypefaceEditText
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:hint="Username" />
-
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:hint="Username"
+        android:singleLine="true" />
 
     <Space
         android:layout_width="0dp"

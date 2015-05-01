@@ -20,12 +20,14 @@
         android:text="Show map"/>
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/username_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Change username" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/username_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
