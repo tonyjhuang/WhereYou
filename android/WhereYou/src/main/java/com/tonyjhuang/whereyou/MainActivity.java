@@ -91,6 +91,7 @@ public class MainActivity extends WhereYouActivity {
             public void onFinish(JSONArray friendsList) {
                 addFriendLock = false;
                 friendsListView.setFriends(friendsList);
+                emptyContainer.setVisibility(View.GONE);
                 if (callback != null) callback.onFinish(true);
             }
 

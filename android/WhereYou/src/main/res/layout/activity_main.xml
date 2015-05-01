@@ -10,12 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
-        <com.tonyjhuang.whereyou.FriendsListView
-            android:id="@+id/friends"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
             android:id="@+id/empty_container"
             android:layout_width="match_parent"
@@ -33,6 +27,11 @@
                 android:textSize="12sp"
                 wy:typeface="@string/fonttype_italic" />
         </LinearLayout>
+
+        <com.tonyjhuang.whereyou.FriendsListView
+            android:id="@+id/friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
 
