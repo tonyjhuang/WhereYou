@@ -70,6 +70,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(openMap);
                     break;
+                case WhereYouAction.NOTIFY_ADD:
                 case WhereYouAction.ASK:
                     /*
                     Don't do anything here, let the user click the notification before acting.

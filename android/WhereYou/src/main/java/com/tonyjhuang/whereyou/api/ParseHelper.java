@@ -14,13 +14,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by tony on 4/29/15.
  */
 public class ParseHelper {
+    private static ArrayList<String> addedMessages = new ArrayList<>();
+    static {
+        addedMessages.add("{name} added you. Or whatever. I mean, big deal.");
+        addedMessages.add("{name} added you as a 'friend'... ;)");
+        addedMessages.add("WOOOOOOOO!!! {name} ADDED YOU!!!! WOAHHHHH");
+        addedMessages.add("I have good news and bad news. {name} added you. Welp.");
+        addedMessages.add("{name} added you. April fools! It's also opposite day!");
+        addedMessages.add("{name} just friendzoned you on WhereYou? How's that make you feel?");
+        addedMessages.add("Don't look now, but {name} just friended you... Awkward...");
+        addedMessages.add("{name} just friended you, did you even give them your username?");
+        addedMessages.add("Wow, look at you, Mr./Ms. Popular. {name} just added you.");
+        addedMessages.add("Wanna hear a joke? {name} just added you.");
+        addedMessages.add("{name} added you. Cool.");
+        addedMessages.add("{name} just added you. I guess you guys are friends now.");
+        addedMessages.add("{name} just added you and they can totally stalk you now ;)");
+        addedMessages.add("oooooo {name} just added you whaaaatttt swag swag");
+    }
+
+    private Random random = new Random();
+
 
     public void checkName(String name, FunctionCallback<Boolean> callback) {
         Map<String, Object> params = new HashMap<>();
@@ -49,6 +71,8 @@ public class ParseHelper {
                         currentInstallation.put("friends", friendsList);
                         currentInstallation.saveInBackground();
 
+                        notifyFriend(name);
+
                         callback.onFinish(friendsList);
                     } else {
                         callback.onError(new Error("No such user"));
@@ -61,12 +85,40 @@ public class ParseHelper {
         });
     }
 
+    private void notifyFriend(String name) {
+        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+        String myName = currentInstallation.getString("name");
+        String message = addedMessages.get(random.nextInt(addedMessages.size()));
+        message = message.replace("{name}", myName);
+
+        ParseQuery<ParseInstallation> pushQuery = getQuery(name);
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("name", myName);
+            data.put("alert", message);
+            data.put("action", WhereYouAction.NOTIFY_ADD);
+        } catch (JSONException e) {
+            Log.e("ParseHelper", e.getMessage());
+        }
+
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery);
+        push.setData(data);
+        push.sendInBackground();
+    }
+
+    private ParseQuery<ParseInstallation> getQuery(String name) {
+        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("name", name);
+        return pushQuery;
+    }
+
     public void poke(String name) {
         ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         String myName = currentInstallation.getString("name");
 
-        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
-        pushQuery.whereEqualTo("name", name);
+        ParseQuery<ParseInstallation> pushQuery = getQuery(name);
 
         JSONObject data = new JSONObject();
         try {

@@ -79,11 +79,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:inputType="textNoSuggestions|textVisiblePassword"
+        android:layout_marginRight="12dp"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:hint="Username"
-        android:singleLine="true" />
+        android:inputType="textNoSuggestions|textVisiblePassword"
+        android:singleLine="true"
+        android:textColorHint="@color/white_transparent" />
 
     <Space
         android:layout_width="0dp"

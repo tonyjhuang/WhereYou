@@ -56,9 +56,14 @@ public class MainActivity extends WhereYouActivity {
         }
     }
 
+    @OnClick(R.id.container)
+    public void onContainerClick(View view) {
+        friendsListView.onBackPressed();
+    }
+
     @OnClick(R.id.empty_container)
     public void onEmptyContainerClick(View view) {
-        if(!friendsListView.onBackPressed())
+        if (!friendsListView.onBackPressed())
             friendsListView.shakeAddFooter();
     }
 

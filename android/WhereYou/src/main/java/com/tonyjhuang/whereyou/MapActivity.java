@@ -105,9 +105,9 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
             CircleOptions circleOptions = new CircleOptions()
                     .center(currentLocation)
                     .radius(locationInfo.acc)
-                    .strokeColor(setTransparency(getResources().getColor(R.color.white), 100))
+                    .strokeColor(setTransparency(getResources().getColor(R.color.blue), 150))
                     .strokeWidth(5f)
-                    .fillColor(setTransparency(getResources().getColor(R.color.amber), 100));
+                    .fillColor(setTransparency(getResources().getColor(R.color.cyan), 100));
             currentLocationAccuracy = googleMap.addCircle(circleOptions);
         }
     }

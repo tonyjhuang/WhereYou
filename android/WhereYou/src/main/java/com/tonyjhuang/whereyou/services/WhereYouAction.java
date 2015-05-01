@@ -8,6 +8,7 @@ public class WhereYouAction {
     private static final String PACKAGE_NAME = "com.tonyjhuang.whereyou";
     public static final String ASK = PACKAGE_NAME + ".ASK";
     public static final String RESPOND = PACKAGE_NAME + ".RESPOND";
+    public static final String NOTIFY_ADD = PACKAGE_NAME + ".NOTIFY_ADD";
     public static final String GET_LOCATION = PACKAGE_NAME + ".GET_LOCATION";
 
     private WhereYouAction() {}

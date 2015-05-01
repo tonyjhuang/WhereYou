@@ -3,22 +3,23 @@
     xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:background="@color/pink"
     android:layout_height="@dimen/friend_row_height"
+    android:background="@color/pink"
     android:minHeight="@dimen/friend_row_height"
     android:orientation="vertical">
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/question"
+        android:id="@+id/sent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical|end"
-        android:visibility="invisible"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
         android:layout_centerInParent="true"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center_vertical|end"
+        android:alpha="0"
+        android:text="sent"
+        android:textColor="@color/white_transparent"
+        android:textSize="14sp"
         wy:typeface="@string/fonttype_medium" />
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView

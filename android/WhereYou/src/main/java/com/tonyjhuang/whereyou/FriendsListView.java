@@ -18,8 +18,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.helpers.BackAwareEditText;
 import com.tonyjhuang.whereyou.helpers.ColorPicker;
@@ -142,8 +144,7 @@ public class FriendsListView extends ListView {
                     footer.showEditor(false);
                     vibrator.vibrate(25);
 
-                    int questionLength = holder.question.getText().length();
-                    if (questionLength >= 3) {
+                    if (holder.counter >= 3) {
                         holder.name.setText(":(");
 
                         // reset after 3 seconds
@@ -153,18 +154,18 @@ public class FriendsListView extends ListView {
                             @Override
                             public void run() {
                                 holder.name.setText(friend);
-                                holder.question.setText("");
+                                holder.counter = 0;
                             }
                         }, 3000);
                     } else {
-                        holder.question.setText(holder.question.getText() + "?");
+                        holder.counter += 1;
 
                         // removes the counter
                         holder.refreshHandler.removeCallbacksAndMessages(null);
                         holder.refreshHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                holder.question.setText("");
+                                holder.counter = 0;
                             }
                         }, 3000);
                     }
@@ -173,6 +174,10 @@ public class FriendsListView extends ListView {
                     YoYo.with(Techniques.Swing)
                             .duration(150)
                             .playOn(holder.name);
+
+                    YoYo.with(new FadeInOutAnimator())
+                            .duration(70)
+                            .playOn(holder.sent);
                 }
             });
 
@@ -184,8 +189,11 @@ public class FriendsListView extends ListView {
             RelativeLayout container;
             @InjectView(R.id.name)
             TextView name;
-            @InjectView(R.id.question)
-            TextView question;
+            @InjectView(R.id.sent)
+            TextView sent;
+
+            // Number of times the user has spammed this guy.
+            int counter = 0;
 
             Handler resetHandler = new Handler();
             Handler refreshHandler = new Handler();
@@ -303,6 +311,16 @@ public class FriendsListView extends ListView {
 
         public boolean isShowingEditor() {
             return isShowingEditor;
+        }
+    }
+
+    public static class FadeInOutAnimator extends BaseViewAnimator {
+        @Override
+        protected void prepare(View target) {
+            getAnimatorAgent().playSequentially(
+                    ObjectAnimator.ofFloat(target, "alpha", 0, 1),
+                    ObjectAnimator.ofFloat(target, "alpha", 1, 0)
+            );
         }
     }
 }
