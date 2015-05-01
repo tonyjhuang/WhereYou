@@ -22,8 +22,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends WhereYouActivity {
 
-    @InjectView(R.id.username_input)
-    EditText usernameInput;
     @InjectView(R.id.friends)
     FriendsListView friendsListView;
     @InjectView(R.id.username)
@@ -42,20 +40,9 @@ public class MainActivity extends WhereYouActivity {
             AppRouter.redirectTo(this, SignupActivity.class);
         } else {
             setContentView(R.layout.activity_main);
-            setNameView(name);
+            username.setText("Hello, " + name + ".");
             friendsListView.setFriends(currentInstallation.getJSONArray("friends"));
         }
-    }
-
-    @OnClick(R.id.username_save)
-    public void onUsernameSaveClick(View view) {
-        String newName = usernameInput.getText().toString();
-        setNameView(newName);
-        parseHelper.updateName(newName);
-    }
-
-    private void setNameView(String name) {
-        username.setText("Hello, " + name + ".");
     }
 
     private boolean addFriendLock = false;
@@ -107,11 +94,5 @@ public class MainActivity extends WhereYouActivity {
     public void onBackPressed() {
         if (!friendsListView.onBackPressed())
             super.onBackPressed();
-    }
-
-    @OnClick(R.id.show_map)
-    public void onShowMapClicked(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
     }
 }

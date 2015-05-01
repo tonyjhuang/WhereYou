@@ -12,27 +12,6 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
-        android:visibility="gone"
-        android:id="@+id/show_map"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show map"/>
-
-    <EditText
-        android:visibility="gone"
-        android:id="@+id/username_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Change username" />
-
-    <Button
-        android:visibility="gone"
-        android:id="@+id/username_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
