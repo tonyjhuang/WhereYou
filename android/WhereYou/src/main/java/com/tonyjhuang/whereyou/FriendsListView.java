@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.helpers.BackAwareEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +42,7 @@ public class FriendsListView extends ListView {
     private ParseHelper parseHelper = new ParseHelper();
     private AddFriendFooterView footer;
     private Vibrator vibrator;
+    private int[] colors;
 
     public FriendsListView(Context context) {
         this(context, null);
@@ -60,6 +62,7 @@ public class FriendsListView extends ListView {
         }
 
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        colors = getResources().getIntArray(R.array.accents);
 
         footer = new AddFriendFooterView(context);
         addFooterView(footer);
@@ -125,8 +128,10 @@ public class FriendsListView extends ListView {
             }
 
             final String friend = getItem(i);
+            int bg = colors[Math.abs(friend.hashCode()) % colors.length];
 
             holder.name.setText(friend);
+            holder.container.setBackgroundColor(bg);
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,7 +195,7 @@ public class FriendsListView extends ListView {
 
     public class AddFriendFooterView extends FrameLayout {
         @InjectView(R.id.friend_input)
-        EditText friendInput;
+        BackAwareEditText friendInput;
         @InjectView(R.id.add_container)
         LinearLayout addContainer;
 
@@ -230,6 +235,13 @@ public class FriendsListView extends ListView {
                         return true;
                     }
                     return false;
+                }
+            });
+
+            friendInput.setOnEditTextImeBackListener(new BackAwareEditText.OnImeBackListener() {
+                @Override
+                public void onImeBack() {
+                    showEditor(false);
                 }
             });
         }

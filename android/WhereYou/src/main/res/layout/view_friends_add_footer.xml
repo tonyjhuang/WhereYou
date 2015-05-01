@@ -22,7 +22,7 @@
             wy:typeface="@string/fonttype_heavy" />
     </LinearLayout>
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceEditText
+    <com.tonyjhuang.whereyou.helpers.BackAwareEditText
         android:id="@+id/friend_input"
         android:layout_width="match_parent"
         android:visibility="invisible"

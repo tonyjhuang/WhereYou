@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="where"
-            wy:typeface="@string/fonttype_heavy"
             android:textColor="@color/white"
-            android:textSize="38sp" />
+            android:textSize="38sp"
+            wy:typeface="@string/fonttype_heavy" />
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/title2"
@@ -68,7 +68,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:text="Taken"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            wy:typeface="@string/fonttype_medium" />
 
     </LinearLayout>
 

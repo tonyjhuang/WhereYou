@@ -15,4 +15,26 @@
     <color name="purple">#9C27B0</color>
     <color name="deep_purple">#673AB7</color>
     <color name="grey">#757575</color>
+
+
+    <color name="red_accent">#ff1744</color>
+    <color name="pink_accent">#f50057</color>
+    <color name="purple_accent">#d500f9</color>
+    <color name="deep_purple_accent">#651fff</color>
+    <color name="indigo_accent">#3d5afe</color>
+    <color name="blue_accent">#2979ff</color>
+    <color name="light_blue_accent">#00b0ff</color>
+    <color name="cyan_accent">#00e5ff</color>
+    <color name="teal_accent">#1de9b6</color>
+    <color name="green_accent">#00e676</color>
+    <color name="light_green_accent">#76ff03</color>
+    <color name="lime_accent">#c6ff00</color>
+    <color name="yellow_accent">#ffea00</color>
+    <color name="amber_accent">#ffc400</color>
+    <color name="orange_accent">#ff9100</color>
+    <color name="deep_orange_accent">#ff3d00</color>
+
+
+
+
 </resources>
