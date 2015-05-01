@@ -46,6 +46,8 @@ public class FriendsListView extends ListView {
     private AddFriendFooterView footer;
     private Vibrator vibrator;
 
+    private boolean editMode = false;
+
     public FriendsListView(Context context) {
         this(context, null);
     }
@@ -133,53 +135,7 @@ public class FriendsListView extends ListView {
             }
 
             final String friend = getItem(i);
-            int bg = ColorPicker.getColor(friend);
-
-            holder.name.setText(friend);
-            holder.container.setBackgroundColor(bg);
-            holder.container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    parseHelper.poke(friend);
-                    footer.showEditor(false);
-                    vibrator.vibrate(25);
-
-                    if (holder.counter >= 3) {
-                        holder.name.setText(":(");
-
-                        // reset after 3 seconds
-                        holder.refreshHandler.removeCallbacksAndMessages(null);
-                        holder.resetHandler.removeCallbacksAndMessages(null);
-                        holder.resetHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.name.setText(friend);
-                                holder.counter = 0;
-                            }
-                        }, 3000);
-                    } else {
-                        holder.counter += 1;
-
-                        // removes the counter
-                        holder.refreshHandler.removeCallbacksAndMessages(null);
-                        holder.refreshHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.counter = 0;
-                            }
-                        }, 3000);
-                    }
-
-                    // Shake their name. Do it after it changes tho.
-                    YoYo.with(Techniques.Swing)
-                            .duration(150)
-                            .playOn(holder.name);
-
-                    YoYo.with(new FadeInOutAnimator())
-                            .duration(250)
-                            .playOn(holder.sent);
-                }
-            });
+            holder.bind(friend);
 
             return view;
         }
@@ -200,6 +156,56 @@ public class FriendsListView extends ListView {
 
             public RowViewHolder(View view) {
                 ButterKnife.inject(this, view);
+            }
+
+            public void bind(final String friend) {
+                int bg = ColorPicker.getColor(friend);
+
+                name.setText(friend);
+                container.setBackgroundColor(bg);
+                container.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        parseHelper.poke(friend);
+                        footer.showEditor(false);
+                        vibrator.vibrate(25);
+
+                        if (counter >= 3) {
+                            name.setText(":(");
+
+                            // reset after 3 seconds
+                            refreshHandler.removeCallbacksAndMessages(null);
+                            resetHandler.removeCallbacksAndMessages(null);
+                            resetHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    name.setText(friend);
+                                    counter = 0;
+                                }
+                            }, 3000);
+                        } else {
+                            counter += 1;
+
+                            // removes the counter
+                            refreshHandler.removeCallbacksAndMessages(null);
+                            refreshHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    counter = 0;
+                                }
+                            }, 3000);
+                        }
+
+                        // Shake their name. Do it after it changes tho.
+                        YoYo.with(Techniques.Swing)
+                                .duration(150)
+                                .playOn(name);
+
+                        YoYo.with(new FadeInOutAnimator())
+                                .duration(250)
+                                .playOn(sent);
+                    }
+                });
             }
         }
     }

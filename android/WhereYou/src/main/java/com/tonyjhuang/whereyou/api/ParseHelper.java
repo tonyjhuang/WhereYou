@@ -38,6 +38,7 @@ public class ParseHelper {
         addedMessages.add("{name} just added you. I guess you guys are friends now.");
         addedMessages.add("{name} just added you and they can totally stalk you now ;)");
         addedMessages.add("oooooo {name} just added you whaaaatttt swag swag");
+        addedMessages.add("{name} just added you. Time to file for that restraining order!");
     }
 
     private Random random = new Random();
