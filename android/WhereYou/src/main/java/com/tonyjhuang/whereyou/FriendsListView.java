@@ -3,6 +3,7 @@ package com.tonyjhuang.whereyou;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -230,7 +231,7 @@ public class FriendsListView extends ListView {
                             mainActivityWeakReference.get().addFriend(friend, new ParseHelper.SimpleCallback<Boolean>() {
                                 @Override
                                 public void onFinish(Boolean successful) {
-                                    if(!successful) {
+                                    if (!successful) {
                                         YoYo.with(Techniques.Shake)
                                                 .duration(150)
                                                 .playOn(friendInput);
@@ -249,6 +250,18 @@ public class FriendsListView extends ListView {
                 @Override
                 public void onImeBack() {
                     showEditor(false);
+                }
+            });
+
+            friendInput.addTextChangedListener(new SignupActivity.SimpleTextWatcher() {
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String text = editable.toString();
+                    String lowerCase = text.toLowerCase();
+                    if(!text.equals(lowerCase)) {
+                        friendInput.setText(lowerCase);
+                    }
+                    friendInput.setSelection(text.length());
                 }
             });
         }

@@ -77,6 +77,16 @@ public class SignupActivity extends WhereYouActivity {
                     }
                 }
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+                String lowerCase = text.toLowerCase();
+                if(!text.equals(lowerCase)) {
+                    usernameInput.setText(lowerCase);
+                }
+                usernameInput.setSelection(text.length());
+            }
         });
     }
 
@@ -204,7 +214,7 @@ public class SignupActivity extends WhereYouActivity {
         TAKEN, AVAILABLE, TOO_SHORT, ERROR, CHECKING
     }
 
-    private class SimpleTextWatcher implements TextWatcher {
+    public static class SimpleTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }

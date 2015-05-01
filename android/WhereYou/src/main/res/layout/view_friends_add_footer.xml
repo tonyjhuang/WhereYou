@@ -3,8 +3,8 @@
     xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:background="@color/deep_orange"
     android:layout_height="wrap_content"
+    android:background="@color/deep_orange"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/friend_row_height"
             android:gravity="center"
-            android:textColor="@color/white"
             android:text="+"
+            android:textColor="@color/white"
             android:textSize="55sp"
             wy:typeface="@string/fonttype_heavy" />
     </LinearLayout>
@@ -25,16 +25,17 @@
     <com.tonyjhuang.whereyou.helpers.BackAwareEditText
         android:id="@+id/friend_input"
         android:layout_width="match_parent"
-        android:visibility="invisible"
-        android:layout_gravity="center"
         android:layout_height="@dimen/friend_row_height"
-        android:imeOptions="actionDone"
+        android:layout_gravity="center"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:gravity="center"
+        android:imeOptions="actionDone"
         android:inputType="textNoSuggestions"
         android:singleLine="true"
-        wy:typeface="@string/fonttype_medium"
         android:textColor="@color/white"
-        android:textSize="@dimen/friend_row_text_size" />
+        android:textSize="@dimen/friend_row_text_size"
+        android:visibility="invisible"
+        wy:typeface="@string/fonttype_medium" />
 
 
 </FrameLayout>
