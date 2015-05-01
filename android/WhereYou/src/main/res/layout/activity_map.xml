@@ -7,15 +7,21 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/name"
+    <FrameLayout
+        android:id="@+id/name_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/friend_row_height"
-        android:background="@color/pink"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/friend_row_text_size"
-        wy:typeface="@string/fonttype_medium" />
+        android:layout_height="wrap_content">
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/friend_row_height"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/friend_row_text_size"
+            wy:typeface="@string/fonttype_medium" />
+    </FrameLayout>
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"

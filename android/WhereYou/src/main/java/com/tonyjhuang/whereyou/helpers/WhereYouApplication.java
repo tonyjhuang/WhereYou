@@ -31,5 +31,7 @@ public class WhereYouApplication extends Application {
     // Optionally enable public read access.
     // defaultACL.setPublicReadAccess(true);
     ParseACL.setDefaultACL(defaultACL, true);
+
+    ColorPicker.init(this);
   }
 }

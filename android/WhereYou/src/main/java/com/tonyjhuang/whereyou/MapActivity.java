@@ -1,8 +1,15 @@
 package com.tonyjhuang.whereyou;
 
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.text.Layout;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.drivemode.intentlog.IntentLogger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseAnalytics;
+import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.helpers.ColorPicker;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import org.json.JSONException;
@@ -27,8 +36,10 @@ import butterknife.InjectView;
  */
 public class MapActivity extends WhereYouActivity implements OnMapReadyCallback {
 
-    private static final int ZOOM_LEVEL = 15;
+    private static final int ZOOM_LEVEL = 14;
 
+    @InjectView(R.id.name_container)
+    FrameLayout nameContainer;
     @InjectView(R.id.name)
     TextView nameView;
 
@@ -36,6 +47,8 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
     private LocationInfo locationInfo;
     private Marker currentLocationMarker;
     private Circle currentLocationAccuracy;
+    private Vibrator vibrator;
+    private ParseHelper parseHelper = new ParseHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +56,29 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_map);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         IntentLogger.dump("Map", getIntent());
         try {
             JSONObject json = new JSONObject(getIntent().getExtras().getString("com.parse.Data"));
-            String name = json.getString("name");
+            final String name = json.getString("name");
             double lat = json.getDouble("lat");
             double lng = json.getDouble("lng");
             double acc = json.getDouble("acc");
             locationInfo = new LocationInfo(lat, lng, acc);
+
             nameView.setText(name);
+            nameContainer.setBackgroundColor(ColorPicker.getColor(name));
+            nameView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    parseHelper.poke(name);
+                    vibrator.vibrate(25);
+                    YoYo.with(Techniques.Swing)
+                            .duration(150)
+                            .playOn(nameView);
+                }
+            });
         } catch (JSONException e) {
 
         }

@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParseInstallation;
@@ -27,6 +28,7 @@ public class WakefulLocationService extends IntentService {
 
     private Looper wakefulLooper;
     private Intent intent;
+    private Toast toast;
 
     public WakefulLocationService() {
         super("WakefulLocationService");
@@ -49,9 +51,15 @@ public class WakefulLocationService extends IntentService {
             @Override
             public void run() {
                 Log.e("WakefulService", "Time out!");
+                toast.cancel();
+                toast = Toast.makeText(WakefulLocationService.this, "Noooooooooooo couldn't get location :(", Toast.LENGTH_SHORT);
+                toast.show();
                 finish();
             }
         }, LOCATION_TIMEOUT);
+
+        toast = Toast.makeText(this, "Getting location...", Toast.LENGTH_LONG);
+        toast.show();
 
         // Get location
         SmartLocation.with(this).location()
@@ -60,6 +68,11 @@ public class WakefulLocationService extends IntentService {
                     @Override
                     public void onLocationUpdated(Location location) {
                         timeoutHandler.removeCallbacksAndMessages(null);
+
+                        toast.cancel();
+                        toast = Toast.makeText(WakefulLocationService.this,
+                                "Got your location or whatever. Sent.", Toast.LENGTH_SHORT);
+                        toast.show();
 
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
