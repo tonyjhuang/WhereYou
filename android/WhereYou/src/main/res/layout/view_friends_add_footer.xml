@@ -24,14 +24,14 @@
 
     <com.tonyjhuang.whereyou.helpers.BackAwareEditText
         android:id="@+id/friend_input"
-        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/friend_row_height"
         android:layout_gravity="center"
+        android:background="@android:color/transparent"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:gravity="center"
         android:imeOptions="actionDone"
-        android:inputType="textNoSuggestions"
+        android:inputType="textNoSuggestions|textVisiblePassword"
         android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="@dimen/friend_row_text_size"
