@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
@@ -180,6 +182,9 @@ public class SignupActivity extends WhereYouActivity {
 
         if(errorMessage != null) {
             showToast(errorMessage);
+            YoYo.with(Techniques.Shake)
+                    .duration(150)
+                    .playOn(usernameInput);
         } else {
             if(usernameDirty) {
                 checkServerIfNameAvailable(username, new Callback() {
