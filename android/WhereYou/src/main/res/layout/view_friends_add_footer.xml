@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/plus"
             android:layout_width="match_parent"
             android:layout_height="@dimen/friend_row_height"
             android:gravity="center"

@@ -90,6 +90,10 @@ public class FriendsListView extends ListView {
         return false;
     }
 
+    public void shakeAddFooter() {
+        footer.shake();
+    }
+
     public class FriendsListAdapter extends BaseAdapter {
 
         private ArrayList<String> friends;
@@ -197,6 +201,8 @@ public class FriendsListView extends ListView {
         BackAwareEditText friendInput;
         @InjectView(R.id.add_container)
         LinearLayout addContainer;
+        @InjectView(R.id.plus)
+        TextView plus;
 
         private boolean isShowingEditor = false;
 
@@ -258,12 +264,18 @@ public class FriendsListView extends ListView {
                 public void afterTextChanged(Editable editable) {
                     String text = editable.toString();
                     String lowerCase = text.toLowerCase();
-                    if(!text.equals(lowerCase)) {
+                    if (!text.equals(lowerCase)) {
                         friendInput.setText(lowerCase);
                     }
                     friendInput.setSelection(text.length());
                 }
             });
+        }
+
+        public void shake() {
+            YoYo.with(Techniques.Swing)
+                    .duration(300)
+                    .playOn(plus);
         }
 
         public void showEditor(boolean show) {

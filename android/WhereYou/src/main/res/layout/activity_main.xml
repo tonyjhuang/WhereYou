@@ -6,11 +6,35 @@
     android:background="@color/cyan"
     android:orientation="vertical">
 
-    <com.tonyjhuang.whereyou.FriendsListView
-        android:id="@+id/friends"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <com.tonyjhuang.whereyou.FriendsListView
+            android:id="@+id/friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/empty_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+                android:id="@+id/taunt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="12sp"
+                wy:typeface="@string/fonttype_italic" />
+        </LinearLayout>
+    </FrameLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

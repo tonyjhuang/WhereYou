@@ -1,11 +1,10 @@
 package com.tonyjhuang.whereyou;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.parse.ParseAnalytics;
@@ -22,6 +21,10 @@ import butterknife.OnClick;
 
 public class MainActivity extends WhereYouActivity {
 
+    @InjectView(R.id.empty_container)
+    LinearLayout emptyContainer;
+    @InjectView(R.id.taunt)
+    TextView taunt;
     @InjectView(R.id.friends)
     FriendsListView friendsListView;
     @InjectView(R.id.username)
@@ -41,13 +44,28 @@ public class MainActivity extends WhereYouActivity {
         } else {
             setContentView(R.layout.activity_main);
             username.setText("Hello, " + name + ".");
-            friendsListView.setFriends(currentInstallation.getJSONArray("friends"));
+
+            JSONArray friends = currentInstallation.getJSONArray("friends");
+            friendsListView.setFriends(friends);
+
+            if (friends != null && friends.length() > 0) {
+                emptyContainer.setVisibility(View.GONE);
+            } else {
+                taunt.setText("...where are all of your friends, " + name + "?");
+            }
         }
     }
 
+    @OnClick(R.id.empty_container)
+    public void onEmptyContainerClick(View view) {
+        if(!friendsListView.onBackPressed())
+            friendsListView.shakeAddFooter();
+    }
+
     private boolean addFriendLock = false;
+
     public void addFriend(String name, final ParseHelper.Callback<Boolean> callback) {
-        if(addFriendLock) return;
+        if (addFriendLock) return;
         addFriendLock = true;
 
         JSONArray friendsList = ParseInstallation.getCurrentInstallation().getJSONArray("friends");
@@ -58,7 +76,7 @@ public class MainActivity extends WhereYouActivity {
                 try {
                     if (name.equals(friendsList.getString(i))) {
                         showToast(name + " is already on your friends list");
-                        if(callback != null) callback.onFinish(false);
+                        if (callback != null) callback.onFinish(false);
                         addFriendLock = false;
                         return;
                     }
@@ -73,7 +91,7 @@ public class MainActivity extends WhereYouActivity {
             public void onFinish(JSONArray friendsList) {
                 addFriendLock = false;
                 friendsListView.setFriends(friendsList);
-                if(callback != null) callback.onFinish(true);
+                if (callback != null) callback.onFinish(true);
             }
 
             @Override
@@ -85,7 +103,7 @@ public class MainActivity extends WhereYouActivity {
                     Log.e("Main", e.getMessage());
                     showToast("UHHHHH SOMETHING WENT WRONG. TRY AGAIN?????");
                 }
-                if(callback != null) callback.onFinish(false);
+                if (callback != null) callback.onFinish(false);
             }
         });
     }
