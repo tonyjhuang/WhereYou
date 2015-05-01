@@ -48,7 +48,7 @@ public class SignupActivity extends WhereYouActivity {
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        green = getResources().getColor(R.color.green);
+        green = getResources().getColor(R.color.lime);
         red = getResources().getColor(R.color.red);
 
         usernameInput.addTextChangedListener(new SimpleTextWatcher() {
