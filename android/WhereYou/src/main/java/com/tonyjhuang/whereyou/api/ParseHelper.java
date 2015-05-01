@@ -31,7 +31,6 @@ public class ParseHelper {
         addedMessages.add("I have good news and bad news. {name} added you. Welp.");
         addedMessages.add("{name} added you. April fools! It's also opposite day!");
         addedMessages.add("{name} just friendzoned you on WhereYou? How's that make you feel?");
-        addedMessages.add("Don't look now, but {name} just friended you... Awkward...");
         addedMessages.add("{name} just friended you, did you even give them your username?");
         addedMessages.add("Wow, look at you, Mr./Ms. Popular. {name} just added you.");
         addedMessages.add("Wanna hear a joke? {name} just added you.");

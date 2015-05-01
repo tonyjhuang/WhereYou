@@ -176,7 +176,7 @@ public class FriendsListView extends ListView {
                             .playOn(holder.name);
 
                     YoYo.with(new FadeInOutAnimator())
-                            .duration(70)
+                            .duration(250)
                             .playOn(holder.sent);
                 }
             });
