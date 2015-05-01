@@ -24,6 +24,7 @@
 
     <com.tonyjhuang.whereyou.helpers.BackAwareEditText
         android:id="@+id/friend_input"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/friend_row_height"
         android:layout_gravity="center"
