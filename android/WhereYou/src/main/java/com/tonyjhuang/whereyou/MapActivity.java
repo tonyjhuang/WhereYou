@@ -27,7 +27,7 @@ import butterknife.InjectView;
  */
 public class MapActivity extends WhereYouActivity implements OnMapReadyCallback {
 
-    private static final int ZOOM_LEVEL = 16;
+    private static final int ZOOM_LEVEL = 15;
 
     @InjectView(R.id.name)
     TextView nameView;
