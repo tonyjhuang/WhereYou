@@ -122,6 +122,7 @@ public class FriendsListView extends ListView {
                 @Override
                 public void onClick(View view) {
                     parseHelper.poke(friend);
+                    footer.showEditor(false);
                 }
             });
 

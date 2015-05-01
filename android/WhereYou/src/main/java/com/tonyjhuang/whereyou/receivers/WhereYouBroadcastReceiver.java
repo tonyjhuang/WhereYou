@@ -69,7 +69,6 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     openMap.putExtras(intent);
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(openMap);
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     break;
                 case WhereYouAction.ASK:
                     /*

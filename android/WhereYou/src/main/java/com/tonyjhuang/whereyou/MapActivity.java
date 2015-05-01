@@ -8,7 +8,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseAnalytics;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
@@ -20,13 +25,17 @@ import butterknife.InjectView;
 /**
  * Created by tony on 4/30/15.
  */
-public class MapActivity extends WhereYouActivity implements OnMapReadyCallback{
+public class MapActivity extends WhereYouActivity implements OnMapReadyCallback {
+
+    private static final int ZOOM_LEVEL = 16;
 
     @InjectView(R.id.name)
     TextView nameView;
 
     private GoogleMap googleMap;
     private LocationInfo locationInfo;
+    private Marker currentLocationMarker;
+    private Circle currentLocationAccuracy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +65,27 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback{
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
 
-        if(locationInfo != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationInfo.getLatLng(), 16));
+        if (locationInfo != null) {
+            LatLng currentLocation = locationInfo.getLatLng();
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, ZOOM_LEVEL));
+            currentLocationMarker = googleMap.addMarker(new MarkerOptions()
+                    .position(currentLocation)
+                    .anchor(0.5f, 0.5f)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location)));
+
+            // accuracy circle
+            CircleOptions circleOptions = new CircleOptions()
+                    .center(currentLocation)
+                    .radius(locationInfo.acc)
+                    .strokeColor(setTransparency(getResources().getColor(R.color.white), 100))
+                    .strokeWidth(5f)
+                    .fillColor(setTransparency(getResources().getColor(R.color.amber), 100));
+            currentLocationAccuracy = googleMap.addCircle(circleOptions);
         }
+    }
+
+    private int setTransparency(int color, int transparency) {
+        return (transparency << 24) + (color & 0x00FFFFFF);
     }
 
     private static class LocationInfo {
