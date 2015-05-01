@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -228,7 +227,16 @@ public class FriendsListView extends ListView {
                         String friend = friendInput.getText().toString();
 
                         if (mainActivityWeakReference.get() != null) {
-                            mainActivityWeakReference.get().addFriend(friend);
+                            mainActivityWeakReference.get().addFriend(friend, new ParseHelper.SimpleCallback<Boolean>() {
+                                @Override
+                                public void onFinish(Boolean successful) {
+                                    if(!successful) {
+                                        YoYo.with(Techniques.Shake)
+                                                .duration(150)
+                                                .playOn(friendInput);
+                                    }
+                                }
+                            });
                         }
 
                         return true;

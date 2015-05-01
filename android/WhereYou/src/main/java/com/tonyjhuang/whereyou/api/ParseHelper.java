@@ -88,4 +88,16 @@ public class ParseHelper {
 
         void onError(Throwable e);
     }
+
+    public static class SimpleCallback<T> implements Callback<T> {
+        @Override
+        public void onFinish(T o) {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
 }

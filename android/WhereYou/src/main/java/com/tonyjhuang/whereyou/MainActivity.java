@@ -59,7 +59,7 @@ public class MainActivity extends WhereYouActivity {
     }
 
     private boolean addFriendLock = false;
-    public void addFriend(String name) {
+    public void addFriend(String name, final ParseHelper.Callback<Boolean> callback) {
         if(addFriendLock) return;
         addFriendLock = true;
 
@@ -71,6 +71,7 @@ public class MainActivity extends WhereYouActivity {
                 try {
                     if (name.equals(friendsList.getString(i))) {
                         showToast(name + " is already on your friends list");
+                        if(callback != null) callback.onFinish(false);
                         addFriendLock = false;
                         return;
                     }
@@ -85,6 +86,7 @@ public class MainActivity extends WhereYouActivity {
             public void onFinish(JSONArray friendsList) {
                 addFriendLock = false;
                 friendsListView.setFriends(friendsList);
+                if(callback != null) callback.onFinish(true);
             }
 
             @Override
@@ -96,6 +98,7 @@ public class MainActivity extends WhereYouActivity {
                     Log.e("Main", e.getMessage());
                     showToast("UHHHHH SOMETHING WENT WRONG. TRY AGAIN?????");
                 }
+                if(callback != null) callback.onFinish(false);
             }
         });
     }
