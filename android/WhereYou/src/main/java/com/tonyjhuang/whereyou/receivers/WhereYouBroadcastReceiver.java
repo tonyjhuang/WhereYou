@@ -1,9 +1,11 @@
 package com.tonyjhuang.whereyou.receivers;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParsePushBroadcastReceiver;
@@ -28,7 +30,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String action = json.getString("action");
-            switch(action) {
+            switch (action) {
                 case WhereYouAction.ASK:
                     /*
                     User has clicked on our ASK notification.
@@ -60,7 +62,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String action = json.getString("action");
             String message = json.getString("alert");
-            switch(action) {
+            switch (action) {
                 case WhereYouAction.RESPOND:
                     /*
                     We got a response from our target. Hooray!
@@ -70,8 +72,14 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(openMap);
                     break;
-                case WhereYouAction.NOTIFY_ADD:
                 case WhereYouAction.ASK:
+                    /*
+                    Let's take over the notification process to replace the current notification if there is one
+                     */
+                    String name = json.getString("name");
+                    showAskNotification(context, intent, name);
+                    break;
+                case WhereYouAction.NOTIFY_ADD:
                     /*
                     Don't do anything here, let the user click the notification before acting.
                      */
@@ -84,4 +92,48 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     }
 
 
+    /* Taken from the guts of ParsePushBroadcastReceiver */
+    private void showAskNotification(Context context, Intent intent, String name) {
+        JSONObject pushData = null;
+
+        try {
+            pushData = new JSONObject(intent.getStringExtra("com.parse.Data"));
+        } catch (JSONException e) {
+            Log.e("WhereYouBR", "Unexpected JSONException when receiving push data: " + e.getMessage());
+        }
+
+        String action = null;
+        if (pushData != null) {
+            action = pushData.optString("action", null);
+        }
+
+        if (action != null) {
+            Bundle notification = intent.getExtras();
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.putExtras(notification);
+            broadcastIntent.setAction(action);
+            broadcastIntent.setPackage(context.getPackageName());
+            context.sendBroadcast(broadcastIntent);
+        }
+
+        Notification notification1 = this.getNotification(context, intent);
+        if (notification1 != null) {
+            showNotification(context, notification1, name);
+        }
+    }
+
+    private void showNotification(Context context, Notification notification, String name) {
+        if (context != null && notification != null) {
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            int notificationId = name.hashCode();//(int) System.currentTimeMillis();
+
+            try {
+                nm.notify(notificationId, notification);
+            } catch (SecurityException var6) {
+                notification.defaults = 5;
+                nm.notify(notificationId, notification);
+            }
+        }
+
+    }
 }
