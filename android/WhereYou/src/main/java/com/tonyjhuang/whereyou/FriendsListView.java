@@ -78,7 +78,7 @@ public class FriendsListView extends ListView {
         if (jsonFriends == null || jsonFriends.length() == 0) {
             editMode = false;
         }
-        
+
         ArrayList<String> friends = new ArrayList<>();
         if (jsonFriends != null) {
             try {
