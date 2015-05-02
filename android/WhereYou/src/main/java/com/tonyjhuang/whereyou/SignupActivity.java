@@ -25,6 +25,8 @@ import butterknife.OnClick;
  * Created by tony on 4/29/15.
  */
 public class SignupActivity extends WhereYouActivity {
+    private static final int MIN_LENGTH = 3;
+    private static final int MAX_LENGTH = 12;
 
     @InjectView(R.id.username_hint)
     TextView usernameHint;
@@ -66,10 +68,12 @@ public class SignupActivity extends WhereYouActivity {
 
                     if (error != null) {
                         debouncer.cancel();
-                        if (error.equals(getString(R.string.signup_error_length))) {
+                        if (error.equals(getString(R.string.signup_error_length_short))) {
                             setUsernameStatus(UsernameStatus.TOO_SHORT);
                         } else if (error.equals(getString(R.string.signup_error_spaces))) {
                             setUsernameStatus(UsernameStatus.ERROR);
+                        } else if (error.equals(getString(R.string.signup_error_length_long))) {
+                            setUsernameStatus(UsernameStatus.TOO_LONG);
                         }
                     } else {
                         setUsernameStatus(UsernameStatus.CHECKING);
@@ -107,6 +111,11 @@ public class SignupActivity extends WhereYouActivity {
             case TOO_SHORT:
                 visibility = View.INVISIBLE;
                 break;
+            case TOO_LONG:
+                usernameStatus.setText(getString(R.string.signup_status_error));
+                visibility = View.VISIBLE;
+                color = red;
+                break;
             case AVAILABLE:
                 usernameStatus.setText(getString(R.string.signup_status_available));
                 color = green;
@@ -132,7 +141,7 @@ public class SignupActivity extends WhereYouActivity {
      * if we complete. Note: callback may not be called if runnable gets debounced.
      */
     private void checkServerIfNameAvailable(final String name, final Callback callback) {
-        if(name.length() < 3) {
+        if(name.length() < MIN_LENGTH || name.length() > MAX_LENGTH) {
             debouncer.cancel();
             if(callback != null) callback.onFinish();
         } else {
@@ -176,8 +185,10 @@ public class SignupActivity extends WhereYouActivity {
 
         if(name.contains(" ")) {
             errorMessage = getString(R.string.signup_error_spaces);
-        } else if(name.length() < 3) {
-            errorMessage = getString(R.string.signup_error_length);
+        } else if(name.length() < MIN_LENGTH) {
+            errorMessage = getString(R.string.signup_error_length_short);
+        } else if(name.length() > MAX_LENGTH) {
+            errorMessage = getString(R.string.signup_error_length_long);
         } else if(!usernameDirty && !usernameAvailable) {
             errorMessage = getString(R.string.signup_error_taken);
         }
@@ -211,7 +222,7 @@ public class SignupActivity extends WhereYouActivity {
     }
 
     enum UsernameStatus {
-        TAKEN, AVAILABLE, TOO_SHORT, ERROR, CHECKING
+        TAKEN, AVAILABLE, TOO_SHORT, TOO_LONG, ERROR, CHECKING
     }
 
     public static class SimpleTextWatcher implements TextWatcher {

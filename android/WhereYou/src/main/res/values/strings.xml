@@ -22,7 +22,8 @@
 
 
     <string name="signup_error_spaces">NO SPACES!!!</string>
-    <string name="signup_error_length">TOO SHORT!!!</string>
+    <string name="signup_error_length_short">TOO SHORT!!!</string>
+    <string name="signup_error_length_long">TOO LONG!!!</string>
     <string name="signup_error_taken">PICK A NEW NAME!!</string>
     <string name="signup_status_error">:(</string>
     <string name="signup_status_taken">Taken</string>
