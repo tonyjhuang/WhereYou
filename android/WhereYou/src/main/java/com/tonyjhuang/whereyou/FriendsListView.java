@@ -48,7 +48,7 @@ public class FriendsListView extends ListView {
     private AddFriendFooterView footer;
     private Vibrator vibrator;
 
-    private boolean editMode = false;
+    private boolean editMode = true;
 
     public FriendsListView(Context context) {
         this(context, null);
@@ -156,7 +156,7 @@ public class FriendsListView extends ListView {
             }
 
             final String friend = getItem(i);
-            holder.bind(friend);
+            holder.bind(friend, i);
 
             return view;
         }
@@ -171,9 +171,21 @@ public class FriendsListView extends ListView {
             @InjectViews({R.id.delete})
             List<View> editViews;
 
+            private List<YoYo.YoYoString> strings = new ArrayList<>();
+
             final ButterKnife.Setter<View, Boolean> VISIBLE = new ButterKnife.Setter<View, Boolean>() {
-                @Override public void set(View view, Boolean visible, int index) {
+                @Override
+                public void set(View view, Boolean visible, int index) {
                     view.setVisibility(visible ? View.VISIBLE : GONE);
+                }
+            };
+
+            final ButterKnife.Setter<View, Integer> FLOAT = new ButterKnife.Setter<View, Integer>() {
+                @Override
+                public void set(View view, Integer offset, int index) {
+                    strings.add(index, YoYo.with(new InfBounceAnimator())
+                            .duration(1000)
+                            .playOn(view));
                 }
             };
 
@@ -187,13 +199,27 @@ public class FriendsListView extends ListView {
                 ButterKnife.inject(this, view);
             }
 
-            public void bind(final String friend) {
+            public void bind(final String friend, int index) {
                 int bg = ColorPicker.getColor(friend);
 
                 name.setText(friend);
                 container.setBackgroundColor(bg);
 
-                if(editMode) {
+                container.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        showEditMode(!editMode);
+                        return true;
+                    }
+                });
+
+                // For editmode animations
+                for (YoYo.YoYoString string : strings) {
+                    string.stop(true);
+                }
+                strings = new ArrayList<>();
+
+                if (editMode) {
                     ButterKnife.apply(editViews, VISIBLE, true);
                     // Delete button
                     editViews.get(0).setOnClickListener(new OnClickListener() {
@@ -202,6 +228,8 @@ public class FriendsListView extends ListView {
                             setFriends(parseHelper.removeFriend(friend));
                         }
                     });
+
+                    ButterKnife.apply(editViews, FLOAT, index);
                 } else {
                     ButterKnife.apply(editViews, VISIBLE, false);
                     container.setOnClickListener(new View.OnClickListener() {
@@ -245,18 +273,6 @@ public class FriendsListView extends ListView {
                             YoYo.with(new FadeInOutAnimator())
                                     .duration(250)
                                     .playOn(sent);
-                        }
-                    });
-
-                    container.setOnLongClickListener(new OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if (editMode) {
-                                return false;
-                            } else {
-                                showEditMode(true);
-                                return true;
-                            }
                         }
                     });
                 }
@@ -381,6 +397,16 @@ public class FriendsListView extends ListView {
                     ObjectAnimator.ofFloat(target, "alpha", 0, 1),
                     ObjectAnimator.ofFloat(target, "alpha", 1, 0)
             );
+        }
+    }
+
+    public static class InfBounceAnimator extends BaseViewAnimator {
+        @Override
+        public void prepare(View target) {
+            ObjectAnimator y = ObjectAnimator.ofFloat(target, "translationY", 10, -10);
+            y.setRepeatCount(ObjectAnimator.INFINITE);
+            y.setRepeatMode(ObjectAnimator.REVERSE);
+            getAnimatorAgent().playTogether(y);
         }
     }
 }
