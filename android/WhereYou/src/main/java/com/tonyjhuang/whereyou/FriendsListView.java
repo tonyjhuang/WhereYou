@@ -75,6 +75,10 @@ public class FriendsListView extends ListView {
     }
 
     public void setFriends(JSONArray jsonFriends) {
+        if (jsonFriends == null || jsonFriends.length() == 0) {
+            editMode = false;
+        }
+        
         ArrayList<String> friends = new ArrayList<>();
         if (jsonFriends != null) {
             try {
@@ -119,6 +123,10 @@ public class FriendsListView extends ListView {
             this.friends = friends;
             notifyDataSetChanged();
             footer.showEditor(false);
+        }
+
+        public void update(JSONArray friends) {
+
         }
 
         @Override
@@ -187,6 +195,13 @@ public class FriendsListView extends ListView {
 
                 if(editMode) {
                     ButterKnife.apply(editViews, VISIBLE, true);
+                    // Delete button
+                    editViews.get(0).setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            setFriends(parseHelper.removeFriend(friend));
+                        }
+                    });
                 } else {
                     ButterKnife.apply(editViews, VISIBLE, false);
                     container.setOnClickListener(new View.OnClickListener() {

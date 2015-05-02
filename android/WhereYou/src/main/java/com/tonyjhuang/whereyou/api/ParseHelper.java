@@ -42,7 +42,11 @@ public class ParseHelper {
     }
 
     private Random random = new Random();
+    private ParseInstallation currentInstallation;
 
+    public ParseHelper() {
+        currentInstallation = ParseInstallation.getCurrentInstallation();
+    }
 
     public void checkName(String name, FunctionCallback<Boolean> callback) {
         Map<String, Object> params = new HashMap<>();
@@ -51,10 +55,33 @@ public class ParseHelper {
     }
 
     public void updateName(String name) {
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         currentInstallation.put("name", name);
         currentInstallation.put("nameLowercase", name.toLowerCase());
         currentInstallation.saveInBackground();
+    }
+
+    // Returns the updated friends list
+    public JSONArray removeFriend(String name) {
+        JSONArray friendsList = currentInstallation.getJSONArray("friends");
+        JSONArray newFriendsList = new JSONArray();
+        try {
+            if (friendsList != null) {
+                for (int i = 0; i < friendsList.length(); i++) {
+                    String friend = friendsList.getString(i);
+                    if(!friend.equals(name)) {
+                        newFriendsList.put(friend);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            // if we run into a JSONException, abort.
+            Log.e("ParseHelper", e.getMessage());
+            return friendsList;
+        }
+
+        currentInstallation.put("friends", newFriendsList);
+        currentInstallation.saveInBackground();
+        return newFriendsList;
     }
 
     public void addFriend(final String name, final Callback<JSONArray> callback) {
@@ -64,7 +91,6 @@ public class ParseHelper {
                 if (e == null) {
                     if (nameExists) {
                         // Update current installation friends list with new friend.
-                        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
                         JSONArray friendsList = currentInstallation.getJSONArray("friends");
                         if (friendsList == null) friendsList = new JSONArray();
                         friendsList.put(name);
@@ -86,7 +112,6 @@ public class ParseHelper {
     }
 
     private void notifyFriend(String name) {
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         String myName = currentInstallation.getString("name");
         String message = addedMessages.get(random.nextInt(addedMessages.size()));
         message = message.replace("{name}", myName);
@@ -115,7 +140,6 @@ public class ParseHelper {
     }
 
     public void poke(String name) {
-        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         String myName = currentInstallation.getString("name");
 
         ParseQuery<ParseInstallation> pushQuery = getQuery(name);
