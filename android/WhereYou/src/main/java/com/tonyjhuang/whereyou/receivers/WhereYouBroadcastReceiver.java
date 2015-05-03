@@ -10,6 +10,7 @@ import android.util.Log;
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParsePushBroadcastReceiver;
 import com.tonyjhuang.whereyou.MapActivity;
+import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.services.WhereYouAction;
 
 import org.json.JSONException;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
  */
 public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
     private static final String TAG = "BroadcastReceiver";
+    private ParseHelper parseHelper = new ParseHelper();
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
@@ -77,7 +79,9 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     Let's take over the notification process to replace the current notification if there is one
                      */
                     String name = json.getString("name");
-                    showAskNotification(context, intent, name);
+                    if (!parseHelper.isInBlacklist(name)) {
+                        showAskNotification(context, intent, name);
+                    }
                     break;
                 case WhereYouAction.NOTIFY_ADD:
                     /*
