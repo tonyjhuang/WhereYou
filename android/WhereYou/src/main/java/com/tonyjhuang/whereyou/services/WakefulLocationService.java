@@ -28,7 +28,8 @@ public class WakefulLocationService extends IntentService {
 
     private Looper wakefulLooper;
     private Intent intent;
-    private Toast toast;
+
+    static Handler toastHandler = new Handler();
 
     public WakefulLocationService() {
         super("WakefulLocationService");
@@ -51,21 +52,12 @@ public class WakefulLocationService extends IntentService {
             @Override
             public void run() {
                 Log.e("WakefulService", "Time out!");
-                toast.cancel();
-                toast = Toast.makeText(WakefulLocationService.this, "Noooooooooooo couldn't get location :(", Toast.LENGTH_SHORT);
-                toast.show();
+                showToast("Couldn't get location :(");
                 finish();
             }
         }, LOCATION_TIMEOUT);
 
-        toast = Toast.makeText(this, "Getting location...", Toast.LENGTH_LONG);
-        toast.show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                toast.cancel();
-            }
-        }, LOCATION_TIMEOUT);
+        showToast("Getting location...");
 
         // Get location
         SmartLocation.with(this).location()
@@ -75,11 +67,7 @@ public class WakefulLocationService extends IntentService {
                     public void onLocationUpdated(Location location) {
                         timeoutHandler.removeCallbacksAndMessages(null);
 
-                        toast.cancel();
-                        toast = Toast.makeText(WakefulLocationService.this,
-                                "Got your location or whatever. Sent.", Toast.LENGTH_SHORT);
-                        toast.show();
-
+                        showToast("Got your location or whatever. Sent.");
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         float  acc = location.getAccuracy();
@@ -95,8 +83,8 @@ public class WakefulLocationService extends IntentService {
     }
 
     private void finish() {
-        WakefulWhereYouBroadcastReceiver.completeWakefulIntent(intent);
         wakefulLooper.quit();
+        WakefulWhereYouBroadcastReceiver.completeWakefulIntent(intent);
     }
 
     private void respond(double lat, double lng, float acc) {
@@ -133,5 +121,14 @@ public class WakefulLocationService extends IntentService {
         } finally {
             finish();
         }
+    }
+
+    private void showToast(final String message) {
+        toastHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(WakefulLocationService.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
