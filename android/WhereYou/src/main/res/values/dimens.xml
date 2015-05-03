@@ -2,4 +2,5 @@
 <resources>
     <dimen name="friend_row_height">96dp</dimen>
     <dimen name="friend_row_text_size">40sp</dimen>
+    <integer name="transition_speed">@android:integer/config_mediumAnimTime</integer>
 </resources>
