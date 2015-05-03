@@ -64,7 +64,7 @@ public class AboutActivity extends WhereYouActivity {
     public void onJClicked(View view) {
         Log.d("About", "hey j");
         YoYo.with(Techniques.Pulse)
-                .duration(150)
+                .duration(450)
                 .playOn(view);
         resetState();
     }
