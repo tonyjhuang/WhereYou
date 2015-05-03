@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.tonyjhuang.whereyou.AboutActivity;
+import com.tonyjhuang.whereyou.BlacklistActivity;
 import com.tonyjhuang.whereyou.R;
 import com.tonyjhuang.whereyou.SettingsActivity;
 
@@ -22,13 +23,19 @@ public class AppRouter {
     }
 
     public static void openSettingsActivity(Activity activity) {
-        Intent intent = new Intent(activity, SettingsActivity.class);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        openActivity(activity, SettingsActivity.class);
     }
 
     public static void openAboutActivity(Activity activity) {
-        Intent intent = new Intent(activity, AboutActivity.class);
+        openActivity(activity, AboutActivity.class);
+    }
+
+    public static void openBlacklistActivity(Activity activity) {
+        openActivity(activity, BlacklistActivity.class);
+    }
+
+    private static void openActivity(Activity activity, Class clazz) {
+        Intent intent = new Intent(activity, clazz);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }

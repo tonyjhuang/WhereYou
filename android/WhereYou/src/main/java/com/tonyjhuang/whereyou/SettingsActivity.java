@@ -25,6 +25,11 @@ public class SettingsActivity extends WhereYouActivity {
         onBackPressed();
     }
 
+    @OnClick(R.id.blacklist)
+    public void onBlacklistClicked(View view) {
+        AppRouter.openBlacklistActivity(this);
+    }
+
     @OnClick(R.id.about)
     public void onAboutClicked(View view) {
         AppRouter.openAboutActivity(this);
