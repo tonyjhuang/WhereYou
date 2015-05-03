@@ -2,10 +2,12 @@ package com.tonyjhuang.whereyou;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -25,10 +27,13 @@ public class AboutActivity extends WhereYouActivity {
     LinearLayout container;
     @InjectView(R.id.emoji)
     ImageView emojiView;
+    @InjectView(R.id.j)
+    TextView jView;
 
     private int currentEmojiResource;
     private TypedArray emojiResources;
     private Random random = new Random();
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,14 @@ public class AboutActivity extends WhereYouActivity {
         setContentView(R.layout.activity_about);
 
         resetState();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.Pulse)
+                        .duration(450)
+                        .playOn(jView);
+            }
+        }, 3000);
     }
 
     private int getRandomEmoji() {
@@ -62,6 +75,7 @@ public class AboutActivity extends WhereYouActivity {
 
     @OnClick(R.id.j)
     public void onJClicked(View view) {
+        handler.removeCallbacksAndMessages(null);
         Log.d("About", "hey j");
         YoYo.with(Techniques.Pulse)
                 .duration(450)
