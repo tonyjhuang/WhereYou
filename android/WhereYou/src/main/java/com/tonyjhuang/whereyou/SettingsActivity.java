@@ -3,6 +3,8 @@ package com.tonyjhuang.whereyou;
 import android.os.Bundle;
 
 import android.view.View;
+
+import com.tonyjhuang.whereyou.helpers.AppRouter;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import butterknife.OnClick;
@@ -21,6 +23,11 @@ public class SettingsActivity extends WhereYouActivity {
     @OnClick(R.id.back_container)
     public void onBackContainerClicked(View view) {
         onBackPressed();
+    }
+
+    @OnClick(R.id.about)
+    public void onAboutClicked(View view) {
+        AppRouter.openAboutActivity(this);
     }
 
     @Override

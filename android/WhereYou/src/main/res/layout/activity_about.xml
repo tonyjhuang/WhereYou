@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+        style="@style/MainRowText"
+        android:text="Made" />
+
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+        style="@style/MainRowText"
+        android:text="with" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/emoji"
+            style="@style/MainRowText"
+            android:alpha="0.8"
+            android:padding="30dp" />
+    </FrameLayout>
+
+    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+        style="@style/MainRowText"
+        android:text="by" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/friend_row_height"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            style="@style/MainRowText"
+            android:layout_width="wrap_content"
+            android:text="tony" />
+
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/j"
+            style="@style/MainRowText"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:text=" J "
+            android:textColor="#FF4081" />
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            style="@style/MainRowText"
+            android:layout_width="wrap_content"
+            android:text="huang" />
+    </LinearLayout>
+
+</LinearLayout>

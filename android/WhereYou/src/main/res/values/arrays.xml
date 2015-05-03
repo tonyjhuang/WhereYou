@@ -18,4 +18,25 @@
         <item>@color/orange_accent</item>
         <item>@color/deep_orange_accent</item>
     </array>
+
+    <string-array name="emojis">
+        <item>@drawable/beer</item>
+        <item>@drawable/bicep</item>
+        <item>@drawable/cig</item>
+        <item>@drawable/coffee</item>
+        <item>@drawable/cookie</item>
+        <item>@drawable/diamond</item>
+        <item>@drawable/donut</item>
+        <item>@drawable/flame</item>
+        <item>@drawable/heart</item>
+        <item>@drawable/mushroom</item>
+        <item>@drawable/pill</item>
+        <item>@drawable/pizza</item>
+        <item>@drawable/poop</item>
+        <item>@drawable/prayer_hands</item>
+        <item>@drawable/tea</item>
+        <item>@drawable/triple_flame</item>
+        <item>@drawable/watch</item>
+        <item>@drawable/wine</item>
+    </string-array>
 </resources>
