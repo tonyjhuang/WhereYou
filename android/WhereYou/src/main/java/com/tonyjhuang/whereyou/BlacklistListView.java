@@ -162,7 +162,7 @@ public class BlacklistListView extends ListView {
             }
 
             public void bind(final String friend, int index) {
-                int bgColor = getResources().getColor(R.color.darker_grey);
+                int bgColor = getResources().getColor(R.color.darkest_grey);
                 bgColor += (0x00050505 * index);
 
                 name.setText(friend);
