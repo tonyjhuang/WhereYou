@@ -22,13 +22,35 @@
             wy:typeface="@string/fonttype_medium" />
     </FrameLayout>
 
+    <RelativeLayout
+        android:id="@+id/address_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/address"
+            android:layout_alignTop="@+id/address"
+            android:background="#3000" />
+
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/address"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="360dp"
         map:liteMode="true" />
 
 </LinearLayout>

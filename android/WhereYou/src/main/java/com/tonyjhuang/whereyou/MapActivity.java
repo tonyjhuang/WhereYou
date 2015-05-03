@@ -1,11 +1,17 @@
 package com.tonyjhuang.whereyou;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Layout;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -29,7 +35,13 @@ import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import butterknife.InjectView;
+import io.nlopez.smartlocation.SmartLocation;
 
 /**
  * Created by tony on 4/30/15.
@@ -42,6 +54,10 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
     FrameLayout nameContainer;
     @InjectView(R.id.name)
     TextView nameView;
+    @InjectView(R.id.address_container)
+    RelativeLayout addressContainer;
+    @InjectView(R.id.address)
+    TextView addressView;
 
     private GoogleMap googleMap;
     private LocationInfo locationInfo;
@@ -69,6 +85,7 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
 
             nameView.setText(name);
             nameContainer.setBackgroundColor(ColorPicker.getColor(name));
+            addressContainer.setBackgroundColor(ColorPicker.getColor(name));
             nameView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -79,8 +96,34 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
                             .playOn(nameView);
                 }
             });
-        } catch (JSONException e) {
 
+            List<Address> addresses = null;
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                addresses = geocoder.getFromLocation(lat, lng, 1);
+            } catch (IOException e) {
+                Log.e("MapActivity", e.getMessage());
+            }
+
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                ArrayList<String> addressFragments = new ArrayList<>();
+
+                // Fetch the address lines using getAddressLine,
+                // join them, and send them to the thread.
+                for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                    addressFragments.add(address.getAddressLine(i));
+                }
+
+                String formattedAddress =
+                        TextUtils.join(", ", addressFragments);
+                addressView.setText(formattedAddress);
+            } else {
+                addressContainer.setVisibility(View.GONE);
+            }
+
+        } catch (JSONException e) {
+            Log.e("MapActivity", e.getMessage());
         }
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
