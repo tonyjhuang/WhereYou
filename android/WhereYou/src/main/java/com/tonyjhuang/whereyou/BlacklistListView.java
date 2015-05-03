@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.helpers.BackAwareEditText;
-import com.tonyjhuang.whereyou.helpers.ColorPicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +42,7 @@ public class BlacklistListView extends ListView {
     private WeakReference<BlacklistActivity> blacklistActivityWeakReference;
     private BlacklistListAdapter adapter = new BlacklistListAdapter();
     private AddToBlacklistHeaderView header;
+    private ParseHelper parseHelper = new ParseHelper();
 
     public BlacklistListView(Context context) {
         this(context, null);
@@ -118,7 +119,7 @@ public class BlacklistListView extends ListView {
         public View getView(int i, View view, ViewGroup viewGroup) {
             final BlacklistRowView holder;
             if (view == null) {
-                view = View.inflate(viewGroup.getContext(), R.layout.view_friends_row, null);
+                view = View.inflate(viewGroup.getContext(), R.layout.view_blacklist_row, null);
                 holder = new BlacklistRowView(view);
                 view.setTag(holder);
             } else {
@@ -136,6 +137,8 @@ public class BlacklistListView extends ListView {
             RelativeLayout container;
             @InjectView(R.id.name)
             TextView name;
+            @InjectView(R.id.score)
+            TextView scoreView;
             @InjectViews({R.id.delete})
             List<View> editViews;
 
@@ -161,12 +164,14 @@ public class BlacklistListView extends ListView {
                 ButterKnife.inject(this, view);
             }
 
-            public void bind(final String friend, int index) {
+            public void bind(final String blacklisted, int index) {
                 int bgColor = getResources().getColor(R.color.darkest_grey);
                 bgColor += (0x00101010 * index);
 
-                name.setText(friend);
+                name.setText(blacklisted);
                 container.setBackgroundColor(bgColor);
+                int score = parseHelper.getBlacklistScore(blacklisted);
+                scoreView.setText(score != 0 ? String.valueOf(score) : "");
 
                 // For editmode animations
                 for (YoYo.YoYoString string : strings) {
@@ -181,7 +186,7 @@ public class BlacklistListView extends ListView {
                 editViews.get(0).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        blacklistActivityWeakReference.get().removeFromBlacklist(friend);
+                        blacklistActivityWeakReference.get().removeFromBlacklist(blacklisted);
                     }
                 });
             }

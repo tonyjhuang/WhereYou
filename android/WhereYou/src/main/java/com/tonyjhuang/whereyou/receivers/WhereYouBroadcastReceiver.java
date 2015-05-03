@@ -64,6 +64,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String action = json.getString("action");
             String message = json.getString("alert");
+            String name = json.getString("name");
             switch (action) {
                 case WhereYouAction.RESPOND:
                     /*
@@ -78,12 +79,15 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     /*
                     Let's take over the notification process to replace the current notification if there is one
                      */
-                    String name = json.getString("name");
                     if (!parseHelper.isInBlacklist(name)) {
                         showAskNotification(context, intent, name);
+                    } else {
+                        parseHelper.giveBlacklistPoint(name);
                     }
                     break;
                 case WhereYouAction.NOTIFY_ADD:
+                    if(parseHelper.isInBlacklist(name))
+                        return;
                     /*
                     Don't do anything here, let the user click the notification before acting.
                      */

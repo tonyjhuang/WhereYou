@@ -8,18 +8,16 @@
     android:orientation="vertical">
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/sent"
+        android:id="@+id/score"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:alpha="0"
-        android:gravity="center_vertical|end"
-        android:text="sent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:gravity="center_vertical|start"
         android:textColor="@color/white_transparent"
-        android:textSize="14sp"
-        wy:typeface="@string/fonttype_medium" />
+        android:textSize="16sp"
+        wy:typeface="@string/fonttype_heavy" />
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/name"

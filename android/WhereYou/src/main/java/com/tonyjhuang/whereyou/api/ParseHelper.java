@@ -75,7 +75,7 @@ public class ParseHelper {
             }
         } catch (JSONException e) {
             // if we run into a JSONException, abort.
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
         }
 
         return false;
@@ -97,7 +97,7 @@ public class ParseHelper {
             }
         } catch (JSONException e) {
             // if we run into a JSONException, abort.
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
             return friendsList;
         }
 
@@ -129,7 +129,7 @@ public class ParseHelper {
                             callback.onError(new Error("No such user"));
                         }
                     } else {
-                        Log.e("ParseHelper", e.getMessage());
+                        logError(e);
                         callback.onError(e);
                     }
                 }
@@ -150,7 +150,7 @@ public class ParseHelper {
             data.put("alert", message);
             data.put("action", WhereYouAction.NOTIFY_ADD);
         } catch (JSONException e) {
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
         }
 
         ParsePush push = new ParsePush();
@@ -176,7 +176,7 @@ public class ParseHelper {
             data.put("alert", myName + " wants to know where you at! Tap here to share your location.");
             data.put("action", WhereYouAction.ASK);
         } catch (JSONException e) {
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
         }
 
         ParsePush push = new ParsePush();
@@ -196,50 +196,110 @@ public class ParseHelper {
                     return true;
             }
         } catch (JSONException e) {
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
         }
 
         return false;
     }
 
+    public void giveBlacklistPoint(String name) {
+        if(!isInBlacklist(name)) return;
+
+        JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
+        Log.d("ParseHelper", blacklistMeta.toString());
+        try {
+            for (int i = 0; i < blacklistMeta.length(); i++) {
+                JSONObject meta = blacklistMeta.getJSONObject(i);
+                if (meta.getString("name").equals(name)) {
+                    meta.put("score", meta.getInt("score") + 1);
+                }
+            }
+            Log.d("ParseHelper", blacklistMeta.toString());
+        } catch (JSONException e) {
+            logError(e);
+        }
+
+        currentInstallation.put("blacklistMeta", blacklistMeta);
+        currentInstallation.saveInBackground();
+    }
+
+    public int getBlacklistScore(String name) {
+        if(!isInBlacklist(name)) return 0;
+
+        JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
+        try {
+            for (int i = 0; i < blacklistMeta.length(); i++) {
+                JSONObject meta = blacklistMeta.getJSONObject(i);
+                if (meta.getString("name").equals(name)) {
+                    return meta.getInt("score");
+                }
+            }
+        } catch (JSONException e) {
+            logError(e);
+        }
+        return 0;
+    }
+
     public JSONArray addToBlacklist(String name) {
         JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+        JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
         if (isInBlacklist(name)) return blacklist;
 
         if (blacklist == null)
             blacklist = new JSONArray();
+        if(blacklistMeta == null)
+            blacklistMeta = new JSONArray();
 
         blacklist.put(name);
+        try {
+            JSONObject meta = new JSONObject();
+            meta.put("name", name);
+            meta.put("score", 0);
+            blacklistMeta.put(meta);
+        } catch (JSONException e) {
+            logError(e);
+        }
+
         currentInstallation.put("blacklist", blacklist);
+        currentInstallation.put("blacklistMeta", blacklistMeta);
         currentInstallation.saveInBackground();
         return blacklist;
     }
 
     public JSONArray removeFromBlacklist(String name) {
         JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+        JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
 
         if (!isInBlacklist(name))
             return blacklist;
 
         JSONArray newBlacklist = new JSONArray();
+        JSONArray newBlacklistMeta = new JSONArray();
         try {
             if (blacklist != null) {
                 for (int i = 0; i < blacklist.length(); i++) {
                     String blacklisted = blacklist.getString(i);
+                    JSONObject blacklistedMeta = blacklistMeta.getJSONObject(i);
                     if (!blacklisted.equals(name)) {
                         newBlacklist.put(blacklisted);
+                        newBlacklistMeta.put(blacklistedMeta);
                     }
                 }
             }
         } catch (JSONException e) {
             // if we run into a JSONException, abort.
-            Log.e("ParseHelper", e.getMessage());
+            logError(e);
             return blacklist;
         }
 
         currentInstallation.put("blacklist", newBlacklist);
+        currentInstallation.put("blacklistMeta", newBlacklistMeta);
         currentInstallation.saveInBackground();
         return newBlacklist;
+    }
+
+    private void logError(Throwable e) {
+        Log.e("ParseHelper", e.getMessage());
     }
 
     public interface Callback<T> {
