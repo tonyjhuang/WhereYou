@@ -61,9 +61,30 @@ public class ParseHelper {
         currentInstallation.saveInBackground();
     }
 
+    public boolean isFriend(String name) {
+        JSONArray friendsList = currentInstallation.getJSONArray("friends");
+        if (friendsList == null || friendsList.length() == 0)
+            return false;
+
+        try {
+            for (int i = 0; i < friendsList.length(); i++) {
+                String friend = friendsList.getString(i);
+                if (friend.equals(name)) {
+                    return true;
+                }
+            }
+        } catch (JSONException e) {
+            // if we run into a JSONException, abort.
+            Log.e("ParseHelper", e.getMessage());
+        }
+
+        return false;
+    }
+
     // Returns the updated friends list
     public JSONArray removeFriend(String name) {
         JSONArray friendsList = currentInstallation.getJSONArray("friends");
+
         JSONArray newFriendsList = new JSONArray();
         try {
             if (friendsList != null) {
@@ -86,30 +107,34 @@ public class ParseHelper {
     }
 
     public void addFriend(final String name, final Callback<JSONArray> callback) {
-        checkName(name, new FunctionCallback<Boolean>() {
-            @Override
-            public void done(Boolean nameExists, ParseException e) {
-                if (e == null) {
-                    if (nameExists) {
-                        // Update current installation friends list with new friend.
-                        JSONArray friendsList = currentInstallation.getJSONArray("friends");
-                        if (friendsList == null) friendsList = new JSONArray();
-                        friendsList.put(name);
-                        currentInstallation.put("friends", friendsList);
-                        currentInstallation.saveInBackground();
+        if(isFriend(name)) {
+            callback.onFinish(currentInstallation.getJSONArray("friends"));
+        } else {
+            checkName(name, new FunctionCallback<Boolean>() {
+                @Override
+                public void done(Boolean nameExists, ParseException e) {
+                    if (e == null) {
+                        if (nameExists) {
+                            // Update current installation friends list with new friend.
+                            JSONArray friendsList = currentInstallation.getJSONArray("friends");
+                            if (friendsList == null) friendsList = new JSONArray();
+                            friendsList.put(name);
+                            currentInstallation.put("friends", friendsList);
+                            currentInstallation.saveInBackground();
 
-                        notifyFriend(name);
+                            notifyFriend(name);
 
-                        callback.onFinish(friendsList);
+                            callback.onFinish(friendsList);
+                        } else {
+                            callback.onError(new Error("No such user"));
+                        }
                     } else {
-                        callback.onError(new Error("No such user"));
+                        Log.e("ParseHelper", e.getMessage());
+                        callback.onError(e);
                     }
-                } else {
-                    Log.e("ParseHelper", e.getMessage());
-                    callback.onError(e);
                 }
-            }
-        });
+            });
+        }
     }
 
     private void notifyFriend(String name) {
@@ -160,18 +185,29 @@ public class ParseHelper {
         push.sendInBackground();
     }
 
-    public JSONArray addToBlacklist(String name) {
+    public boolean isInBlacklist(String name) {
         JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
-        if (blacklist == null)
-            blacklist = new JSONArray();
+        if (blacklist == null || blacklist.length() == 0)
+            return false;
+
         try {
             for (int i = 0; i < blacklist.length(); i++) {
                 if (blacklist.getString(i).equals(name))
-                    return blacklist;
+                    return true;
             }
         } catch (JSONException e) {
             Log.e("ParseHelper", e.getMessage());
         }
+
+        return false;
+    }
+
+    public JSONArray addToBlacklist(String name) {
+        JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+        if (isInBlacklist(name)) return blacklist;
+
+        if (blacklist == null)
+            blacklist = new JSONArray();
 
         blacklist.put(name);
         currentInstallation.put("blacklist", blacklist);
@@ -181,6 +217,10 @@ public class ParseHelper {
 
     public JSONArray removeFromBlacklist(String name) {
         JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+
+        if (!isInBlacklist(name))
+            return blacklist;
+
         JSONArray newBlacklist = new JSONArray();
         try {
             if (blacklist != null) {
