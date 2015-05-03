@@ -1,5 +1,7 @@
 package com.tonyjhuang.whereyou;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
@@ -33,6 +35,13 @@ public class SettingsActivity extends WhereYouActivity {
     @OnClick(R.id.about)
     public void onAboutClicked(View view) {
         AppRouter.openAboutActivity(this);
+    }
+
+    @OnClick(R.id.rate)
+    public void onRateClicked(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=com.tonyjhuang.whereyou"));
+        startActivity(intent);
     }
 
     @Override

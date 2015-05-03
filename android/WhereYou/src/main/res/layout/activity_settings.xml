@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cyan_accent"
-    android:orientation="vertical">
+    android:background="@color/cyan_accent">
 
-    <FrameLayout
-        android:id="@+id/back_container"
-        android:background="@color/amber"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/settings_arrow"
-            android:src="@drawable/left_arrow"
-            android:layout_gravity="center_vertical|start"
-            android:scaleType="fitXY"
-            android:padding="14dp"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+        <FrameLayout
+            android:id="@+id/back_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/amber">
+
+            <ImageView
+                android:id="@+id/settings_arrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|start"
+                android:padding="14dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/left_arrow" />
+
+            <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+                android:id="@+id/back"
+                style="@style/MainRowText"
+                android:text="back"
+                android:textColor="@color/black" />
+        </FrameLayout>
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-            android:id="@+id/back"
+            android:id="@+id/blacklist"
             style="@style/MainRowText"
-            android:textColor="@color/black"
-            android:text="back" />
-    </FrameLayout>
+            android:background="@color/darker_grey"
+            android:text="blacklist" />
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/blacklist"
-        style="@style/MainRowText"
-        android:background="@color/darker_grey"
-        android:text="blacklist" />
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/about"
+            style="@style/MainRowText"
+            android:background="@color/red"
+            android:text="about" />
 
-    <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        android:id="@+id/about"
-        style="@style/MainRowText"
-        android:background="@color/red"
-        android:text="about" />
+        <com.tonyjhuang.whereyou.helpers.TypefaceTextView
+            android:id="@+id/rate"
+            style="@style/MainRowText"
+            android:background="@color/light_blue"
+            android:text="rate app" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
