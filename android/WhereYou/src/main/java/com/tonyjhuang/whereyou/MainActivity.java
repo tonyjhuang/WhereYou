@@ -129,10 +129,6 @@ public class MainActivity extends WhereYouActivity {
     public void onBottomContainerClick(View view) {
         friendsListView.onBackPressed();
         friendsListView.onBackPressed();
-
-        showToast("Settings screen coming soon :>");
-        YoYo.with(Techniques.Swing)
-                .duration(300)
-                .playOn(settingsArrow);
+        AppRouter.openSettingsActivity(this);
     }
 }

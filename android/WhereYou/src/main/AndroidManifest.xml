@@ -59,6 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SignupActivity"
             android:label="@string/app_name"
@@ -72,6 +73,20 @@
             android:launchMode="singleTask"
             android:taskAffinity="com.tonyjhuang.whereyou.map"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
+
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhereYouTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <receiver
             android:name=".receivers.WakefulWhereYouBroadcastReceiver"

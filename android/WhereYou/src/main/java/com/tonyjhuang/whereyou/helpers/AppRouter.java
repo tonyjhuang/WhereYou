@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.tonyjhuang.whereyou.SettingsActivity;
+
 /**
  * Created by tony on 4/29/15.
  */
@@ -15,5 +17,10 @@ public class AppRouter {
         if(context instanceof Activity) {
             ((Activity) context).finish();
         }
+    }
+
+    public static void openSettingsActivity(Activity activity) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(intent);
     }
 }

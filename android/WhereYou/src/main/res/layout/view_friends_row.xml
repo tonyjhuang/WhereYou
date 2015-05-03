@@ -24,13 +24,7 @@
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/friend_row_text_size"
-        wy:typeface="@string/fonttype_medium" />
+        style="@style/MainRowText" />
 
     <ImageButton
         android:id="@+id/delete"
