@@ -30,7 +30,7 @@
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/blacklist"
         style="@style/MainRowText"
-        android:background="@color/dark_grey"
+        android:background="@color/darker_grey"
         android:text="blacklist" />
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView

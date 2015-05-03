@@ -125,9 +125,6 @@ public class FriendsListView extends ListView {
             footer.showEditor(false);
         }
 
-        public void update(JSONArray friends) {
-
-        }
 
         @Override
         public int getCount() {

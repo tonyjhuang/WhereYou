@@ -20,7 +20,8 @@
     <color name="purple">#9C27B0</color>
     <color name="deep_purple">#673AB7</color>
     <color name="grey">#757575</color>
-    <color name="dark_grey">#424242</color>
+    <color name="dark_grey">#616161</color>
+    <color name="darker_grey">#424242</color>
 
 
     <color name="red_accent">#ef5350</color>

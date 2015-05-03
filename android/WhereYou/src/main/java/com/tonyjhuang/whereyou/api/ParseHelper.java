@@ -24,6 +24,7 @@ import java.util.Random;
  */
 public class ParseHelper {
     private static ArrayList<String> addedMessages = new ArrayList<>();
+
     static {
         addedMessages.add("{name} added you. Or whatever. I mean, big deal.");
         addedMessages.add("{name} added you as a 'friend'... ;)");
@@ -68,7 +69,7 @@ public class ParseHelper {
             if (friendsList != null) {
                 for (int i = 0; i < friendsList.length(); i++) {
                     String friend = friendsList.getString(i);
-                    if(!friend.equals(name)) {
+                    if (!friend.equals(name)) {
                         newFriendsList.put(friend);
                     }
                 }
@@ -157,6 +158,48 @@ public class ParseHelper {
         push.setQuery(pushQuery);
         push.setData(data);
         push.sendInBackground();
+    }
+
+    public JSONArray addToBlacklist(String name) {
+        JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+        if (blacklist == null)
+            blacklist = new JSONArray();
+        try {
+            for (int i = 0; i < blacklist.length(); i++) {
+                if (blacklist.getString(i).equals(name))
+                    return blacklist;
+            }
+        } catch (JSONException e) {
+            Log.e("ParseHelper", e.getMessage());
+        }
+
+        blacklist.put(name);
+        currentInstallation.put("blacklist", blacklist);
+        currentInstallation.saveInBackground();
+        return blacklist;
+    }
+
+    public JSONArray removeFromBlacklist(String name) {
+        JSONArray blacklist = currentInstallation.getJSONArray("blacklist");
+        JSONArray newBlacklist = new JSONArray();
+        try {
+            if (blacklist != null) {
+                for (int i = 0; i < blacklist.length(); i++) {
+                    String blacklisted = blacklist.getString(i);
+                    if (!blacklisted.equals(name)) {
+                        newBlacklist.put(blacklisted);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            // if we run into a JSONException, abort.
+            Log.e("ParseHelper", e.getMessage());
+            return blacklist;
+        }
+
+        currentInstallation.put("blacklist", newBlacklist);
+        currentInstallation.saveInBackground();
+        return newBlacklist;
     }
 
     public interface Callback<T> {
