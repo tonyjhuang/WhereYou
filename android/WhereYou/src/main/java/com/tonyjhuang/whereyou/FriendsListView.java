@@ -163,6 +163,8 @@ public class FriendsListView extends ListView {
             RelativeLayout container;
             @InjectView(R.id.name)
             TextView name;
+            @InjectView(R.id.score)
+            TextView scoreView;
             @InjectView(R.id.sent)
             TextView sent;
             @InjectViews({R.id.delete})
@@ -201,6 +203,7 @@ public class FriendsListView extends ListView {
 
                 name.setText(friend);
                 container.setBackgroundColor(bg);
+                scoreView.setText(String.valueOf(parseHelper.getFriendScore(friend)));
 
                 container.setOnLongClickListener(new OnLongClickListener() {
                     @Override
@@ -216,8 +219,10 @@ public class FriendsListView extends ListView {
                 }
                 strings = new ArrayList<>();
 
+                ButterKnife.apply(editViews, VISIBLE, editMode);
+                scoreView.setAlpha(editMode ? 1 : 0);
+
                 if (editMode) {
-                    ButterKnife.apply(editViews, VISIBLE, true);
                     // Delete button
                     editViews.get(0).setOnClickListener(new OnClickListener() {
                         @Override
@@ -227,14 +232,15 @@ public class FriendsListView extends ListView {
                     });
 
                     ButterKnife.apply(editViews, FLOAT, index);
+                    container.setOnClickListener(null);
                 } else {
-                    ButterKnife.apply(editViews, VISIBLE, false);
                     container.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             parseHelper.poke(friend);
                             footer.showEditor(false);
                             vibrator.vibrate(25);
+                            scoreView.setText(String.valueOf(parseHelper.getFriendScore(friend)));
 
                             if (counter >= 3) {
                                 name.setText(":(");
@@ -270,6 +276,11 @@ public class FriendsListView extends ListView {
                             YoYo.with(new FadeInOutAnimator())
                                     .duration(250)
                                     .playOn(sent);
+
+                            YoYo.with(new FadeInOutAnimator())
+                                    .duration(250)
+                                    .playOn(scoreView);
+
                         }
                     });
                 }

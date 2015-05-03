@@ -84,14 +84,20 @@ public class ParseHelper {
     // Returns the updated friends list
     public JSONArray removeFriend(String name) {
         JSONArray friendsList = currentInstallation.getJSONArray("friends");
+        JSONArray friendsListMeta = currentInstallation.getJSONArray("friendsMeta");
 
         JSONArray newFriendsList = new JSONArray();
+        JSONArray newFriendsListMeta = new JSONArray();
+
+        // Move all friends over to new list except for specified friend.
         try {
             if (friendsList != null) {
                 for (int i = 0; i < friendsList.length(); i++) {
                     String friend = friendsList.getString(i);
+                    JSONObject meta = friendsListMeta.getJSONObject(i);
                     if (!friend.equals(name)) {
                         newFriendsList.put(friend);
+                        newFriendsListMeta.put(meta);
                     }
                 }
             }
@@ -102,12 +108,13 @@ public class ParseHelper {
         }
 
         currentInstallation.put("friends", newFriendsList);
+        currentInstallation.put("friendsMeta", newFriendsListMeta);
         currentInstallation.saveInBackground();
         return newFriendsList;
     }
 
     public void addFriend(final String name, final Callback<JSONArray> callback) {
-        if(isFriend(name)) {
+        if (isFriend(name)) {
             callback.onFinish(currentInstallation.getJSONArray("friends"));
         } else {
             checkName(name, new FunctionCallback<Boolean>() {
@@ -117,9 +124,23 @@ public class ParseHelper {
                         if (nameExists) {
                             // Update current installation friends list with new friend.
                             JSONArray friendsList = currentInstallation.getJSONArray("friends");
+                            JSONArray friendsListMeta = currentInstallation.getJSONArray("friendsMeta");
+
                             if (friendsList == null) friendsList = new JSONArray();
+                            if (friendsListMeta == null) friendsListMeta = new JSONArray();
+
                             friendsList.put(name);
+                            try {
+                                JSONObject meta = new JSONObject();
+                                meta.put("name", name);
+                                meta.put("score", 0);
+                                friendsListMeta.put(meta);
+                            } catch (JSONException ex) {
+                                logError(ex);
+                            }
+
                             currentInstallation.put("friends", friendsList);
+                            currentInstallation.put("friendsMeta", friendsListMeta);
                             currentInstallation.saveInBackground();
 
                             notifyFriend(name);
@@ -159,6 +180,42 @@ public class ParseHelper {
         push.sendInBackground();
     }
 
+    public void giveFriendPoint(String name) {
+        if (!isFriend(name)) return;
+
+        JSONArray friendsMeta = currentInstallation.getJSONArray("friendsMeta");
+        try {
+            for (int i = 0; i < friendsMeta.length(); i++) {
+                JSONObject meta = friendsMeta.getJSONObject(i);
+                if (meta.getString("name").equals(name)) {
+                    meta.put("score", meta.getInt("score") + 1);
+                }
+            }
+        } catch (JSONException e) {
+            logError(e);
+        }
+
+        currentInstallation.put("friendsMeta", friendsMeta);
+        currentInstallation.saveInBackground();
+    }
+
+    public int getFriendScore(String name) {
+        if (!isFriend(name)) return 0;
+
+        JSONArray friendsMeta = currentInstallation.getJSONArray("friendsMeta");
+        try {
+            for (int i = 0; i < friendsMeta.length(); i++) {
+                JSONObject meta = friendsMeta.getJSONObject(i);
+                if (meta.getString("name").equals(name)) {
+                    return meta.getInt("score");
+                }
+            }
+        } catch (JSONException e) {
+            logError(e);
+        }
+        return 0;
+    }
+
     private ParseQuery<ParseInstallation> getQuery(String name) {
         ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
         pushQuery.whereEqualTo("name", name);
@@ -183,6 +240,8 @@ public class ParseHelper {
         push.setQuery(pushQuery);
         push.setData(data);
         push.sendInBackground();
+
+        giveFriendPoint(name);
     }
 
     public boolean isInBlacklist(String name) {
@@ -203,10 +262,9 @@ public class ParseHelper {
     }
 
     public void giveBlacklistPoint(String name) {
-        if(!isInBlacklist(name)) return;
+        if (!isInBlacklist(name)) return;
 
         JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
-        Log.d("ParseHelper", blacklistMeta.toString());
         try {
             for (int i = 0; i < blacklistMeta.length(); i++) {
                 JSONObject meta = blacklistMeta.getJSONObject(i);
@@ -214,7 +272,6 @@ public class ParseHelper {
                     meta.put("score", meta.getInt("score") + 1);
                 }
             }
-            Log.d("ParseHelper", blacklistMeta.toString());
         } catch (JSONException e) {
             logError(e);
         }
@@ -224,7 +281,7 @@ public class ParseHelper {
     }
 
     public int getBlacklistScore(String name) {
-        if(!isInBlacklist(name)) return 0;
+        if (!isInBlacklist(name)) return 0;
 
         JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
         try {
@@ -245,10 +302,8 @@ public class ParseHelper {
         JSONArray blacklistMeta = currentInstallation.getJSONArray("blacklistMeta");
         if (isInBlacklist(name)) return blacklist;
 
-        if (blacklist == null)
-            blacklist = new JSONArray();
-        if(blacklistMeta == null)
-            blacklistMeta = new JSONArray();
+        if (blacklist == null) blacklist = new JSONArray();
+        if (blacklistMeta == null) blacklistMeta = new JSONArray();
 
         blacklist.put(name);
         try {
