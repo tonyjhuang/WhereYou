@@ -4,9 +4,12 @@ package com.tonyjhuang.whereyou;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
 import com.tonyjhuang.whereyou.api.ParseHelper;
@@ -29,6 +32,8 @@ public class MainActivity extends WhereYouActivity {
     FriendsListView friendsListView;
     @InjectView(R.id.username)
     TextView username;
+    @InjectView(R.id.settings_arrow)
+    ImageView settingsArrow;
 
     private ParseHelper parseHelper = new ParseHelper();
 
@@ -118,5 +123,16 @@ public class MainActivity extends WhereYouActivity {
     public void onBackPressed() {
         if (!friendsListView.onBackPressed())
             super.onBackPressed();
+    }
+
+    @OnClick(R.id.bottom_container)
+    public void onBottomContainerClick(View view) {
+        friendsListView.onBackPressed();
+        friendsListView.onBackPressed();
+
+        showToast("Settings screen coming soon :>");
+        YoYo.with(Techniques.Swing)
+                .duration(300)
+                .playOn(settingsArrow);
     }
 }

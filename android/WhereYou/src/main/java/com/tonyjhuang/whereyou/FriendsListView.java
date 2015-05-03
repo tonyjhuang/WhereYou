@@ -48,7 +48,7 @@ public class FriendsListView extends ListView {
     private AddFriendFooterView footer;
     private Vibrator vibrator;
 
-    private boolean editMode = true;
+    private boolean editMode = false;
 
     public FriendsListView(Context context) {
         this(context, null);
