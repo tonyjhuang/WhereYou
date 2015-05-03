@@ -60,6 +60,12 @@ public class WakefulLocationService extends IntentService {
 
         toast = Toast.makeText(this, "Getting location...", Toast.LENGTH_LONG);
         toast.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, LOCATION_TIMEOUT);
 
         // Get location
         SmartLocation.with(this).location()
