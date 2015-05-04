@@ -70,7 +70,7 @@
             android:name=".MapActivity"
             android:excludeFromRecents="true"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:taskAffinity="com.tonyjhuang.whereyou.map"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
 

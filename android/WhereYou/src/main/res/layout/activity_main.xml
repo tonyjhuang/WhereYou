@@ -31,7 +31,7 @@
 
         <com.tonyjhuang.whereyou.FriendsListView
             android:id="@+id/friends"
-            android:dividerHeight="0dp"
+            android:divider="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>

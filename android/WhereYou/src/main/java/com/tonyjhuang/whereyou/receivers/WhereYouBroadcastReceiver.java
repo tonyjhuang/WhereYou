@@ -72,7 +72,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                      */
                     Intent openMap = new Intent(context, MapActivity.class);
                     openMap.putExtras(intent);
-                    openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                     context.startActivity(openMap);
                     break;
                 case WhereYouAction.ASK:
