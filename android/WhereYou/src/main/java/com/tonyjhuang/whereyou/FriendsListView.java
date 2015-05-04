@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.mobeta.android.dslv.DragSortListView;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.helpers.BackAwareEditText;
@@ -55,11 +56,7 @@ public class FriendsListView extends ListView {
     }
 
     public FriendsListView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public FriendsListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        super(context, attrs);
 
         try {
             mainActivityWeakReference = new WeakReference<>((MainActivity) context);
