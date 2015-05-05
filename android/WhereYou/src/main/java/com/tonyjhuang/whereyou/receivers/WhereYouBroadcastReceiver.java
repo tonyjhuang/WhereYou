@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.drivemode.intentlog.IntentLogger;
+import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
 import com.tonyjhuang.whereyou.MapActivity;
 import com.tonyjhuang.whereyou.api.ParseHelper;
@@ -35,6 +36,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
             String action = json.getString("action");
             switch (action) {
                 case WhereYouAction.ASK:
+                    ParseAnalytics.trackAppOpened(intent);
                     /*
                     User has clicked on our ASK notification.
                     Get location!
