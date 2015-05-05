@@ -217,7 +217,7 @@ public class FriendsListView extends ListView {
                 strings = new ArrayList<>();
 
                 ButterKnife.apply(editViews, VISIBLE, editMode);
-                scoreView.setAlpha(editMode ? 1 : 0);
+                scoreView.setAlpha(editMode ? 0.8f : 0);
 
                 if (editMode) {
                     // Delete button

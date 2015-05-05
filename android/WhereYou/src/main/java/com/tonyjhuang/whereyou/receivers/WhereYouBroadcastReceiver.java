@@ -43,6 +43,8 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     locationService.putExtras(intent);
                     context.startService(locationService);
                     break;
+                default:
+                    super.onPushOpen(context, intent);
             }
 
         } catch (JSONException e) {
