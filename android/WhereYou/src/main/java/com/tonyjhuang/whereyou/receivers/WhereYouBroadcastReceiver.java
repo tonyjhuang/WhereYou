@@ -11,6 +11,7 @@ import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParsePushBroadcastReceiver;
 import com.tonyjhuang.whereyou.MapActivity;
 import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.services.GetLocationService;
 import com.tonyjhuang.whereyou.services.WhereYouAction;
 
 import org.json.JSONException;
@@ -36,12 +37,11 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                 case WhereYouAction.ASK:
                     /*
                     User has clicked on our ASK notification.
-                    Start our wakeful broadcast receiver and send out our location.
+                    Get location!
                      */
-                    Intent startWakeful = new Intent();
-                    startWakeful.putExtras(intent);
-                    startWakeful.setAction(WhereYouAction.GET_LOCATION);
-                    context.sendBroadcast(startWakeful);
+                    Intent locationService = new Intent(context, GetLocationService.class);
+                    locationService.putExtras(intent);
+                    context.startService(locationService);
                     break;
             }
 
@@ -63,13 +63,14 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String action = json.getString("action");
-            String message = json.getString("alert");
+            Log.i("WhereYouBR", "ACTION: " + action + " *****************");
             String name = json.getString("name");
             switch (action) {
                 case WhereYouAction.RESPOND:
                     /*
                     We got a response from our target. Hooray!
                      */
+                    Log.i("WhereYouBR", "RESPONSE *************");
                     Intent openMap = new Intent(context, MapActivity.class);
                     openMap.putExtras(intent);
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -124,9 +125,9 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
             context.sendBroadcast(broadcastIntent);
         }
 
-        Notification notification1 = this.getNotification(context, intent);
-        if (notification1 != null) {
-            showNotification(context, notification1, name);
+        Notification notification = this.getNotification(context, intent);
+        if (notification != null) {
+            showNotification(context, notification, name);
         }
     }
 

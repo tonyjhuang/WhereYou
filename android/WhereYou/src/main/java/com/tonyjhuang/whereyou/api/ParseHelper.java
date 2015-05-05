@@ -353,6 +353,30 @@ public class ParseHelper {
         return newBlacklist;
     }
 
+    public void sendLocation(String name, double lat, double lng, double acc) {
+        String myName = currentInstallation.getString("name");
+
+        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("name", name);
+
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("name", myName); // send my name as the sender
+            data.put("lat", lat);
+            data.put("lng", lng);
+            data.put("acc", acc);
+            data.put("action", WhereYouAction.RESPOND);
+        } catch (JSONException e) {
+            Log.e("Main", e.getMessage());
+        }
+
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery);
+        push.setData(data);
+        push.sendInBackground();
+    }
+
     private void logError(Throwable e) {
         Log.e("ParseHelper", e.getMessage());
     }

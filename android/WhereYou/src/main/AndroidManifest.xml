@@ -99,17 +99,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhereYouTheme" />
 
-        <receiver
-            android:name=".receivers.WakefulWhereYouBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.tonyjhuang.whereyou.GET_LOCATION" />
-            </intent-filter>
-        </receiver>
-        <service
-            android:name=".services.WakefulLocationService"
-            android:enabled="true" />
+        <service android:name=".services.GetLocationService"
+            android:exported="false"/>
 
         <!-- Parse -->
         <service android:name="com.parse.PushService" />
