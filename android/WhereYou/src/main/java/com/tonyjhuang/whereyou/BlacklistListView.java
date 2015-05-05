@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
+import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tonyjhuang.whereyou.api.ParseHelper;
@@ -226,10 +228,17 @@ public class BlacklistListView extends ListView {
                     if (actionId == EditorInfo.IME_ACTION_DONE ||
                             (event != null && event.getAction() == KeyEvent.ACTION_DOWN &&
                                     event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                        String friend = blacklistInput.getText().toString();
+                        String blacklisted = blacklistInput.getText().toString();
 
                         if (blacklistActivityWeakReference.get() != null) {
-                            blacklistActivityWeakReference.get().addToBlacklist(friend);
+                            if(blacklisted.length() < 3 || blacklisted.length() > 12) {
+                                YoYo.with(Techniques.Shake)
+                                        .duration(150)
+                                        .playOn(blacklistInput);
+                                Toast.makeText(getContext(), "No one exists with that name!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                blacklistActivityWeakReference.get().addToBlacklist(blacklisted);
+                            }
                         }
 
                         return true;
