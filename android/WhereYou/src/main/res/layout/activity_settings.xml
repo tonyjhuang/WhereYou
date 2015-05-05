@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cyan_accent">
@@ -27,8 +28,14 @@
             <com.tonyjhuang.whereyou.helpers.TypefaceTextView
                 android:id="@+id/back"
                 style="@style/MainRowText"
+                android:layout_height="56dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                wy:typeface="@string/fonttype_heavy"
+                android:gravity="end|center_vertical"
                 android:text="back"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
         </FrameLayout>
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
