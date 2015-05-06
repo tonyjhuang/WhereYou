@@ -61,6 +61,23 @@ public class ParseHelper {
         currentInstallation.saveInBackground();
     }
 
+    public ArrayList<String> getFriends() {
+        JSONArray jsonFriends = currentInstallation.getJSONArray("friends");
+        ArrayList<String> friends = new ArrayList<>();
+
+        if (jsonFriends == null) return friends;
+
+        try {
+            for (int i = 0; i < jsonFriends.length(); i++) {
+                friends.add(jsonFriends.getString(i));
+            }
+        } catch (JSONException e) {
+            logError(e);
+        }
+
+        return friends;
+    }
+
     public boolean isFriend(String name) {
         JSONArray friendsList = currentInstallation.getJSONArray("friends");
         if (friendsList == null || friendsList.length() == 0)

@@ -15,6 +15,7 @@ import com.parse.ParseInstallation;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.helpers.AppRouter;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
+import com.tonyjhuang.whereyou.wear.WearDataSync;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,8 @@ public class MainActivity extends WhereYouActivity {
             } else {
                 taunt.setText("...where are all of your friends, " + name + "?");
             }
+
+            WearDataSync.syncData(this);
         }
     }
 
