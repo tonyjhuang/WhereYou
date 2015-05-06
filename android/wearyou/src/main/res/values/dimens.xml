@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="friend_row_height">56dp</dimen>
+    <dimen name="friend_row_text_size">24sp</dimen>
+    <integer name="transition_speed">@android:integer/config_mediumAnimTime</integer>
+</resources>

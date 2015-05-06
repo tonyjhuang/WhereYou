@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cyan_accent"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear_round">
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/MainRowText"
+        android:layout_centerVertical="true"
+        android:background="@color/pink"
+        android:text="@string/hello_round" />
+</RelativeLayout>
