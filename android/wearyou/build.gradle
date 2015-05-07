@@ -29,7 +29,6 @@ def getVersionName = { ->
     }
 }
 
-
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -50,12 +49,10 @@ android {
             keyPassword System.getenv("KEY_PASSWORD")
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 }
