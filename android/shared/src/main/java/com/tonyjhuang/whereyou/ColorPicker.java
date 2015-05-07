@@ -2,6 +2,8 @@ package com.tonyjhuang.whereyou;
 
 import android.content.Context;
 
+import com.tonyjhuang.whereyou.common.R;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;

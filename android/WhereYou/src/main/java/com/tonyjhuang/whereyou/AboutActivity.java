@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.tonyjhuang.whereyou.helpers.ColorPicker;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import java.util.Random;

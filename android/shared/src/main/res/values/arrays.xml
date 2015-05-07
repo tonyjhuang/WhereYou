@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <array name="accents">
         <item>@color/red_accent</item>
         <item>@color/pink_accent</item>
@@ -17,4 +18,5 @@
         <item>@color/orange_accent</item>
         <item>@color/deep_orange_accent</item>
     </array>
+
 </resources>

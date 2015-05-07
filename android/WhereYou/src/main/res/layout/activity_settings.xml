@@ -27,7 +27,7 @@
 
             <com.tonyjhuang.whereyou.helpers.TypefaceTextView
                 android:id="@+id/back"
-                style="@style/MainRowText"
+                style="@style/MainRowText.Handheld"
                 android:layout_height="56dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
@@ -40,19 +40,19 @@
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/blacklist"
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:background="@color/darker_grey"
             android:text="blacklist" />
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/about"
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:background="@color/red"
             android:text="about" />
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/rate"
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:background="@color/light_blue"
             android:text="rate app" />
 

@@ -28,6 +28,7 @@ dependencies {
 
     compile 'com.google.android.support:wearable:1.1.0'
     compile 'com.google.android.gms:play-services-wearable:7.3.0'
+    compile project(':shared')
     wearApp project(':wearyou')
 }
 

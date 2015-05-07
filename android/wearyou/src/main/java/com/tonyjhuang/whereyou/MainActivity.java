@@ -3,7 +3,6 @@ package com.tonyjhuang.whereyou;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "Main";
 
@@ -68,12 +67,12 @@ public class MainActivity extends Activity implements
 
     private void sendAskMessage(final String friend) {
         Log.d(TAG, "sendAskMessage: " + friend);
-        if(googleApiClient.isConnected()) {
+        if (googleApiClient.isConnected()) {
             Wearable.NodeApi.getConnectedNodes(googleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
                 @Override
                 public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
-                    List<Node> nodes =getConnectedNodesResult.getNodes();
-                    if(nodes.size() == 1) {
+                    List<Node> nodes = getConnectedNodesResult.getNodes();
+                    if (nodes.size() == 1) {
                         sendAskMessage(friend, nodes.get(0).getId());
                     } else {
                         showToast(getString(R.string.error_multiple_connections));
@@ -94,7 +93,7 @@ public class MainActivity extends Activity implements
             Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes());
         }
 
-         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
+        ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
     }
 
     private void showToast(String msg) {

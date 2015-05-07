@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        style="@style/MainRowText"
+        style="@style/MainRowText.Handheld"
         android:text="Made" />
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        style="@style/MainRowText"
+        style="@style/MainRowText.Handheld"
         android:text="with" />
 
     <FrameLayout
@@ -20,13 +20,13 @@
 
         <ImageView
             android:id="@+id/emoji"
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:alpha="0.8"
             android:padding="30dp" />
     </FrameLayout>
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-        style="@style/MainRowText"
+        style="@style/MainRowText.Handheld"
         android:text="by" />
 
     <LinearLayout
@@ -43,7 +43,7 @@
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
             android:id="@+id/j"
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:clickable="true"
@@ -51,7 +51,7 @@
             android:textColor="#FF4081" />
 
         <com.tonyjhuang.whereyou.helpers.TypefaceTextView
-            style="@style/MainRowText"
+            style="@style/MainRowText.Handheld"
             android:layout_width="wrap_content"
             android:text="huang" />
     </LinearLayout>

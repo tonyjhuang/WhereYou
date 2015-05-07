@@ -1,1 +1,1 @@
-include ':WhereYou', ':wearyou'
+include ':WhereYou', ':wearyou', ':shared'

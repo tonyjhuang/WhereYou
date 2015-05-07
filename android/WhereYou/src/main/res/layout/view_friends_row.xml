@@ -36,7 +36,7 @@
 
     <com.tonyjhuang.whereyou.helpers.TypefaceTextView
         android:id="@+id/name"
-        style="@style/MainRowText" />
+        style="@style/MainRowText.Handheld" />
 
     <ImageButton
         android:id="@+id/delete"

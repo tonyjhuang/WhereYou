@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MainRowText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/friend_row_height</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/friend_row_text_size</item>
+    <style name="MainRowText.Wearable" parent="@style/MainRowText">
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

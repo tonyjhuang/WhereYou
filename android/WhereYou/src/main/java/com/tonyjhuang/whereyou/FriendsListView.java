@@ -21,11 +21,9 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.mobeta.android.dslv.DragSortListView;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.helpers.BackAwareEditText;
-import com.tonyjhuang.whereyou.helpers.ColorPicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;

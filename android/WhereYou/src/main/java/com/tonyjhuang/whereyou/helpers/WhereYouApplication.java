@@ -7,6 +7,7 @@ import com.parse.ParseACL;
 import com.parse.ParseCrashReporting;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.tonyjhuang.whereyou.ColorPicker;
 import com.tonyjhuang.whereyou.R;
 
 public class WhereYouApplication extends Application {

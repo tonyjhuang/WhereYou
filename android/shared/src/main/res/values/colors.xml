@@ -24,7 +24,6 @@
     <color name="darker_grey">#424242</color>
     <color name="darkest_grey">#212121</color>
 
-
     <color name="red_accent">#ef5350</color>
     <color name="pink_accent">#ec407a</color>
     <color name="purple_accent">#ab47bc</color>
@@ -44,4 +43,5 @@
     <color name="brown_accent">#8D6E63</color>
     <color name="grey_accent">#bdbdbd</color>
     <color name="blue_grey_accent">#78909c</color>
+
 </resources>

@@ -2,15 +2,12 @@ package com.tonyjhuang.whereyou;
 
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,7 +26,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseAnalytics;
 import com.tonyjhuang.whereyou.api.ParseHelper;
-import com.tonyjhuang.whereyou.helpers.ColorPicker;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import org.json.JSONException;
@@ -41,7 +37,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.InjectView;
-import io.nlopez.smartlocation.SmartLocation;
 
 /**
  * Created by tony on 4/30/15.
