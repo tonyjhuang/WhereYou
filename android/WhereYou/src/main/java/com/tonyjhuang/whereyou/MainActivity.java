@@ -76,7 +76,6 @@ public class MainActivity extends WhereYouActivity {
     }
 
     private boolean addFriendLock = false;
-
     public void addFriend(String name, final ParseHelper.Callback<Boolean> callback) {
         if (addFriendLock) return;
         addFriendLock = true;
@@ -106,6 +105,7 @@ public class MainActivity extends WhereYouActivity {
                 friendsListView.setFriends(friendsList);
                 emptyContainer.setVisibility(View.GONE);
                 if (callback != null) callback.onFinish(true);
+                WearDataSync.syncData(MainActivity.this);
             }
 
             @Override
@@ -120,6 +120,11 @@ public class MainActivity extends WhereYouActivity {
                 if (callback != null) callback.onFinish(false);
             }
         });
+    }
+
+    public void removeFriend(String friend) {
+        friendsListView.setFriends(parseHelper.removeFriend(friend));
+        WearDataSync.syncData(MainActivity.this);
     }
 
     @Override

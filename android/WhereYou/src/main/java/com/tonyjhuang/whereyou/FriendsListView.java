@@ -224,7 +224,7 @@ public class FriendsListView extends ListView {
                     editViews.get(0).setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            setFriends(parseHelper.removeFriend(friend));
+                            mainActivityWeakReference.get().removeFriend(friend);
                         }
                     });
 

@@ -2,6 +2,7 @@ package com.tonyjhuang.whereyou;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
@@ -16,13 +17,19 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
+
+    private static final String TAG = "Main";
 
     private ArrayList<String> friends = new ArrayList<>();
     private GoogleApiClient googleApiClient;
@@ -41,17 +48,57 @@ public class MainActivity extends Activity implements
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        friends.add("gasper");
-        friends.add("kevin");
-        friends.add("tyrone");
-        friends.add("tony");
-        friends.add("ronny");
-        friends.add("david");
-        friends.add("allison");
-
         WearableListView listView = (WearableListView) findViewById(R.id.listview);
         adapter = new Adapter();
         listView.setAdapter(adapter);
+        listView.setClickListener(new WearableListView.ClickListener() {
+            @Override
+            public void onClick(WearableListView.ViewHolder viewHolder) {
+                FriendRowViewHolder holder = (FriendRowViewHolder) viewHolder;
+                String friend = holder.nameView.getText().toString();
+                sendAskMessage(friend);
+            }
+
+            @Override
+            public void onTopEmptyRegionClick() {
+                // Don't need this
+            }
+        });
+    }
+
+    private void sendAskMessage(final String friend) {
+        Log.d(TAG, "sendAskMessage: " + friend);
+        if(googleApiClient.isConnected()) {
+            Wearable.NodeApi.getConnectedNodes(googleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                @Override
+                public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+                    List<Node> nodes =getConnectedNodesResult.getNodes();
+                    if(nodes.size() == 1) {
+                        sendAskMessage(friend, nodes.get(0).getId());
+                    } else {
+                        showToast(getString(R.string.error_multiple_connections));
+                    }
+                }
+            });
+        } else {
+            showToast(getString(R.string.error_connect));
+        }
+    }
+
+    private void sendAskMessage(String friend, String nodeId) {
+        Log.d(TAG, "sendAskMessage: " + friend + ", " + nodeId);
+        try {
+            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "couldn't endcode string as UTF-8");
+            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes());
+        }
+
+         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(500);
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -68,6 +115,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onConnected(Bundle bundle) {
+        // this definitely isn't the best way http://stackoverflow.com/a/24601307/1476372
         PendingResult<DataItemBuffer> results = Wearable.DataApi.getDataItems(googleApiClient);
         results.setResultCallback(new ResultCallback<DataItemBuffer>() {
             @Override
@@ -77,8 +125,6 @@ public class MainActivity extends Activity implements
 
                     // This should read the correct value.
                     friends = dataMapItem.getDataMap().getStringArrayList("friends");
-                    Log.d("Main", friends.toString());
-                    Toast.makeText(MainActivity.this, "test" + dataMapItem.getDataMap().getInt("TEST"), Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 }
 
@@ -89,13 +135,13 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onConnectionSuspended(int cause) {
-        Log.d("Main", "onConnectionSuspended: " + cause);
+        Log.d(TAG, "onConnectionSuspended: " + cause);
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e("Main", "onConnectionFailed: " + connectionResult);
-        Toast.makeText(this, "Couldn't connect to phone :(", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onConnectionFailed: " + connectionResult);
+        showToast(getString(R.string.error_connect));
         finish();
     }
 

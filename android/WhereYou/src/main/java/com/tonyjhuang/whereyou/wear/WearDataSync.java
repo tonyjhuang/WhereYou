@@ -22,37 +22,39 @@ public class WearDataSync {
     private static GoogleApiClient client;
 
     public static void syncData(Context context) {
-        client = new GoogleApiClient.Builder(context)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(Bundle connectionHint) {
-                        Log.d(TAG, "onConnected: " + connectionHint);
-                        syncDataAfterConnect(client);
-                    }
+        if(client == null || !client.isConnected()) {
+            client = new GoogleApiClient.Builder(context)
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                        @Override
+                        public void onConnected(Bundle connectionHint) {
+                            Log.d(TAG, "onConnected: " + connectionHint);
+                            syncDataAfterConnect(client);
+                        }
 
-                    @Override
-                    public void onConnectionSuspended(int cause) {
-                        Log.d(TAG, "onConnectionSuspended: " + cause);
-                    }
-                })
-                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(ConnectionResult result) {
-                        Log.e(TAG, "onConnectionFailed: " + result);
-                    }
-                }) // Request access only to the Wearable API
-                .addApiIfAvailable(Wearable.API)
-                .build();
-        client.connect();
+                        @Override
+                        public void onConnectionSuspended(int cause) {
+                            Log.d(TAG, "onConnectionSuspended: " + cause);
+                        }
+                    })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(ConnectionResult result) {
+                            Log.e(TAG, "onConnectionFailed: " + result);
+                        }
+                    }) // Request access only to the Wearable API
+                    .addApiIfAvailable(Wearable.API)
+                    .build();
+            client.connect();
+        } else {
+            syncDataAfterConnect(client);
+        }
     }
 
     private static void syncDataAfterConnect(GoogleApiClient client) {
         Log.d("WearDataSync", "syncing friends!");
         ParseHelper parseHelper = new ParseHelper();
         PutDataMapRequest dataMap = PutDataMapRequest.create("/data");
-        Log.d("WearDataSync", "friends: " + parseHelper.getFriends());
         dataMap.getDataMap().putStringArrayList("friends", parseHelper.getFriends());
-        dataMap.getDataMap().putInt("TEST", 1);
         PutDataRequest request = dataMap.asPutDataRequest();
         Wearable.DataApi.putDataItem(client, request).setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
             @Override
