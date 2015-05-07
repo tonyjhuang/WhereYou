@@ -81,10 +81,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(System.getenv("KEYFILE"))
-            storePassword System.getenv("STORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile file("../keystore.jks")
+            storePassword "D967m8"
+            keyAlias "tsunami"
+            keyPassword "D967m8"
         }
     }
 
