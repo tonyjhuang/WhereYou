@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements
             Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes());
         }
 
-         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(500);
+         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
     }
 
     private void showToast(String msg) {
