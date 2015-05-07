@@ -1,11 +1,11 @@
 package com.tonyjhuang.whereyou.services;
 
-import android.app.Service;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
+import com.tonyjhuang.whereyou.Constants;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 
 import java.io.UnsupportedEncodingException;
@@ -19,7 +19,7 @@ public class WearableMessageListenerService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         switch (messageEvent.getPath()) {
-            case "/ask":
+            case Constants.WEAR_MSG_PATH_ASK:
                 String decodedFriend;
                 try {
                     decodedFriend = new String(messageEvent.getData(), "UTF-8");

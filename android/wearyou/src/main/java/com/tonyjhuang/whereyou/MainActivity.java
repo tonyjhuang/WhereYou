@@ -87,10 +87,10 @@ public class MainActivity extends Activity implements
     private void sendAskMessage(String friend, String nodeId) {
         Log.d(TAG, "sendAskMessage: " + friend + ", " + nodeId);
         try {
-            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes("UTF-8"));
+            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, Constants.WEAR_MSG_PATH_ASK, friend.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             Log.e(TAG, "couldn't endcode string as UTF-8");
-            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, "/ask", friend.getBytes());
+            Wearable.MessageApi.sendMessage(googleApiClient, nodeId, Constants.WEAR_MSG_PATH_ASK, friend.getBytes());
         }
 
         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
@@ -123,7 +123,7 @@ public class MainActivity extends Activity implements
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItems.get(0));
 
                     // This should read the correct value.
-                    friends = dataMapItem.getDataMap().getStringArrayList("friends");
+                    friends = dataMapItem.getDataMap().getStringArrayList(Constants.WEAR_DATA_KEY_FRIENDS);
                     adapter.notifyDataSetChanged();
                 }
 
