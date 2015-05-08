@@ -73,19 +73,24 @@ public class WearableMessageListenerService extends WearableListenerService impl
     private void makeMapNotification(GoogleApiClient googleApiClient, final DataItem dataItem, final CreateNotificationCallback callback) {
         DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
         Asset mapAsset = dataMap.getAsset(Constants.WEAR_DATA_KEY_MAP_ASSET);
-        Wearable.DataApi.getFdForAsset(googleApiClient, mapAsset).setResultCallback(new ResultCallback<DataApi.GetFdForAssetResult>() {
-            @Override
-            public void onResult(DataApi.GetFdForAssetResult getFdForAssetResult) {
-                InputStream assetInputStream = getFdForAssetResult.getInputStream();
-                NotificationCompat.Builder mapNotificationBuilder = makeMapNotificationWithoutMapBuilder(dataItem);
-                if (assetInputStream != null) {
-                    Bitmap mapBitmap = BitmapFactory.decodeStream(assetInputStream);
-                    callback.onNotificationCreated(addExtraPages(mapNotificationBuilder, mapBitmap));
-                } else {
-                    callback.onNotificationCreated(mapNotificationBuilder.build());
+        final NotificationCompat.Builder mapNotificationBuilder = makeMapNotificationWithoutMapBuilder(dataItem);
+        if(mapAsset == null) {
+            // No map asset, don't create the second page.
+            callback.onNotificationCreated(mapNotificationBuilder.build());
+        } else {
+            Wearable.DataApi.getFdForAsset(googleApiClient, mapAsset).setResultCallback(new ResultCallback<DataApi.GetFdForAssetResult>() {
+                @Override
+                public void onResult(DataApi.GetFdForAssetResult getFdForAssetResult) {
+                    InputStream assetInputStream = getFdForAssetResult.getInputStream();
+                    if (assetInputStream != null) {
+                        Bitmap mapBitmap = BitmapFactory.decodeStream(assetInputStream);
+                        callback.onNotificationCreated(addExtraPages(mapNotificationBuilder, mapBitmap));
+                    } else {
+                        callback.onNotificationCreated(mapNotificationBuilder.build());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private Notification addExtraPages(NotificationCompat.Builder builder, Bitmap mapBitmap) {

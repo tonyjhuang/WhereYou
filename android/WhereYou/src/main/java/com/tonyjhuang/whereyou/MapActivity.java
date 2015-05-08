@@ -1,10 +1,7 @@
 package com.tonyjhuang.whereyou;
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,15 +23,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseAnalytics;
 import com.tonyjhuang.whereyou.api.ParseHelper;
+import com.tonyjhuang.whereyou.helpers.StreetAddress;
 import com.tonyjhuang.whereyou.helpers.WhereYouActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import butterknife.InjectView;
 
@@ -92,31 +85,13 @@ public class MapActivity extends WhereYouActivity implements OnMapReadyCallback 
                 }
             });
 
-            List<Address> addresses = null;
-            try {
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                addresses = geocoder.getFromLocation(lat, lng, 1);
-            } catch (IOException e) {
-                Log.e("MapActivity", e.getMessage());
-            }
 
-            if (addresses != null && addresses.size() > 0) {
-                Address address = addresses.get(0);
-                ArrayList<String> addressFragments = new ArrayList<>();
-
-                // Fetch the address lines using getAddressLine,
-                // join them, and send them to the thread.
-                for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                    addressFragments.add(address.getAddressLine(i));
-                }
-
-                String formattedAddress =
-                        TextUtils.join(", ", addressFragments);
+            String formattedAddress = StreetAddress.getStreetAddress(this, lat, lng, true);
+            if (formattedAddress != null) {
                 addressView.setText(formattedAddress);
             } else {
                 addressContainer.setVisibility(View.GONE);
             }
-
         } catch (JSONException e) {
             Log.e("MapActivity", e.getMessage());
         }
