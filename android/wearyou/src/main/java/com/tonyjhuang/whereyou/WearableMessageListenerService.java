@@ -80,7 +80,7 @@ public class WearableMessageListenerService extends WearableListenerService impl
                 NotificationCompat.Builder mapNotificationBuilder = makeMapNotificationWithoutMapBuilder(dataItem);
                 if (assetInputStream != null) {
                     Bitmap mapBitmap = BitmapFactory.decodeStream(assetInputStream);
-                    callback.onNotificationCreated(addExtraPages(mapNotificationBuilder, dataItem, mapBitmap));
+                    callback.onNotificationCreated(addExtraPages(mapNotificationBuilder, mapBitmap));
                 } else {
                     callback.onNotificationCreated(mapNotificationBuilder.build());
                 }
@@ -88,7 +88,7 @@ public class WearableMessageListenerService extends WearableListenerService impl
         });
     }
 
-    private Notification addExtraPages(NotificationCompat.Builder builder, DataItem dataItem, Bitmap mapBitmap) {
+    private Notification addExtraPages(NotificationCompat.Builder builder, Bitmap mapBitmap) {
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle()
                 .bigPicture(mapBitmap)
                 .setSummaryText("hey");
@@ -96,6 +96,7 @@ public class WearableMessageListenerService extends WearableListenerService impl
         Notification secondPageNotification =
                 new NotificationCompat.Builder(this)
                         .setStyle(bigPictureStyle)
+                        // Don't show card, only background
                         .extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true))
                         .build();
 
