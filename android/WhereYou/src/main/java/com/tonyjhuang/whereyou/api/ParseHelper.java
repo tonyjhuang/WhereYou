@@ -8,7 +8,7 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
-import com.tonyjhuang.whereyou.services.WhereYouAction;
+import com.tonyjhuang.whereyou.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -186,7 +186,7 @@ public class ParseHelper {
         try {
             data.put("name", myName);
             data.put("alert", message);
-            data.put("action", WhereYouAction.NOTIFY_ADD);
+            data.put(Constants.PARSE_KEY_ACTION, Constants.ACTION_NOTIFY_ADD);
         } catch (JSONException e) {
             logError(e);
         }
@@ -248,7 +248,7 @@ public class ParseHelper {
         try {
             data.put("name", myName);
             data.put("alert", myName + " wants to know where you at! Tap here to share your location.");
-            data.put("action", WhereYouAction.ASK);
+            data.put(Constants.PARSE_KEY_ACTION, Constants.ACTION_ASK);
         } catch (JSONException e) {
             logError(e);
         }
@@ -383,7 +383,7 @@ public class ParseHelper {
             data.put("lat", lat);
             data.put("lng", lng);
             data.put("acc", acc);
-            data.put("action", WhereYouAction.RESPOND);
+            data.put(Constants.PARSE_KEY_ACTION, Constants.ACTION_RESPOND);
         } catch (JSONException e) {
             Log.e("Main", e.getMessage());
         }

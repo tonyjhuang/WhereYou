@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.drivemode.intentlog.IntentLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -39,6 +40,8 @@ public class SendWearableNotificationService extends Service implements
     }
 
     private void handleIntent(Intent intent) {
+        IntentLogger.dump(TAG, intent);
+
         this.intent = intent;
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -51,6 +54,7 @@ public class SendWearableNotificationService extends Service implements
 
     @Override
     public void onConnected(Bundle bundle) {
+        Log.d(TAG, "onConnected");
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(Constants.WEAR_DATA_PATH_NOTIF);
         putDataMapRequest.getDataMap().putString(Constants.WEAR_DATA_KEY_CONTENT, "Sup dawg");
         putDataMapRequest.getDataMap().putString(Constants.WEAR_DATA_KEY_TITLE, "WhereYou?");
@@ -65,6 +69,7 @@ public class SendWearableNotificationService extends Service implements
                         } else {
                             Log.d(TAG, "put map notification dataitem success!");
                         }
+                        finish();
                     }
                 });
     }
@@ -72,10 +77,16 @@ public class SendWearableNotificationService extends Service implements
     @Override
     public void onConnectionSuspended(int cause) {
         Log.d(TAG, "onConnectionSuspended: " + cause);
+        finish();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.e(TAG, "onConnectionFailed: " + connectionResult);
+        finish();
+    }
+
+    private void finish() {
+        stopSelf();
     }
 }

@@ -1,6 +1,7 @@
 package com.tonyjhuang.whereyou;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.net.Uri;
 
 import com.google.android.gms.common.data.FreezableUtils;
@@ -54,6 +55,9 @@ public class WearableMessageListenerService extends WearableListenerService {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content);
+
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+                .notify(0, builder.build());
     }
 
 }

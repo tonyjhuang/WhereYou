@@ -10,10 +10,11 @@ import android.util.Log;
 import com.drivemode.intentlog.IntentLogger;
 import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
+import com.tonyjhuang.whereyou.Constants;
 import com.tonyjhuang.whereyou.MapActivity;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 import com.tonyjhuang.whereyou.services.GetLocationService;
-import com.tonyjhuang.whereyou.services.WhereYouAction;
+import com.tonyjhuang.whereyou.services.SendWearableNotificationService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,9 +34,9 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
 
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-            String action = json.getString("action");
+            String action = json.getString(Constants.PARSE_KEY_ACTION);
             switch (action) {
-                case WhereYouAction.ASK:
+                case Constants.ACTION_ASK:
                     ParseAnalytics.trackAppOpened(intent);
                     /*
                     User has clicked on our ASK notification.
@@ -66,11 +67,11 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
         IntentLogger.dump(TAG, intent);
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-            String action = json.getString("action");
+            String action = json.getString(Constants.PARSE_KEY_ACTION);
             Log.i("WhereYouBR", "ACTION: " + action + " *****************");
             String name = json.getString("name");
             switch (action) {
-                case WhereYouAction.RESPOND:
+                case Constants.ACTION_RESPOND:
                     /*
                     We got a response from our target. Hooray!
                      */
@@ -79,8 +80,12 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                     openMap.putExtras(intent);
                     openMap.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                     context.startActivity(openMap);
+
+                    Intent sendMapService = new Intent(context, SendWearableNotificationService.class);
+                    sendMapService.putExtras(intent);
+                    context.startService(sendMapService);
                     break;
-                case WhereYouAction.ASK:
+                case Constants.ACTION_ASK:
                     /*
                     Let's take over the notification process to replace the current notification if there is one
                      */
@@ -90,8 +95,8 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
                         parseHelper.giveBlacklistPoint(name);
                     }
                     break;
-                case WhereYouAction.NOTIFY_ADD:
-                    if(parseHelper.isInBlacklist(name))
+                case Constants.ACTION_NOTIFY_ADD:
+                    if (parseHelper.isInBlacklist(name))
                         return;
                     /*
                     Don't do anything here, let the user click the notification before acting.
@@ -117,7 +122,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
 
         String action = null;
         if (pushData != null) {
-            action = pushData.optString("action", null);
+            action = pushData.optString(Constants.PARSE_KEY_ACTION, null);
         }
 
         if (action != null) {
@@ -143,6 +148,7 @@ public class WhereYouBroadcastReceiver extends ParsePushBroadcastReceiver {
             try {
                 nm.notify(notificationId, notification);
             } catch (SecurityException var6) {
+                // uhhh taken from parse code
                 notification.defaults = 5;
                 nm.notify(notificationId, notification);
             }
