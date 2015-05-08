@@ -51,7 +51,7 @@ public class WearableMessageListenerService extends WearableListenerService {
 
 
         Notification.Builder builder = new Notification.Builder(this)
-                //.setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content);
     }
