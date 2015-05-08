@@ -11,6 +11,7 @@ public class Constants {
     public static final String WEAR_DATA_KEY_CONTENT = "content";
     public static final String WEAR_DATA_KEY_LAT = "lat";
     public static final String WEAR_DATA_KEY_LNG = "lng";
+    public static final String WEAR_DATA_KEY_MAP_ASSET = "map";
 
     public static final String WEAR_MSG_PATH_ASK = "/ask";
 

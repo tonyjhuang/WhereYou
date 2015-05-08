@@ -12,6 +12,7 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.tonyjhuang.whereyou.Constants;
+import com.tonyjhuang.whereyou.GoogleApiClientBuilder;
 import com.tonyjhuang.whereyou.api.ParseHelper;
 
 /**
@@ -23,27 +24,7 @@ public class WearDataSync {
 
     public static void syncData(Context context) {
         if (client == null || !client.isConnected()) {
-            client = new GoogleApiClient.Builder(context)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(Bundle connectionHint) {
-                            Log.d(TAG, "onConnected: " + connectionHint);
-                            syncDataAfterConnect(client);
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int cause) {
-                            Log.d(TAG, "onConnectionSuspended: " + cause);
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(ConnectionResult result) {
-                            Log.e(TAG, "onConnectionFailed: " + result);
-                        }
-                    }) // Request access only to the Wearable API
-                    .addApiIfAvailable(Wearable.API)
-                    .build();
+            client = GoogleApiClientBuilder.build(context, connectionCallbacks, onConnectionFailedListener);
             client.connect();
         } else {
             syncDataAfterConnect(client);
@@ -67,4 +48,23 @@ public class WearDataSync {
         });
     }
 
+    private static GoogleApiClient.ConnectionCallbacks connectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
+        @Override
+        public void onConnected(Bundle connectionHint) {
+            Log.d(TAG, "onConnected: " + connectionHint);
+            syncDataAfterConnect(client);
+        }
+
+        @Override
+        public void onConnectionSuspended(int cause) {
+            Log.d(TAG, "onConnectionSuspended: " + cause);
+        }
+    };
+
+    private static GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
+        @Override
+        public void onConnectionFailed(ConnectionResult result) {
+            Log.e(TAG, "onConnectionFailed: " + result);
+        }
+    };
 }

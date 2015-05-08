@@ -3,7 +3,10 @@ package com.tonyjhuang.whereyou;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.net.Uri;
+import android.os.Bundle;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.data.FreezableUtils;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -17,9 +20,20 @@ import java.util.List;
 /**
  * Created by tony on 5/7/15.
  */
-public class WearableMessageListenerService extends WearableListenerService {
+public class WearableMessageListenerService extends WearableListenerService implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
 
     private static final String TAG = "WMLService";
+
+    private GoogleApiClient googleApiClient;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        googleApiClient = GoogleApiClientBuilder.build(this, this, this);
+    }
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
@@ -50,7 +64,6 @@ public class WearableMessageListenerService extends WearableListenerService {
         String content = dataMap.getString(Constants.WEAR_DATA_KEY_CONTENT);
         String title = dataMap.getString(Constants.WEAR_DATA_KEY_TITLE);
 
-
         Notification.Builder builder = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
@@ -60,4 +73,18 @@ public class WearableMessageListenerService extends WearableListenerService {
                 .notify(0, builder.build());
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }

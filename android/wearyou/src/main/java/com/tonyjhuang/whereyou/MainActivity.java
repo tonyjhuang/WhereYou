@@ -41,11 +41,7 @@ public class MainActivity extends Activity implements
 
         ColorPicker.init(this);
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        googleApiClient = GoogleApiClientBuilder.build(this, this, this);
 
         WearableListView listView = (WearableListView) findViewById(R.id.listview);
         adapter = new Adapter();

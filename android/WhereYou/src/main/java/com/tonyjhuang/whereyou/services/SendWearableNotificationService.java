@@ -2,6 +2,8 @@ package com.tonyjhuang.whereyou.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -10,16 +12,20 @@ import com.drivemode.intentlog.IntentLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.tonyjhuang.whereyou.Constants;
+import com.tonyjhuang.whereyou.GoogleApiClientBuilder;
 import com.tonyjhuang.whereyou.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by tony on 5/7/15.
@@ -49,11 +55,7 @@ public class SendWearableNotificationService extends Service implements
 
         this.intent = intent;
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApiIfAvailable(Wearable.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        googleApiClient = GoogleApiClientBuilder.build(this, this, this);
         googleApiClient.connect();
     }
 
@@ -61,6 +63,9 @@ public class SendWearableNotificationService extends Service implements
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected");
 
+        Bitmap randomBitmap = BitmapFactory.decodeResource(getResources(),
+            R.drawable.random);
+        Asset randomAsset = createAssetFromBitmap(randomBitmap);
 
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
@@ -75,6 +80,7 @@ public class SendWearableNotificationService extends Service implements
             dataMap.putString(Constants.WEAR_DATA_KEY_TITLE, getString(R.string.app_name));
             dataMap.putDouble(Constants.WEAR_DATA_KEY_LAT, lat);
             dataMap.putDouble(Constants.WEAR_DATA_KEY_LNG, lng);
+            dataMap.putAsset(Constants.WEAR_DATA_KEY_MAP_ASSET, randomAsset);
 
             PutDataRequest request = putDataMapRequest.asPutDataRequest();
             Wearable.DataApi.putDataItem(googleApiClient, request)
@@ -92,6 +98,7 @@ public class SendWearableNotificationService extends Service implements
                     });
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
+            finish();
         }
     }
 
@@ -109,5 +116,11 @@ public class SendWearableNotificationService extends Service implements
 
     private void finish() {
         stopSelf();
+    }
+
+    private Asset createAssetFromBitmap(Bitmap bitmap) {
+        final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
+        return Asset.createFromBytes(byteStream.toByteArray());
     }
 }
