@@ -108,6 +108,10 @@
             android:exported="false" />
 
         <service
+            android:name=".services.SendWearableNotificationService"
+            android:exported="false" />
+
+        <service
             android:name=".services.WearableMessageListenerService" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
